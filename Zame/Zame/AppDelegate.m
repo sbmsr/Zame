@@ -25,7 +25,9 @@
     [PFFacebookUtils initializeFacebook];
     
     // Override point for customization after application launch.
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[LoginViewController alloc] init]];
+    LoginViewController *loginController=[[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    UINavigationController *navController=[[UINavigationController alloc]initWithRootViewController:loginController];
+    self.window.rootViewController=navController;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
