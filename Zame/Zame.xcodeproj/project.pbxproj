@@ -21,8 +21,8 @@
 		65C444AF19007CA400E8707A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C4449119007CA400E8707A /* UIKit.framework */; };
 		65C444B719007CA400E8707A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65C444B519007CA400E8707A /* InfoPlist.strings */; };
 		65C444B919007CA400E8707A /* ZameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C444B819007CA400E8707A /* ZameTests.m */; };
-		65C444C71900811000E8707A /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C444C61900811000E8707A /* FacebookSDK.framework */; };
 		65C444CB1900876C00E8707A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C444CA1900876C00E8707A /* Parse.framework */; };
+		65C4452919008A4600E8707A /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C4452819008A4600E8707A /* FacebookSDK.framework */; };
 		D77389961900832200695718 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D773898A1900832200695718 /* CoreLocation.framework */; };
 		D77389971900832200695718 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D773898B1900832200695718 /* AudioToolbox.framework */; };
 		D77389981900832200695718 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D773898C1900832200695718 /* CFNetwork.framework */; };
@@ -69,8 +69,8 @@
 		65C444B419007CA400E8707A /* ZameTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZameTests-Info.plist"; sourceTree = "<group>"; };
 		65C444B619007CA400E8707A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		65C444B819007CA400E8707A /* ZameTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZameTests.m; sourceTree = "<group>"; };
-		65C444C61900811000E8707A /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		65C444CA1900876C00E8707A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		65C4452819008A4600E8707A /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		D773898A1900832200695718 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D773898B1900832200695718 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D773898C1900832200695718 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -94,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65C4452919008A4600E8707A /* FacebookSDK.framework in Frameworks */,
 				D773899B1900832200695718 /* libz.dylib in Frameworks */,
 				D773899D1900832200695718 /* QuartzCore.framework in Frameworks */,
 				D77389961900832200695718 /* CoreLocation.framework in Frameworks */,
@@ -103,7 +104,6 @@
 				65C444CB1900876C00E8707A /* Parse.framework in Frameworks */,
 				D77389A01900832200695718 /* SystemConfiguration.framework in Frameworks */,
 				D77389991900832200695718 /* CoreGraphics.framework in Frameworks */,
-				65C444C71900811000E8707A /* FacebookSDK.framework in Frameworks */,
 				D773899A1900832200695718 /* Foundation.framework in Frameworks */,
 				65C4449219007CA400E8707A /* UIKit.framework in Frameworks */,
 				D77389A11900832200695718 /* UIKit.framework in Frameworks */,
@@ -149,6 +149,7 @@
 		65C4448C19007CA400E8707A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				65C4452819008A4600E8707A /* FacebookSDK.framework */,
 				65C444CA1900876C00E8707A /* Parse.framework */,
 				D773898A1900832200695718 /* CoreLocation.framework */,
 				D773898B1900832200695718 /* AudioToolbox.framework */,
@@ -162,7 +163,6 @@
 				D77389931900832200695718 /* StoreKit.framework */,
 				D77389941900832200695718 /* SystemConfiguration.framework */,
 				D77389951900832200695718 /* UIKit.framework */,
-				65C444C61900811000E8707A /* FacebookSDK.framework */,
 				65C4448D19007CA400E8707A /* Foundation.framework */,
 				65C4448F19007CA400E8707A /* CoreGraphics.framework */,
 				65C4449119007CA400E8707A /* UIKit.framework */,

@@ -4,7 +4,6 @@
 #import "AppDelegate.h"
 
 #import <Parse/Parse.h>
-#import <FacebookSDK/FacebookSDK.h>
 #import "LoginViewController.h"
 
 @implementation AppDelegate
