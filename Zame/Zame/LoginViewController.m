@@ -12,11 +12,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Facebook Profile";
+    self.title = @"Zame";
     
     // Check if user is cached and linked to Facebook, if so, bypass login
     if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
-        [self.navigationController pushViewController:[[UserDetailsViewController alloc] initWithStyle:UITableViewStyleGrouped] animated:NO];
+        //[self.navigationController pushViewController:[[UserDetailsViewController alloc] init] animated:YES];
+        NSString * storyboardName = @"Main";
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+        UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"testviewcontroller"];
+        [self presentViewController:vc animated:YES completion:nil];
     }
 }
 
@@ -26,7 +30,8 @@
 /* Login to facebook method */
 - (IBAction)loginButtonTouchHandler:(id)sender  {
     // Set permissions required from the facebook user account
-    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location", @"user_checkins",
+                                   @"user_education_history", @"user_events", @"user_groups", @"user_hometown", @"user_interests", @"user_likes", @"user_photos", @"user_relationships", @"user_work_history"];
     
     // Login PFUser using facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
@@ -44,10 +49,18 @@
             }
         } else if (user.isNew) {
             NSLog(@"User with facebook signed up and logged in!");
-            [self.navigationController pushViewController:[[UserDetailsViewController alloc] initWithStyle:UITableViewStyleGrouped] animated:YES];
+           //[self.navigationController pushViewController:[[UserDetailsViewController alloc] init] animated:YES];
+            NSString * storyboardName = @"Main";
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+        UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"testviewcontroller"];
+            [self presentViewController:vc animated:YES completion:nil];
         } else {
             NSLog(@"User with facebook logged in!");
-            [self.navigationController pushViewController:[[UserDetailsViewController alloc] initWithStyle:UITableViewStyleGrouped] animated:YES];
+            //[self.navigationController pushViewController:[[UserDetailsViewController alloc] init] animated:YES];
+            NSString * storyboardName = @"Main";
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
+        UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"testviewcontroller"];
+            [self presentViewController:vc animated:YES completion:nil];
         }
     }];
     

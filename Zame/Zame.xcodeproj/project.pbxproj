@@ -40,6 +40,7 @@
 		D77389B119008A6D00695718 /* login-button-small-pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D77389AD19008A6D00695718 /* login-button-small-pressed@2x.png */; };
 		D77389B219008A6D00695718 /* login-button-small.png in Resources */ = {isa = PBXBuildFile; fileRef = D77389AE19008A6D00695718 /* login-button-small.png */; };
 		D77389B319008A6D00695718 /* login-button-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D77389AF19008A6D00695718 /* login-button-small@2x.png */; };
+		D7B8596219009ECA0028D66F /* testviewcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B8596119009ECA0028D66F /* testviewcontroller.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,8 @@
 		D77389AD19008A6D00695718 /* login-button-small-pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login-button-small-pressed@2x.png"; path = "../../../../Downloads/ParsePlatform-IntegratingFacebookTutorial-9c0212e/IntegratingFacebookTutorial-iOS/IntegratingFacebookTutorial/login-button-small-pressed@2x.png"; sourceTree = "<group>"; };
 		D77389AE19008A6D00695718 /* login-button-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login-button-small.png"; path = "../../../../Downloads/ParsePlatform-IntegratingFacebookTutorial-9c0212e/IntegratingFacebookTutorial-iOS/IntegratingFacebookTutorial/login-button-small.png"; sourceTree = "<group>"; };
 		D77389AF19008A6D00695718 /* login-button-small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login-button-small@2x.png"; path = "../../../../Downloads/ParsePlatform-IntegratingFacebookTutorial-9c0212e/IntegratingFacebookTutorial-iOS/IntegratingFacebookTutorial/login-button-small@2x.png"; sourceTree = "<group>"; };
+		D7B8596019009ECA0028D66F /* testviewcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testviewcontroller.h; sourceTree = "<group>"; };
+		D7B8596119009ECA0028D66F /* testviewcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testviewcontroller.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +189,8 @@
 				D77389A51900839100695718 /* UserDetailsViewController.h */,
 				D77389A61900839100695718 /* UserDetailsViewController.m */,
 				65C4449F19007CA400E8707A /* Main.storyboard */,
+				D7B8596019009ECA0028D66F /* testviewcontroller.h */,
+				D7B8596119009ECA0028D66F /* testviewcontroller.m */,
 				65C444A519007CA400E8707A /* Images.xcassets */,
 				65C4449419007CA400E8707A /* Supporting Files */,
 			);
@@ -327,6 +332,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D77389A41900838100695718 /* LoginViewController.m in Sources */,
+				D7B8596219009ECA0028D66F /* testviewcontroller.m in Sources */,
 				65C4449E19007CA400E8707A /* AppDelegate.m in Sources */,
 				D77389A71900839100695718 /* UserDetailsViewController.m in Sources */,
 				65C4449A19007CA400E8707A /* main.m in Sources */,

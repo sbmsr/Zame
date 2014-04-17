@@ -13,15 +13,12 @@
     [super viewDidLoad];
     
     self.title = @"Facebook Profile";
+    
     self.tableView.backgroundColor = [UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
     
     // Add logout navigation bar button
     UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Log Out" style:UIBarButtonItemStyleBordered target:self action:@selector(logoutButtonTouchHandler:)];
     self.navigationItem.leftBarButtonItem = logoutButton;
-    
-    // Load table header view from nib
-    [[NSBundle mainBundle] loadNibNamed:@"TableHeaderView" owner:self options:nil];
-    self.tableView.tableHeaderView = self.headerView;
     
     // Create array for table row titles
     self.rowTitleArray = @[@"Location", @"Gender", @"Date of Birth", @"Relationship"];
@@ -29,12 +26,20 @@
     // Set default values for the table row data
     self.rowDataArray = [@[@"N/A", @"N/A", @"N/A", @"N/A"] mutableCopy];
     
+    
     // If the user is already logged in, display any previously cached values before we get the latest from Facebook.
+    
     if ([PFUser currentUser]) {
         [self updateProfile];
     }
     
     // Send request to Facebook
+    FBRequest *requestx = [FBRequest requestForMyFriends];
+    [requestx startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+         NSDictionary *userData = (NSDictionary *)result;
+        NSLog(@"%@", userData);
+        
+    }];
     FBRequest *request = [FBRequest requestForMe];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         // handle response
@@ -48,6 +53,7 @@
             
             
             NSMutableDictionary *userProfile = [NSMutableDictionary dictionaryWithCapacity:7];
+            //NSLog(@"%@", userData);
             
             if (facebookID) {
                 userProfile[@"facebookId"] = facebookID;
@@ -102,14 +108,6 @@
     [self.imageData appendData:data];
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    // All data has been downloaded, now we can set the image in the header image view
-    self.headerImageView.image = [UIImage imageWithData:self.imageData];
-    
-    // Add a nice corner radius to the image
-    self.headerImageView.layer.cornerRadius = 8.0f;
-    self.headerImageView.layer.masksToBounds = YES;
-}
 
 
 #pragma mark - UITableViewDataSource
@@ -186,10 +184,6 @@
     
     [self.tableView reloadData];
     
-    // Set the name in the header view label
-    if ([[PFUser currentUser] objectForKey:@"profile"][@"name"]) {
-        self.headerNameLabel.text = [[PFUser currentUser] objectForKey:@"profile"][@"name"];
-    }
     
     // Download the user's facebook profile picture
     self.imageData = [[NSMutableData alloc] init]; // the data will be loaded in here
