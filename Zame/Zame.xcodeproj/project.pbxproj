@@ -22,6 +22,7 @@
 		65C444B719007CA400E8707A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65C444B519007CA400E8707A /* InfoPlist.strings */; };
 		65C444B919007CA400E8707A /* ZameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C444B819007CA400E8707A /* ZameTests.m */; };
 		65C444CB1900876C00E8707A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C444CA1900876C00E8707A /* Parse.framework */; };
+		65C4452919008A4600E8707A /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C4452819008A4600E8707A /* FacebookSDK.framework */; };
 		D77389961900832200695718 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D773898A1900832200695718 /* CoreLocation.framework */; };
 		D77389971900832200695718 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D773898B1900832200695718 /* AudioToolbox.framework */; };
 		D77389981900832200695718 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D773898C1900832200695718 /* CFNetwork.framework */; };
@@ -74,6 +75,7 @@
 		65C444B619007CA400E8707A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		65C444B819007CA400E8707A /* ZameTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZameTests.m; sourceTree = "<group>"; };
 		65C444CA1900876C00E8707A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		65C4452819008A4600E8707A /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		D773898A1900832200695718 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D773898B1900832200695718 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D773898C1900832200695718 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
