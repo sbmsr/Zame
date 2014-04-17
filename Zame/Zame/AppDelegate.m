@@ -4,6 +4,7 @@
 #import "AppDelegate.h"
 
 #import <Parse/Parse.h>
+#import <FacebookSDK/FacebookSDK.h>
 #import "LoginViewController.h"
 
 @implementation AppDelegate
@@ -17,7 +18,7 @@
     // ****************************************************************************
     // Fill in with your Parse credentials:
     // ****************************************************************************
-    // [Parse setApplicationId:@"your_application_id" clientKey:@"your_client_key"];
+    [Parse setApplicationId:@"VjKqF7DZXVtbV2k0KJ26YiCGEEPPofn04iudsRUZ" clientKey:@"fOgilZ0XKJoGaxvcnfpOTq3c40fsxnDhgO9RHZWA"];
     
     // ****************************************************************************
     // Your Facebook application id is configured in Info.plist.
