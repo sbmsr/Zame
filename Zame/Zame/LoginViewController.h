@@ -1,13 +1,12 @@
 //
-//  LoginViewController.h
-//  Zame
-//
-//  Created by Leonard Loo on 17/4/14.
-//  Copyright (c) 2014 CIS195. All rights reserved.
-//
+//  Copyright (c) 2013 Parse. All rights reserved.
 
-#import "ViewController.h"
+#import <UIKit/UIKit.h>
 
-@interface LoginViewController : ViewController
+@interface LoginViewController : UIViewController
+
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
+
+- (IBAction)loginButtonTouchHandler:(id)sender;
 
 @end
