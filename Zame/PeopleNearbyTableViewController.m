@@ -7,6 +7,7 @@
 //
 
 #import "PeopleNearbyTableViewController.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface PeopleNearbyTableViewController ()
 
@@ -116,5 +117,25 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
+
+
+
+#pragma mark - Distance
+// Helper method that calculates distance from 2 pairs of lat,lon
+- (double) calculateDistanceFromLat1:(double)lat1
+                             AndLon1:(double)lon1
+                             AndLat2:(double)lat2
+                             AndLon2:(double)lon2
+{
+    CLLocation *locA = [[CLLocation alloc] initWithLatitude:lat1 longitude:lon1];
+    CLLocation *locB = [[CLLocation alloc] initWithLatitude:lat2 longitude:lon2];
+    CLLocationDistance distance = [locA distanceFromLocation:locB];
+    return distance;
+}
+
+// Create background task that pulls all entries in backend and calculate distance between them one by one
+
 
 @end

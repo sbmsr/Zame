@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 @interface PeopleNearbyTableViewController : UITableViewController
+
+@property (nonatomic, strong) listOfPeopleByIncreasingDistanceArray;
 
 @end
