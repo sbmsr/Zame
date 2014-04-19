@@ -57,6 +57,7 @@
      See also applicationDidEnterBackground:.
      */
     [[PFFacebookUtils session] close];
+    //TODO: Log lat lon info upon logging out
 }
 
 @end

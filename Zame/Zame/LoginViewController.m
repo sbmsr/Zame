@@ -6,7 +6,10 @@
 #import <Parse/Parse.h>
 
 @implementation LoginViewController
-
+// Async block - Global dispatch
+// Parse Fetch in background with block ^(BOOL someting){ // your code goes here }
+// MBProgressHUD
+// Spotify and FB similarity checking - Likes, Interests, etc.
 
 #pragma mark - UIViewController
 
@@ -16,10 +19,7 @@
     
     // Check if user is cached and linked to Facebook, if so, bypass login
     if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
-        //[self.navigationController pushViewController:[[UserDetailsViewController alloc] init] animated:YES];
-        NSString * storyboardName = @"Main";
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
-        UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"testviewcontroller"];
+        UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
         [self presentViewController:vc animated:YES completion:nil];
     }
 }
@@ -49,17 +49,11 @@
             }
         } else if (user.isNew) {
             NSLog(@"User with facebook signed up and logged in!");
-           //[self.navigationController pushViewController:[[UserDetailsViewController alloc] init] animated:YES];
-            NSString * storyboardName = @"Main";
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
-        UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"testviewcontroller"];
+            UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
             [self presentViewController:vc animated:YES completion:nil];
         } else {
             NSLog(@"User with facebook logged in!");
-            //[self.navigationController pushViewController:[[UserDetailsViewController alloc] init] animated:YES];
-            NSString * storyboardName = @"Main";
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle: nil];
-        UIViewController * vc = [storyboard instantiateViewControllerWithIdentifier:@"testviewcontroller"];
+            UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
             [self presentViewController:vc animated:YES completion:nil];
         }
     }];

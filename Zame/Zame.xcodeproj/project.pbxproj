@@ -21,6 +21,7 @@
 		65C444B719007CA400E8707A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65C444B519007CA400E8707A /* InfoPlist.strings */; };
 		65C444B919007CA400E8707A /* ZameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C444B819007CA400E8707A /* ZameTests.m */; };
 		65C444CB1900876C00E8707A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C444CA1900876C00E8707A /* Parse.framework */; };
+		D74C7C7A190311F80028C121 /* PeopleNearbyTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D74C7C79190311F80028C121 /* PeopleNearbyTableViewController.m */; };
 		D77389961900832200695718 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D773898A1900832200695718 /* CoreLocation.framework */; };
 		D77389971900832200695718 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D773898B1900832200695718 /* AudioToolbox.framework */; };
 		D77389981900832200695718 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D773898C1900832200695718 /* CFNetwork.framework */; };
@@ -40,7 +41,6 @@
 		D77389B119008A6D00695718 /* login-button-small-pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D77389AD19008A6D00695718 /* login-button-small-pressed@2x.png */; };
 		D77389B219008A6D00695718 /* login-button-small.png in Resources */ = {isa = PBXBuildFile; fileRef = D77389AE19008A6D00695718 /* login-button-small.png */; };
 		D77389B319008A6D00695718 /* login-button-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D77389AF19008A6D00695718 /* login-button-small@2x.png */; };
-		D7B8596219009ECA0028D66F /* testviewcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B8596119009ECA0028D66F /* testviewcontroller.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +72,8 @@
 		65C444B619007CA400E8707A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		65C444B819007CA400E8707A /* ZameTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZameTests.m; sourceTree = "<group>"; };
 		65C444CA1900876C00E8707A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		D74C7C78190311F80028C121 /* PeopleNearbyTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PeopleNearbyTableViewController.h; path = ../PeopleNearbyTableViewController.h; sourceTree = "<group>"; };
+		D74C7C79190311F80028C121 /* PeopleNearbyTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PeopleNearbyTableViewController.m; path = ../PeopleNearbyTableViewController.m; sourceTree = "<group>"; };
 		D773898A1900832200695718 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D773898B1900832200695718 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D773898C1900832200695718 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -93,8 +95,6 @@
 		D77389AD19008A6D00695718 /* login-button-small-pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login-button-small-pressed@2x.png"; path = "../../../../Downloads/ParsePlatform-IntegratingFacebookTutorial-9c0212e/IntegratingFacebookTutorial-iOS/IntegratingFacebookTutorial/login-button-small-pressed@2x.png"; sourceTree = "<group>"; };
 		D77389AE19008A6D00695718 /* login-button-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login-button-small.png"; path = "../../../../Downloads/ParsePlatform-IntegratingFacebookTutorial-9c0212e/IntegratingFacebookTutorial-iOS/IntegratingFacebookTutorial/login-button-small.png"; sourceTree = "<group>"; };
 		D77389AF19008A6D00695718 /* login-button-small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login-button-small@2x.png"; path = "../../../../Downloads/ParsePlatform-IntegratingFacebookTutorial-9c0212e/IntegratingFacebookTutorial-iOS/IntegratingFacebookTutorial/login-button-small@2x.png"; sourceTree = "<group>"; };
-		D7B8596019009ECA0028D66F /* testviewcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testviewcontroller.h; sourceTree = "<group>"; };
-		D7B8596119009ECA0028D66F /* testviewcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = testviewcontroller.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,11 +186,9 @@
 				65C4449D19007CA400E8707A /* AppDelegate.m */,
 				D77389A21900838100695718 /* LoginViewController.h */,
 				D77389A31900838100695718 /* LoginViewController.m */,
-				D77389A51900839100695718 /* UserDetailsViewController.h */,
-				D77389A61900839100695718 /* UserDetailsViewController.m */,
+				D74C7C7B19031C7D0028C121 /* Profile */,
+				D74C7C7F190334E40028C121 /* People Nearby */,
 				65C4449F19007CA400E8707A /* Main.storyboard */,
-				D7B8596019009ECA0028D66F /* testviewcontroller.h */,
-				D7B8596119009ECA0028D66F /* testviewcontroller.m */,
 				65C444A519007CA400E8707A /* Images.xcassets */,
 				65C4449419007CA400E8707A /* Supporting Files */,
 			);
@@ -228,6 +226,24 @@
 				65C444B519007CA400E8707A /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D74C7C7B19031C7D0028C121 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				D77389A51900839100695718 /* UserDetailsViewController.h */,
+				D77389A61900839100695718 /* UserDetailsViewController.m */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
+		D74C7C7F190334E40028C121 /* People Nearby */ = {
+			isa = PBXGroup;
+			children = (
+				D74C7C78190311F80028C121 /* PeopleNearbyTableViewController.h */,
+				D74C7C79190311F80028C121 /* PeopleNearbyTableViewController.m */,
+			);
+			name = "People Nearby";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,8 +348,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D77389A41900838100695718 /* LoginViewController.m in Sources */,
-				D7B8596219009ECA0028D66F /* testviewcontroller.m in Sources */,
 				65C4449E19007CA400E8707A /* AppDelegate.m in Sources */,
+				D74C7C7A190311F80028C121 /* PeopleNearbyTableViewController.m in Sources */,
 				D77389A71900839100695718 /* UserDetailsViewController.m in Sources */,
 				65C4449A19007CA400E8707A /* main.m in Sources */,
 			);
@@ -470,6 +486,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zame/Zame-Prefix.pch";
 				INFOPLIST_FILE = "Zame/Zame-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -490,6 +507,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zame/Zame-Prefix.pch";
 				INFOPLIST_FILE = "Zame/Zame-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

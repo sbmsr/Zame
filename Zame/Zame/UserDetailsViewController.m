@@ -3,8 +3,29 @@
 
 #import "UserDetailsViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import <CoreLocation/CoreLocation.h>
+
+@interface UserDetailsViewController () <CLLocationManagerDelegate, UIAlertViewDelegate>
+
+@property (nonatomic, strong) CLLocationManager *locationManager;
+
+
+@end
+
+
 
 @implementation UserDetailsViewController
+
+- (CLLocationManager *)locationManager
+{
+    if (!_locationManager) {
+        _locationManager = [[CLLocationManager alloc] init];
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        _locationManager.delegate = self;
+    }
+    
+    return _locationManager;
+}
 
 
 #pragma mark - UIViewController
@@ -12,19 +33,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Facebook Profile";
+    [self.locationManager startUpdatingLocation];
+    if (self.isGeolocationAvailable == NO) {
+        NSLog(@"Not available");
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enable location services" message:@"You previously denied permission for location services. Please enable it in Settings again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    } else {
+        NSLog(@"Available");
+    }
     
-    self.tableView.backgroundColor = [UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
-    
-    // Add logout navigation bar button
-    UIBarButtonItem *logoutButton = [[UIBarButtonItem alloc] initWithTitle:@"Log Out" style:UIBarButtonItemStyleBordered target:self action:@selector(logoutButtonTouchHandler:)];
-    self.navigationItem.leftBarButtonItem = logoutButton;
-    
-    // Create array for table row titles
-    self.rowTitleArray = @[@"Location", @"Gender", @"Date of Birth", @"Relationship"];
-    
-    // Set default values for the table row data
-    self.rowDataArray = [@[@"N/A", @"N/A", @"N/A", @"N/A"] mutableCopy];
+    // Name, Gender, Birthday
+    self.profileInfoArray = [@[@"N/A", @"N/A"] mutableCopy];
     
     
     // If the user is already logged in, display any previously cached values before we get the latest from Facebook.
@@ -33,13 +52,6 @@
         [self updateProfile];
     }
     
-    // Send request to Facebook
-    FBRequest *requestx = [FBRequest requestForMyFriends];
-    [requestx startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-         NSDictionary *userData = (NSDictionary *)result;
-        NSLog(@"%@", userData);
-        
-    }];
     FBRequest *request = [FBRequest requestForMe];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         // handle response
@@ -48,45 +60,23 @@
             NSDictionary *userData = (NSDictionary *)result;
             
             NSString *facebookID = userData[@"id"];
-            
+            NSString *name = userData[@"name"];
+            NSString *gender = userData[@"gender"];
+            NSString *birthday = userData[@"birthday"];
             NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
             
             
-            NSMutableDictionary *userProfile = [NSMutableDictionary dictionaryWithCapacity:7];
-            //NSLog(@"%@", userData);
-            
-            if (facebookID) {
-                userProfile[@"facebookId"] = facebookID;
-            }
-            
-            if (userData[@"name"]) {
-                userProfile[@"name"] = userData[@"name"];
-            }
-            
-            if (userData[@"location"][@"name"]) {
-                userProfile[@"location"] = userData[@"location"][@"name"];
-            }
-            
-            if (userData[@"gender"]) {
-                userProfile[@"gender"] = userData[@"gender"];
-            }
-            
-            if (userData[@"birthday"]) {
-                userProfile[@"birthday"] = userData[@"birthday"];
-            }
-            
-            if (userData[@"relationship_status"]) {
-                userProfile[@"relationship"] = userData[@"relationship_status"];
-            }
-            
-            if ([pictureURL absoluteString]) {
-                userProfile[@"pictureURL"] = [pictureURL absoluteString];
-            }
-            
-            [[PFUser currentUser] setObject:userProfile forKey:@"profile"];
+            // Insert information into Parse
+            [[PFUser currentUser] setObject:facebookID forKey:@"Fbid"];
+            [[PFUser currentUser] setObject:name forKey:@"Name"];
+            [[PFUser currentUser] setObject:gender forKey:@"Gender"];
+            [[PFUser currentUser] setObject:birthday forKey:@"Birthday"];
+            [[PFUser currentUser] setObject:[pictureURL absoluteString] forKey:@"ImageURL"];
             [[PFUser currentUser] saveInBackground];
-            
             [self updateProfile];
+
+            
+            
         } else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
                     isEqualToString: @"OAuthException"]) { // Since the request failed, we can check if it was due to an invalid session
             NSLog(@"The facebook session was invalidated");
@@ -99,7 +89,7 @@
 }
 
 
-#pragma mark - NSURLConnectionDataDelegate
+#pragma mark - NSURLConnectionDataDelegate for Profile Picture
 
 /* Callback delegate methods used for downloading the user's profile picture */
 
@@ -107,89 +97,61 @@
     // As chuncks of the image are received, we build our data file
     [self.imageData appendData:data];
 }
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    // All data has been downloaded, now we can set the image in the header image view
+    self.profileImageView.image = [UIImage imageWithData:self.imageData];
+    // Add a nice corner radius to the image
+    self.profileImageView.layer.cornerRadius = 8.0f;
+    self.profileImageView.layer.masksToBounds = YES;
+}
 
 
 
-#pragma mark - UITableViewDataSource
+#pragma mark - UITableViewDataSource for Name, Gender, Birthday
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return self.rowTitleArray.count;
+    return self.profileInfoArray.count;
 }
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if (cell == nil) {
-        // Create the cell and add the labels
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake( 0.0f, 0.0f, 120.0f, 44.0f)];
-        titleLabel.tag = 1; // We use the tag to set it later
-        titleLabel.textAlignment = NSTextAlignmentRight;
-        titleLabel.font = [UIFont boldSystemFontOfSize:13.0f];
-        titleLabel.backgroundColor = [UIColor clearColor];
-        
-        UILabel *dataLabel = [[UILabel alloc] initWithFrame:CGRectMake( 130.0f, 0.0f, 165.0f, 44.0f)];
-        dataLabel.tag = 2; // We use the tag to set it later
-        dataLabel.font = [UIFont systemFontOfSize:15.0f];
-        dataLabel.backgroundColor = [UIColor clearColor];
-        
-        [cell.contentView addSubview:titleLabel];
-        [cell.contentView addSubview:dataLabel];
-    }
-    
-    // Cannot select these cells
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    // Access labels in the cell using the tag #
-    UILabel *titleLabel = (UILabel *)[cell viewWithTag:1];
-    UILabel *dataLabel = (UILabel *)[cell viewWithTag:2];
-    
-    // Display the data in the table
-    titleLabel.text = [self.rowTitleArray objectAtIndex:indexPath.row];
-    dataLabel.text = [self.rowDataArray objectAtIndex:indexPath.row];
-    
+    cell.textLabel.text = [_profileInfoArray objectAtIndex:indexPath.row];
     return cell;
 }
 
 
-#pragma mark - ()
+#pragma mark - Helper methods
 
-- (void)logoutButtonTouchHandler:(id)sender {
+- (IBAction)logoutButtonTouchHandler:(id)sender {
     // Logout user, this automatically clears the cache
     [PFUser logOut];
     
     // Return to login view controller
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
-// Set received values if they are not nil and reload the table
+// Local method for setting data
 - (void)updateProfile {
-    if ([[PFUser currentUser] objectForKey:@"profile"][@"location"]) {
-        [self.rowDataArray replaceObjectAtIndex:0 withObject:[[PFUser currentUser] objectForKey:@"profile"][@"location"]];
+    if ([[PFUser currentUser] objectForKey:@"Name"]) {
+        [self.profileInfoArray replaceObjectAtIndex:0 withObject:[[PFUser currentUser] objectForKey:@"Name"]];
     }
     
-    if ([[PFUser currentUser] objectForKey:@"profile"][@"gender"]) {
-        [self.rowDataArray replaceObjectAtIndex:1 withObject:[[PFUser currentUser] objectForKey:@"profile"][@"gender"]];
+    if ([[PFUser currentUser] objectForKey:@"Gender"]) {
+        [self.profileInfoArray replaceObjectAtIndex:1 withObject:[[PFUser currentUser] objectForKey:@"Gender"]];
     }
-    
-    if ([[PFUser currentUser] objectForKey:@"profile"][@"birthday"]) {
-        [self.rowDataArray replaceObjectAtIndex:2 withObject:[[PFUser currentUser] objectForKey:@"profile"][@"birthday"]];
-    }
-    
-    if ([[PFUser currentUser] objectForKey:@"profile"][@"relationship"]) {
-        [self.rowDataArray replaceObjectAtIndex:3 withObject:[[PFUser currentUser] objectForKey:@"profile"][@"relationship"]];
-    }
-    
+
     [self.tableView reloadData];
     
     
     // Download the user's facebook profile picture
     self.imageData = [[NSMutableData alloc] init]; // the data will be loaded in here
     
-    if ([[PFUser currentUser] objectForKey:@"profile"][@"pictureURL"]) {
-        NSURL *pictureURL = [NSURL URLWithString:[[PFUser currentUser] objectForKey:@"profile"][@"pictureURL"]];
+    if ([[PFUser currentUser] objectForKey:@"ImageURL"]) {
+        NSURL *pictureURL = [NSURL URLWithString:[[PFUser currentUser] objectForKey:@"ImageURL"]];
         
         NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:pictureURL
                                                                   cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -200,6 +162,41 @@
             NSLog(@"Failed to download picture");
         }
     }
+}
+
+#pragma mark - Location Manager
+- (void)locationManager:(CLLocationManager *)manager
+     didUpdateLocations:(NSArray *)locations
+{
+    CLGeocoder *reverseGeocoder = [[CLGeocoder alloc] init];
+    
+    CLLocation *locationToGeocode = [locations objectAtIndex:0];
+    
+    [reverseGeocoder reverseGeocodeLocation:locationToGeocode
+                          completionHandler:^(NSArray *placemarks, NSError *error){
+                              if (!error) {
+                                  // Update lat, lon on Parse
+                                  NSString *lat = [NSString stringWithFormat:@"%.9f", locationToGeocode.coordinate.latitude];
+                                  NSString *lon = [NSString stringWithFormat:@"%.9f", locationToGeocode.coordinate.longitude];
+                                  NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:lat, @"lat", lon, @"lon", nil];
+                                  [[PFUser currentUser] setObject:dictionary forKey:@"Location"];
+                                  [[PFUser currentUser] saveInBackground];
+                              }
+                          }];
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error
+{
+    NSLog(@"%@", error);
+}
+
+- (BOOL)isGeolocationAvailable
+{
+    if(([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied)||(![CLLocationManager locationServicesEnabled])){
+        return NO;
+    }
+    return YES;
 }
 
 @end

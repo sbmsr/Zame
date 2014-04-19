@@ -3,15 +3,20 @@
 
 #import <Parse/Parse.h>
 
-@interface UserDetailsViewController : UITableViewController <NSURLConnectionDelegate>
+@interface UserDetailsViewController : UIViewController <NSURLConnectionDelegate, UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UIImageView *profileImageView;
+@property (nonatomic, strong) NSMutableArray *profileInfoArray;
+
+@property (nonatomic, strong) NSString * name;
 
 // UITableView row data properties
-@property (nonatomic, strong) NSArray *rowTitleArray;
-@property (nonatomic, strong) NSMutableArray *rowDataArray;
+//@property (nonatomic, strong) NSArray *rowTitleArray;
+//@property (nonatomic, strong) NSMutableArray *rowDataArray;
 @property (nonatomic, strong) NSMutableData *imageData;
 
 // UINavigationBar button touch handler
-- (void)logoutButtonTouchHandler:(id)sender;
+- (IBAction)logoutButtonTouchHandler:(id)sender;
 
 @end
