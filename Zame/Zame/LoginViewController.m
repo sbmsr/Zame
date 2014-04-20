@@ -6,10 +6,6 @@
 #import <Parse/Parse.h>
 
 @implementation LoginViewController
-// Async block - Global dispatch
-// Parse Fetch in background with block ^(BOOL someting){ // your code goes here }
-// MBProgressHUD
-// Spotify and FB similarity checking - Likes, Interests, etc.
 
 #pragma mark - UIViewController
 

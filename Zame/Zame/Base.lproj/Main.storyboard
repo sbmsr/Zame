@@ -55,41 +55,13 @@
                     </tabBar>
                     <connections>
                         <segue destination="7pK-GT-OEI" kind="relationship" relationship="viewControllers" id="Smz-tv-xvf"/>
-                        <segue destination="dX0-3U-iIK" kind="relationship" relationship="viewControllers" id="DuT-dL-pLa"/>
+                        <segue destination="tEB-qM-fya" kind="relationship" relationship="viewControllers" id="pIh-H3-qpM"/>
+                        <segue destination="E2b-HZ-yi3" kind="relationship" relationship="viewControllers" id="NM8-Jh-qTR"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yFS-Cp-EJ1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="688" y="243"/>
-        </scene>
-        <!--Table View Controller - Profile-->
-        <scene sceneID="ghC-2Q-pBL">
-            <objects>
-                <tableViewController id="D7n-bW-Yyt" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gcN-PD-VFZ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="MFd-aG-Hh1">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MFd-aG-Hh1" id="v4j-aR-n2r">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="D7n-bW-Yyt" id="amz-DQ-ut3"/>
-                            <outlet property="delegate" destination="D7n-bW-Yyt" id="eeC-l5-fqX"/>
-                        </connections>
-                    </tableView>
-                    <tabBarItem key="tabBarItem" title="Profile" image="profileTabImage" id="jgf-K6-b2j"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="50W-AK-aXb" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1197" y="-104"/>
         </scene>
         <!--User Details View Controller - Profile-->
         <scene sceneID="0BV-n4-JFE">
@@ -151,37 +123,83 @@
             </objects>
             <point key="canvasLocation" x="1577" y="-143"/>
         </scene>
-        <!--People Nearby Table View Controller - People Nearby-->
-        <scene sceneID="Vgg-qP-VpB">
+        <!--View Controller - Discover-->
+        <scene sceneID="hTV-eK-rOX">
             <objects>
-                <tableViewController storyboardIdentifier="PeopleNearbyTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dX0-3U-iIK" customClass="PeopleNearbyTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ktG-i4-LAJ">
+                <viewController id="E2b-HZ-yi3" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="z85-zR-pWp"/>
+                        <viewControllerLayoutGuide type="bottom" id="Lsq-tU-xxM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CBe-O5-G9K">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="rdL-Qn-dIi">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rdL-Qn-dIi" id="YzU-Y7-atv">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="dX0-3U-iIK" id="6sU-YU-0FU"/>
-                            <outlet property="delegate" destination="dX0-3U-iIK" id="NXZ-5i-Sbd"/>
-                        </connections>
-                    </tableView>
-                    <tabBarItem key="tabBarItem" title="People Nearby" image="peopleNearbyTabImage" id="MI4-wJ-Mle"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8HZ-Wu-KMM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="dv2-sU-Nwb">
+                                <rect key="frame" x="0.0" y="36" width="320" height="532"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Discover" image="discoverTabImage" id="qDN-hs-XDu"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lUU-xE-rbU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1577" y="498"/>
+            <point key="canvasLocation" x="1087" y="988"/>
+        </scene>
+        <!--People Nearby View Controller - People Nearby-->
+        <scene sceneID="raW-gE-xfg">
+            <objects>
+                <viewController storyboardIdentifier="PeopleNearbyViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tEB-qM-fya" customClass="PeopleNearbyViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3tX-BT-XTX"/>
+                        <viewControllerLayoutGuide type="bottom" id="Daw-Ih-edx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="a7f-Vj-b32">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="It6-Yz-onE">
+                                <rect key="frame" x="20" y="118" width="280" height="366"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PeopleCell" id="CVM-Kj-40n">
+                                        <rect key="frame" x="0.0" y="22" width="280" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CVM-Kj-40n" id="Yc6-5f-HyY">
+                                            <rect key="frame" x="0.0" y="0.0" width="280" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="tEB-qM-fya" id="tzP-OI-8Ar"/>
+                                    <outlet property="delegate" destination="tEB-qM-fya" id="xdB-gM-Q2P"/>
+                                </connections>
+                            </tableView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Similar People Nearby" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3r9-tv-o5a">
+                                <rect key="frame" x="75" y="40" width="171" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="People Nearby" image="peopleNearbyTabImage" id="Eda-BZ-YoE"/>
+                    <connections>
+                        <outlet property="tableView" destination="It6-Yz-onE" id="yKV-Ds-dIl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wur-FS-chM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1577" y="528"/>
         </scene>
     </scenes>
     <resources>
+        <image name="discoverTabImage" width="30" height="30"/>
         <image name="login-button-small.png" width="151" height="43"/>
         <image name="peopleNearbyTabImage" width="30" height="30"/>
         <image name="profileTabImage" width="30" height="30"/>

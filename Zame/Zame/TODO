@@ -1,0 +1,6 @@
+// TODO: Incorporate MBProgressHUD (activity indicator)
+// TODO: Allow up swipe to redo background task, i.e. refresh table view
+// TODO: Clicking on each table view item will link to a "View User" controller which specifies Similarity score and details
+// TODO TOGETHER: Discuss Spotify and FB similarity algorithm
+// TODO: Prevent crash when app changes user while still logged in
+// TODO: Distance might be slightly buggy: Distance keeps increasing slightly
