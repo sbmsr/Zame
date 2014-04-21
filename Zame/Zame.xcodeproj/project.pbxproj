@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		650844401905DFA700DC78BB /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6508443F1905DFA700DC78BB /* MBProgressHUD.m */; };
 		65C4448E19007CA400E8707A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C4448D19007CA400E8707A /* Foundation.framework */; };
 		65C4449019007CA400E8707A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C4448F19007CA400E8707A /* CoreGraphics.framework */; };
 		65C4449219007CA400E8707A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C4449119007CA400E8707A /* UIKit.framework */; };
@@ -56,6 +57,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6508443E1905DFA700DC78BB /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		6508443F1905DFA700DC78BB /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		65C4448A19007CA400E8707A /* Zame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65C4448D19007CA400E8707A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		65C4448F19007CA400E8707A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -140,9 +143,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6508443D1905DF8100DC78BB /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				6508443E1905DFA700DC78BB /* MBProgressHUD.h */,
+				6508443F1905DFA700DC78BB /* MBProgressHUD.m */,
+			);
+			name = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 		65C4448119007CA400E8707A = {
 			isa = PBXGroup;
 			children = (
+				6508443D1905DF8100DC78BB /* MBProgressHUD */,
 				65C4449319007CA400E8707A /* Zame */,
 				65C444B219007CA400E8707A /* ZameTests */,
 				65C4448C19007CA400E8707A /* Frameworks */,
@@ -364,6 +377,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D74C7C821903946A0028C121 /* PeopleNearbyViewController.m in Sources */,
+				650844401905DFA700DC78BB /* MBProgressHUD.m in Sources */,
 				D77389A41900838100695718 /* LoginViewController.m in Sources */,
 				65C4449E19007CA400E8707A /* AppDelegate.m in Sources */,
 				D77389A71900839100695718 /* UserDetailsViewController.m in Sources */,

@@ -7,6 +7,8 @@
 //
 
 #import "PeopleNearbyViewController.h"
+#import "MBProgressHUD.h"
+
 #define UIColorFromRGB(rgbValue) [UIColor \
 colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
@@ -120,7 +122,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
  }
  */
 
-/*
+
  #pragma mark - Navigation
  
  // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -128,11 +130,9 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
  {
  // Get the new view controller using [segue destinationViewController].
  // Pass the selected object to the new view controller.
+     
+     NSLog(@"SEGUE INBOUND BITCH!!");
  }
- */
-
-
-
 
 
 #pragma mark - Distance
@@ -156,35 +156,40 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     NSDictionary *myLocation = [myUser objectForKey:@"Location"];
     NSString *myId = [myUser objectForKey:@"Fbid"];
     PFQuery *query = [PFUser query];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
-     {
-         if (!error) {
-             // Get each of their lat and lon
-             for (NSDictionary *object in objects) {
-                 if (![myId isEqualToString:[object objectForKey:@"Fbid"]]) {
-                     NSDictionary *location = [object objectForKey:@"Location"];
-                     NSString *name = [object objectForKey:@"Name"];
-                     // Calculate distance
-                     double distance = [self calculateDistanceFromLat1: [[myLocation objectForKey:@"lat"] doubleValue] AndLon1:[[myLocation objectForKey:@"lon"] doubleValue] AndLat2:[[location objectForKey:@"lat"] doubleValue] AndLon2:[[location objectForKey:@"lon"] doubleValue]];
-                     // Build list
-                     NSNumber *distanceNum = [NSNumber numberWithDouble:distance];
-                     NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:name, @"name", distanceNum, @"distance", nil];
-                     [_listOfPeopleByIncreasingDistanceArray addObject:personEntry];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        // Do something...
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+             {
+                 if (!error) {
+                     // Get each of their lat and lon
+                     for (NSDictionary *object in objects) {
+                         if (![myId isEqualToString:[object objectForKey:@"Fbid"]]) {
+                             NSDictionary *location = [object objectForKey:@"Location"];
+                             NSString *name = [object objectForKey:@"Name"];
+                             // Calculate distance
+                             double distance = [self calculateDistanceFromLat1: [[myLocation objectForKey:@"lat"] doubleValue] AndLon1:[[myLocation objectForKey:@"lon"] doubleValue] AndLat2:[[location objectForKey:@"lat"] doubleValue] AndLon2:[[location objectForKey:@"lon"] doubleValue]];
+                             // Build list
+                             NSNumber *distanceNum = [NSNumber numberWithDouble:distance];
+                             NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:name, @"name", distanceNum, @"distance", nil];
+                             [_listOfPeopleByIncreasingDistanceArray addObject:personEntry];
+                         }
+                     }
+                 } else {
+                     NSLog(@"From getPeopleByIncreasingDistance: %@", error);
                  }
-             }
-         } else {
-             NSLog(@"From getPeopleByIncreasingDistance: %@", error);
-         }
-         // Sort list
-         NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"distance"
-                                                                        ascending:YES];
-         NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-         NSArray *tempArray = [_listOfPeopleByIncreasingDistanceArray mutableCopy];
-         _listOfPeopleByIncreasingDistanceArray = [[tempArray sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
-         [self.tableView reloadData];
-     }];
-    
-    
+                 // Sort list
+                 NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"distance"
+                                                                                ascending:YES];
+                 NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+                 NSArray *tempArray = [_listOfPeopleByIncreasingDistanceArray mutableCopy];
+                 _listOfPeopleByIncreasingDistanceArray = [[tempArray sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
+                 [self.tableView reloadData];
+             }];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
+    });
     
 }
 
