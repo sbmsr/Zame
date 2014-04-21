@@ -26,8 +26,8 @@
 /* Login to facebook method */
 - (IBAction)loginButtonTouchHandler:(id)sender  {
     // Set permissions required from the facebook user account
-    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location", @"user_checkins",
-                                   @"user_education_history", @"user_events", @"user_groups", @"user_hometown", @"user_interests", @"user_likes", @"user_photos", @"user_relationships", @"user_work_history"];
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location",
+                                   @"user_education_history", @"user_events", @"user_groups", @"user_hometown", @"user_interests", @"user_likes", @"user_photos", @"user_relationships", @"user_work_history", @"user_checkins"];
     
     // Login PFUser using facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
