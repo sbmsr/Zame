@@ -63,10 +63,10 @@
             </objects>
             <point key="canvasLocation" x="-2712" y="-677"/>
         </scene>
-        <!--User Details View Controller - Profile-->
+        <!--Main User Details View Controller - Profile-->
         <scene sceneID="0BV-n4-JFE">
             <objects>
-                <viewController storyboardIdentifier="UserDetailsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7pK-GT-OEI" customClass="UserDetailsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainUserDetailsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7pK-GT-OEI" customClass="MainUserDetailsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bdb-Yl-Kpj"/>
                         <viewControllerLayoutGuide type="bottom" id="SMj-Yb-weu"/>
@@ -173,7 +173,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="X0h-sc-7Fc" kind="push" id="5g4-wm-5q8"/>
+                                            <segue destination="X0h-sc-7Fc" kind="modal" identifier="viewDetails" id="5g4-wm-5q8"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -200,10 +200,10 @@
             </objects>
             <point key="canvasLocation" x="-1823" y="-682"/>
         </scene>
-        <!--View Controller-->
+        <!--Nearby User View Controller-->
         <scene sceneID="CPM-0m-nvi">
             <objects>
-                <viewController id="X0h-sc-7Fc" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NearbyUserViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="X0h-sc-7Fc" customClass="NearbyUserViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hv8-16-hKI"/>
                         <viewControllerLayoutGuide type="bottom" id="qJW-et-p9t"/>

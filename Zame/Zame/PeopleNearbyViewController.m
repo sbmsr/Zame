@@ -7,6 +7,7 @@
 //
 
 #import "PeopleNearbyViewController.h"
+#import "NearbyUserViewController.h"
 #import "MBProgressHUD.h"
 
 #define UIColorFromRGB(rgbValue) [UIColor \
@@ -84,6 +85,14 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 }
 
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //if user selects row, go to another view
+    [self performSegueWithIdentifier: @"viewDetails" sender: self];
+}
+
+
+
 /*
  // Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -131,9 +140,19 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
  // Get the new view controller using [segue destinationViewController].
  // Pass the selected object to the new view controller.
      
-     NSLog(@"SEGUE INBOUND BITCH!!");
+     if ([[segue identifier] isEqualToString:@"viewDetails"]) {
+         NSIndexPath *indexPath = [self.tableView
+                                   indexPathForSelectedRow];
+         
+         //get the person
+         NSDictionary *person = [_listOfPeopleByIncreasingDistanceArray objectAtIndex:indexPath.row];
+         
+         //Send them
+         NearbyUserViewController *vc = (NearbyUserViewController *)segue.destinationViewController;
+         vc.nearbyUser = person;
+         
+     }
  }
-
 
 #pragma mark - Distance
 // Helper method that calculates distance from 2 pairs of lat,lon
@@ -187,8 +206,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
                  _listOfPeopleByIncreasingDistanceArray = [[tempArray sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
                  [self.tableView reloadData];
              }];
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
         });
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
     
 }

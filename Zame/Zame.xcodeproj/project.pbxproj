@@ -22,6 +22,7 @@
 		65C444B719007CA400E8707A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65C444B519007CA400E8707A /* InfoPlist.strings */; };
 		65C444B919007CA400E8707A /* ZameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C444B819007CA400E8707A /* ZameTests.m */; };
 		65C444CB1900876C00E8707A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C444CA1900876C00E8707A /* Parse.framework */; };
+		65E67F7419063BB900676AB4 /* NearbyUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E67F7319063BB900676AB4 /* NearbyUserViewController.m */; };
 		D74C7C821903946A0028C121 /* PeopleNearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D74C7C811903946A0028C121 /* PeopleNearbyViewController.m */; };
 		D74C7C85190399ED0028C121 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D74C7C84190399ED0028C121 /* MapKit.framework */; };
 		D74C7C8719039BA40028C121 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = D74C7C8619039BA40028C121 /* TODO */; };
@@ -38,7 +39,7 @@
 		D77389A01900832200695718 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77389941900832200695718 /* SystemConfiguration.framework */; };
 		D77389A11900832200695718 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77389951900832200695718 /* UIKit.framework */; };
 		D77389A41900838100695718 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D77389A31900838100695718 /* LoginViewController.m */; };
-		D77389A71900839100695718 /* UserDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D77389A61900839100695718 /* UserDetailsViewController.m */; };
+		D77389A71900839100695718 /* MainUserDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D77389A61900839100695718 /* MainUserDetailsViewController.m */; };
 		D77389AB190088BB00695718 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77389AA190088BB00695718 /* FacebookSDK.framework */; };
 		D77389B019008A6D00695718 /* login-button-small-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = D77389AC19008A6D00695718 /* login-button-small-pressed.png */; };
 		D77389B119008A6D00695718 /* login-button-small-pressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D77389AD19008A6D00695718 /* login-button-small-pressed@2x.png */; };
@@ -77,6 +78,8 @@
 		65C444B619007CA400E8707A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		65C444B819007CA400E8707A /* ZameTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZameTests.m; sourceTree = "<group>"; };
 		65C444CA1900876C00E8707A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		65E67F7219063BB900676AB4 /* NearbyUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyUserViewController.h; sourceTree = "<group>"; };
+		65E67F7319063BB900676AB4 /* NearbyUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyUserViewController.m; sourceTree = "<group>"; };
 		D74C7C801903946A0028C121 /* PeopleNearbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeopleNearbyViewController.h; sourceTree = "<group>"; };
 		D74C7C811903946A0028C121 /* PeopleNearbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeopleNearbyViewController.m; sourceTree = "<group>"; };
 		D74C7C84190399ED0028C121 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -95,8 +98,8 @@
 		D77389951900832200695718 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D77389A21900838100695718 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		D77389A31900838100695718 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		D77389A51900839100695718 /* UserDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailsViewController.h; sourceTree = "<group>"; };
-		D77389A61900839100695718 /* UserDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailsViewController.m; sourceTree = "<group>"; };
+		D77389A51900839100695718 /* MainUserDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainUserDetailsViewController.h; sourceTree = "<group>"; };
+		D77389A61900839100695718 /* MainUserDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainUserDetailsViewController.m; sourceTree = "<group>"; };
 		D77389AA190088BB00695718 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		D77389AC19008A6D00695718 /* login-button-small-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login-button-small-pressed.png"; path = "../../../../Downloads/ParsePlatform-IntegratingFacebookTutorial-9c0212e/IntegratingFacebookTutorial-iOS/IntegratingFacebookTutorial/login-button-small-pressed.png"; sourceTree = "<group>"; };
 		D77389AD19008A6D00695718 /* login-button-small-pressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login-button-small-pressed@2x.png"; path = "../../../../Downloads/ParsePlatform-IntegratingFacebookTutorial-9c0212e/IntegratingFacebookTutorial-iOS/IntegratingFacebookTutorial/login-button-small-pressed@2x.png"; sourceTree = "<group>"; };
@@ -252,8 +255,10 @@
 		D74C7C7B19031C7D0028C121 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				D77389A51900839100695718 /* UserDetailsViewController.h */,
-				D77389A61900839100695718 /* UserDetailsViewController.m */,
+				D77389A51900839100695718 /* MainUserDetailsViewController.h */,
+				D77389A61900839100695718 /* MainUserDetailsViewController.m */,
+				65E67F7219063BB900676AB4 /* NearbyUserViewController.h */,
+				65E67F7319063BB900676AB4 /* NearbyUserViewController.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -379,8 +384,9 @@
 				D74C7C821903946A0028C121 /* PeopleNearbyViewController.m in Sources */,
 				650844401905DFA700DC78BB /* MBProgressHUD.m in Sources */,
 				D77389A41900838100695718 /* LoginViewController.m in Sources */,
+				65E67F7419063BB900676AB4 /* NearbyUserViewController.m in Sources */,
 				65C4449E19007CA400E8707A /* AppDelegate.m in Sources */,
-				D77389A71900839100695718 /* UserDetailsViewController.m in Sources */,
+				D77389A71900839100695718 /* MainUserDetailsViewController.m in Sources */,
 				65C4449A19007CA400E8707A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

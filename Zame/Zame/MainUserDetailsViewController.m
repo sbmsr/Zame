@@ -1,11 +1,11 @@
 //
 //  Copyright (c) 2013 Parse. All rights reserved.
 
-#import "UserDetailsViewController.h"
+#import "MainUserDetailsViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface UserDetailsViewController () <CLLocationManagerDelegate, UIAlertViewDelegate>
+@interface MainUserDetailsViewController () <CLLocationManagerDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
@@ -14,7 +14,7 @@
 
 
 
-@implementation UserDetailsViewController
+@implementation MainUserDetailsViewController
 
 - (CLLocationManager *)locationManager
 {

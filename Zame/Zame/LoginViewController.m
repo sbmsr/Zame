@@ -2,7 +2,7 @@
 //  Copyright (c) 2013 Parse. All rights reserved.
 
 #import "LoginViewController.h"
-#import "UserDetailsViewController.h"
+#import "MainUserDetailsViewController.h"
 #import <Parse/Parse.h>
 
 @implementation LoginViewController
