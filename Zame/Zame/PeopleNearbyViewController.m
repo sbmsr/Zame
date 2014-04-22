@@ -29,6 +29,10 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //pulltorefresh
+
+    
     _listOfPeopleByIncreasingDistanceArray = [[NSMutableArray alloc] init];
     [self getPeopleByIncreasingDistance];
     self.tableView.layer.borderWidth = 2;

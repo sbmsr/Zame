@@ -1,14 +1,6 @@
-// TODO: Allow up swipe to redo background task, i.e. refresh table view 
-                
-                
-                Probably a github library for that
+// TODO: Allow up swipe to redo background task, i.e. refresh table view
 
-
-// TODO: Clicking on each table view item will link to a "View User" controller which specifies Similarity score and details
-                
-                Ah, I like
-                
-
+// TODO: Store More user details so we can propgate NUVC with data
 
 // TODO: Prevent crash when app changes user while still logged in
 
@@ -21,7 +13,9 @@
                 Might be a precision error
 
 
+// TODO TOGETHER: Discuss Spotify and FB similarity algorithm
+
+
+///////COMPLETE//////////
 
 // TODO: Incorporate MBProgressHUD (activity indicator)
-
-// TODO TOGETHER: Discuss Spotify and FB similarity algorithm
