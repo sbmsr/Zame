@@ -11,6 +11,7 @@
 @interface NearbyUserViewController : UIViewController
 
 @property(nonatomic) NSDictionary *nearbyUser;
+@property (weak, nonatomic) IBOutlet UINavigationItem *titleBar;
 
 - (IBAction)backButton:(id)sender;
 

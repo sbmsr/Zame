@@ -229,6 +229,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="Wmq-pe-Qhz"/>
+                    <connections>
+                        <outlet property="titleBar" destination="nJt-yV-F6g" id="une-8l-LKY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="03P-pw-igi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

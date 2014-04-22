@@ -27,6 +27,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSString * name = [_nearbyUser objectForKey:@"name"];
+    [self.titleBar setTitle:name];
+    
 }
 
 - (void)didReceiveMemoryWarning
