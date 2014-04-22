@@ -12,5 +12,6 @@
 
 @property(nonatomic) NSDictionary *nearbyUser;
 
+- (IBAction)backButton:(id)sender;
 
 @end
