@@ -31,7 +31,9 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     [super viewDidLoad];
     
     //pulltorefresh
-
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:refreshControl];
     
     _listOfPeopleByIncreasingDistanceArray = [[NSMutableArray alloc] init];
     [self getPeopleByIncreasingDistance];
@@ -46,6 +48,11 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)refresh:(UIRefreshControl *)refreshControl {
+    [self getPeopleByIncreasingDistance];
+    [refreshControl endRefreshing];
 }
 
 - (void)didReceiveMemoryWarning
@@ -179,9 +186,16 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     NSDictionary *myLocation = [myUser objectForKey:@"Location"];
     NSString *myId = [myUser objectForKey:@"Fbid"];
     PFQuery *query = [PFUser query];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    BOOL isFirstTime = NO;
+    
+    if([_listOfPeopleByIncreasingDistanceArray count] == 0)
+    {
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        isFirstTime = YES;
+    }
+    
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        // Do something...
         dispatch_async(dispatch_get_main_queue(), ^{
             [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
              {
@@ -189,14 +203,28 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
                      // Get each of their lat and lon
                      for (NSDictionary *object in objects) {
                          if (![myId isEqualToString:[object objectForKey:@"Fbid"]]) {
+                             
+                             BOOL isUserNew = YES;
+                             
                              NSDictionary *location = [object objectForKey:@"Location"];
                              NSString *name = [object objectForKey:@"Name"];
                              // Calculate distance
                              double distance = [self calculateDistanceFromLat1: [[myLocation objectForKey:@"lat"] doubleValue] AndLon1:[[myLocation objectForKey:@"lon"] doubleValue] AndLat2:[[location objectForKey:@"lat"] doubleValue] AndLon2:[[location objectForKey:@"lon"] doubleValue]];
                              // Build list
                              NSNumber *distanceNum = [NSNumber numberWithDouble:distance];
-                             NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:name, @"name", distanceNum, @"distance", nil];
-                             [_listOfPeopleByIncreasingDistanceArray addObject:personEntry];
+                             NSString *fbid = [object objectForKey:@"Fbid"];
+                             NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:name, @"name", distanceNum, @"distance", fbid, @"Fbid", nil];
+                             
+                             for (NSDictionary *Person in _listOfPeopleByIncreasingDistanceArray) {
+                                 if ([[Person objectForKey:@"Fbid"] isEqualToString: fbid]){
+                                     isUserNew = NO;
+                                     break;
+                                 }
+                             }
+                             
+                             if (isUserNew){
+                                 [_listOfPeopleByIncreasingDistanceArray addObject:personEntry];
+                             }
                          }
                      }
                  } else {
@@ -211,10 +239,17 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
                  [self.tableView reloadData];
              }];
         });
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+        if(isFirstTime){
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        }
+    
     });
     
+    
 }
+
+
 
 
 

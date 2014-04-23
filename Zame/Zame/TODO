@@ -1,16 +1,14 @@
-// TODO: Allow up swipe to redo background task, i.e. refresh table view
-
 // TODO: Store More user details so we can propgate NUVC with data
 
-// TODO: Prevent crash when app changes user while still logged in
-
-                How is this even reached? How can you change user?
-
+// TODO : Fix logout button not showing for me
+    // TODO: Prevent crash when app changes user while still logged in
 
 
 // TODO: Distance might be slightly buggy: Distance keeps increasing slightly
 
                 Might be a precision error
+
+// TODO: check why pull to refresh grows memory very slightly...
 
 
 // TODO TOGETHER: Discuss Spotify and FB similarity algorithm
@@ -19,3 +17,4 @@
 ///////COMPLETE//////////
 
 // TODO: Incorporate MBProgressHUD (activity indicator)
+// TODO: Allow up swipe to redo background task, i.e. refresh table view
