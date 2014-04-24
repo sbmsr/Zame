@@ -14,6 +14,8 @@
     [super viewDidLoad];
     self.title = @"Zame";
     
+    [_activityIndicator hidesWhenStopped];
+    
     // Check if user is cached and linked to Facebook, if so, bypass login
     if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
         UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];

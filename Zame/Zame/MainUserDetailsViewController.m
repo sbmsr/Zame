@@ -65,6 +65,22 @@
             NSString *birthday = userData[@"birthday"];
             NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
             
+            FBRequest *d = [FBRequest requestForGraphPath:@"me?fields=political,education,hometown,movies,music,books,television,sports,religion"];
+            NSDictionary *Data = (NSDictionary *)d;
+            
+            NSString *politics = Data[@"political"];
+            NSString *religion = Data[@"religion"];
+            
+            NSDictionary *education = Data[@"education"];
+            
+            NSDictionary *hometown = Data[@"movies"];
+            NSDictionary *movies = Data[@"political"];
+            NSDictionary *music = Data[@"music"];
+            
+            NSDictionary *television = Data[@"television"];
+            television = television[@"data"];
+            
+            NSDictionary *sports = Data[@"sports"];
             
             // Insert information into Parse
             [[PFUser currentUser] setObject:facebookID forKey:@"Fbid"];
