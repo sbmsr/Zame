@@ -30,6 +30,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 {
     [super viewDidLoad];
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     //pulltorefresh
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
@@ -162,24 +164,20 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     NSString *myId = [myUser objectForKey:@"Fbid"];
     PFQuery *query = [PFUser query];
     
-    BOOL isFirstTime = NO;
     
-    if([_listOfPeopleByIncreasingDistanceArray count] == 0)
-    {
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        isFirstTime = YES;
-    }
+    //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
              {
                  if (!error) {
+                     
+                     [_listOfPeopleByIncreasingDistanceArray removeAllObjects];
+                     
                      // Get each of their lat and lon
                      for (NSDictionary *object in objects) {
                          if (![myId isEqualToString:[object objectForKey:@"Fbid"]]) {
-                             
-                             BOOL isUserNew = YES;
                              
                              NSDictionary *location = [object objectForKey:@"Location"];
                              NSString *name = [object objectForKey:@"Name"];
@@ -190,16 +188,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
                              NSString *fbid = [object objectForKey:@"Fbid"];
                              NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:name, @"name", distanceNum, @"distance", fbid, @"Fbid", nil];
                              
-                             for (NSDictionary *Person in _listOfPeopleByIncreasingDistanceArray) {
-                                 if ([[Person objectForKey:@"Fbid"] isEqualToString: fbid]){
-                                     isUserNew = NO;
-                                     break;
-                                 }
-                             }
-                             
-                             if (isUserNew){
-                                 [_listOfPeopleByIncreasingDistanceArray addObject:personEntry];
-                             }
+
+                            [_listOfPeopleByIncreasingDistanceArray addObject:personEntry];
                          }
                      }
                  } else {
@@ -212,12 +202,9 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
                  NSArray *tempArray = [_listOfPeopleByIncreasingDistanceArray mutableCopy];
                  _listOfPeopleByIncreasingDistanceArray = [[tempArray sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
                  [self.tableView reloadData];
+                 [MBProgressHUD hideHUDForView:self.view animated:YES];
              }];
         });
-        
-        if(isFirstTime){
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        }
     
     });
     
