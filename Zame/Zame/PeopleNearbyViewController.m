@@ -96,13 +96,6 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     return cell;
 }
 
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //if user selects row, go to another view
-    [self performSegueWithIdentifier: @"viewDetails" sender: self];
-}
-
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
 }
@@ -118,6 +111,14 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     cell.contentView.backgroundColor = color;
     cell.backgroundColor = color;
 }
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //if user selects row, go to another view
+    [self performSegueWithIdentifier: @"viewDetails" sender: self];
+}
+
 
 
  #pragma mark - Navigation
