@@ -257,8 +257,6 @@
 			children = (
 				D77389A51900839100695718 /* MainUserDetailsViewController.h */,
 				D77389A61900839100695718 /* MainUserDetailsViewController.m */,
-				65E67F7219063BB900676AB4 /* NearbyUserViewController.h */,
-				65E67F7319063BB900676AB4 /* NearbyUserViewController.m */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -268,6 +266,8 @@
 			children = (
 				D74C7C801903946A0028C121 /* PeopleNearbyViewController.h */,
 				D74C7C811903946A0028C121 /* PeopleNearbyViewController.m */,
+				65E67F7219063BB900676AB4 /* NearbyUserViewController.h */,
+				65E67F7319063BB900676AB4 /* NearbyUserViewController.m */,
 			);
 			name = "People Nearby";
 			sourceTree = "<group>";
