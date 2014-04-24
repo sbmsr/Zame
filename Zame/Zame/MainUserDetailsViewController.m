@@ -70,17 +70,19 @@
             
             NSString *politics = Data[@"political"];
             NSString *religion = Data[@"religion"];
+            NSString *hometown;
+
+            
             
             NSDictionary *education = Data[@"education"];
-            
-            NSDictionary *hometown = Data[@"movies"];
-            NSDictionary *movies = Data[@"political"];
+            NSDictionary *HT = Data[@"hometown"];
+            hometown = HT[@"name"];
+            NSDictionary *movies = Data[@"movies"];
             NSDictionary *music = Data[@"music"];
-            
             NSDictionary *television = Data[@"television"];
             television = television[@"data"];
-            
             NSDictionary *sports = Data[@"sports"];
+            NSLog(movies);
             
             // Insert information into Parse
             [[PFUser currentUser] setObject:facebookID forKey:@"Fbid"];
