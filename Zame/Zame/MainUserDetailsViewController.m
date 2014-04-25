@@ -52,7 +52,7 @@
         [self updateProfile];
     }
     
-    FBRequest *request = [FBRequest requestForMe];
+    FBRequest *request = [FBRequest requestForGraphPath:@"me?fields=political,education,hometown,movies,music,books,television,sports,religion,id,name,gender,birthday,picture,likes"];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         // handle response
         if (!error) {
@@ -65,24 +65,16 @@
             NSString *birthday = userData[@"birthday"];
             NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
             
-            FBRequest *d = [FBRequest requestForGraphPath:@"me?fields=political,education,hometown,movies,music,books,television,sports,religion"];
-            NSDictionary *Data = (NSDictionary *)d;
+            NSString *politics = userData[@"political"];
+            NSString *religion = userData[@"religion"];
+            NSString *hometown = userData[@"hometown"][@"name"];
             
-            NSString *politics = Data[@"political"];
-            NSString *religion = Data[@"religion"];
-            NSString *hometown;
-
-            
-            
-            NSDictionary *education = Data[@"education"];
-            NSDictionary *HT = Data[@"hometown"];
-            hometown = HT[@"name"];
-            NSDictionary *movies = Data[@"movies"];
-            NSDictionary *music = Data[@"music"];
-            NSDictionary *television = Data[@"television"];
-            television = television[@"data"];
-            NSDictionary *sports = Data[@"sports"];
-            NSLog(movies);
+            NSDictionary *movies = userData[@"movies"];
+            NSDictionary *music = userData[@"music"];
+            NSDictionary *books = userData[@"books"];
+            NSDictionary *television = userData[@"television"];
+            NSDictionary *sports = userData[@"sports"];
+            NSDictionary *likes = userData[@"likes"];
             
             // Insert information into Parse
             [[PFUser currentUser] setObject:facebookID forKey:@"Fbid"];
@@ -90,10 +82,18 @@
             [[PFUser currentUser] setObject:gender forKey:@"Gender"];
             [[PFUser currentUser] setObject:birthday forKey:@"Birthday"];
             [[PFUser currentUser] setObject:[pictureURL absoluteString] forKey:@"ImageURL"];
+            [[PFUser currentUser] setObject:politics forKey:@"Politics"];
+            [[PFUser currentUser] setObject:religion forKey:@"Religion"];
+            [[PFUser currentUser] setObject:hometown forKey:@"Hometown"];
+            [[PFUser currentUser] setObject:likes forKey:@"Likes"];
+            [[PFUser currentUser] setObject:movies forKey:@"Movies"];
+            [[PFUser currentUser] setObject:music forKey:@"Music"];
+            [[PFUser currentUser] setObject:books forKey:@"Books"];
+            [[PFUser currentUser] setObject:television forKey:@"Television"];
+            [[PFUser currentUser] setObject:sports forKey:@"Sports"];
+
             [[PFUser currentUser] saveInBackground];
             [self updateProfile];
-
-            
             
         } else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
                     isEqualToString: @"OAuthException"]) { // Since the request failed, we can check if it was due to an invalid session
