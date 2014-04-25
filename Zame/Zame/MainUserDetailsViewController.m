@@ -55,7 +55,7 @@
         [self updateProfile];
     }
     
-    FBRequest *request = [FBRequest requestForGraphPath:@"me?fields=political,education,hometown,religion,id,name,gender,birthday,picture"];
+    FBRequest *request = [FBRequest requestForGraphPath:@"me?fields=political,education,hometown,religion,id,name,gender,birthday,picture, music, movies, likes, sports,"];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         // handle response
         if (!error) {
@@ -67,7 +67,6 @@
             NSString *gender = userData[@"gender"];
             NSString *birthday = userData[@"birthday"];
             NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
-            
             NSString *politics = userData[@"political"];
             NSString *religion = userData[@"religion"];
             NSString *hometown = userData[@"hometown"][@"name"];
@@ -89,10 +88,11 @@
             NSLog(@"The facebook session was invalidated");
             [self logoutButtonTouchHandler:nil];
         } else {
-            NSLog(@"Some other error: %@", error);
+            NSLog(@"Some other error: %@", error.localizedDescription);
         }
     }];
     
+    //fill the rest of the data
     NSMutableArray *movieArray = [[NSMutableArray alloc] init];
     [self names:movieArray andRequestURL:nil of:@"movies"];
     NSMutableArray *musicArray = [[NSMutableArray alloc] init];
@@ -105,18 +105,7 @@
     [self names:sportsArray andRequestURL:nil of:@"sports"];
     NSMutableArray *likesArray = [[NSMutableArray alloc] init];
     [self names:likesArray andRequestURL:nil of:@"likes"];
-    
-    [[PFUser currentUser] setObject:likesArray forKey:@"Likes"];
-    [[PFUser currentUser] setObject:movieArray forKey:@"Movies"];
-    [[PFUser currentUser] setObject:musicArray forKey:@"Music"];
-    [[PFUser currentUser] setObject:booksArray forKey:@"Books"];
-    [[PFUser currentUser] setObject:televisionArray forKey:@"Television"];
-    [[PFUser currentUser] setObject:sportsArray forKey:@"Sports"];
-    
-    [[PFUser currentUser] saveInBackground];
-    [self updateProfile];
 
-    
 }
 
 - (NSMutableArray *)      names: (NSMutableArray *) array
@@ -172,6 +161,9 @@
         [self names:array andRequestURL:nextURL of:type];
     }
     
+    [[PFUser currentUser] setObject:array forKey:type.capitalizedString];
+    [[PFUser currentUser] saveInBackground];
+
     return array;
 }
 #pragma mark - NSURLConnectionDataDelegate for Profile Picture
