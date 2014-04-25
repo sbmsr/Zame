@@ -9,6 +9,9 @@
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
+- (NSMutableArray*) getNextRequest: (NSMutableArray *)array
+                    andRequestURL: (NSString *) url;
+
 
 @end
 
@@ -52,7 +55,7 @@
         [self updateProfile];
     }
     
-    FBRequest *request = [FBRequest requestForGraphPath:@"me?fields=political,education,hometown,movies,music,books,television,sports,religion,id,name,gender,birthday,picture,likes"];
+    FBRequest *request = [FBRequest requestForGraphPath:@"me?fields=political,education,hometown,religion,id,name,gender,birthday,picture"];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         // handle response
         if (!error) {
@@ -69,13 +72,6 @@
             NSString *religion = userData[@"religion"];
             NSString *hometown = userData[@"hometown"][@"name"];
             
-            NSDictionary *movies = userData[@"movies"];
-            NSDictionary *music = userData[@"music"];
-            NSDictionary *books = userData[@"books"];
-            NSDictionary *television = userData[@"television"];
-            NSDictionary *sports = userData[@"sports"];
-            NSDictionary *likes = userData[@"likes"];
-            
             // Insert information into Parse
             [[PFUser currentUser] setObject:facebookID forKey:@"Fbid"];
             [[PFUser currentUser] setObject:name forKey:@"Name"];
@@ -85,13 +81,6 @@
             [[PFUser currentUser] setObject:politics forKey:@"Politics"];
             [[PFUser currentUser] setObject:religion forKey:@"Religion"];
             [[PFUser currentUser] setObject:hometown forKey:@"Hometown"];
-            [[PFUser currentUser] setObject:likes forKey:@"Likes"];
-            [[PFUser currentUser] setObject:movies forKey:@"Movies"];
-            [[PFUser currentUser] setObject:music forKey:@"Music"];
-            [[PFUser currentUser] setObject:books forKey:@"Books"];
-            [[PFUser currentUser] setObject:television forKey:@"Television"];
-            [[PFUser currentUser] setObject:sports forKey:@"Sports"];
-
             [[PFUser currentUser] saveInBackground];
             [self updateProfile];
             
@@ -104,9 +93,87 @@
         }
     }];
     
+    NSMutableArray *movieArray = [[NSMutableArray alloc] init];
+    [self names:movieArray andRequestURL:nil of:@"movies"];
+    NSMutableArray *musicArray = [[NSMutableArray alloc] init];
+    [self names:musicArray andRequestURL:nil of:@"music"];
+    NSMutableArray *booksArray = [[NSMutableArray alloc] init];
+    [self names:booksArray andRequestURL:nil of:@"books"];
+    NSMutableArray *televisionArray = [[NSMutableArray alloc] init];
+    [self names:televisionArray andRequestURL:nil of:@"television"];
+    NSMutableArray *sportsArray = [[NSMutableArray alloc] init];
+    [self names:sportsArray andRequestURL:nil of:@"sports"];
+    NSMutableArray *likesArray = [[NSMutableArray alloc] init];
+    [self names:likesArray andRequestURL:nil of:@"likes"];
+    
+    [[PFUser currentUser] setObject:likesArray forKey:@"Likes"];
+    [[PFUser currentUser] setObject:movieArray forKey:@"Movies"];
+    [[PFUser currentUser] setObject:musicArray forKey:@"Music"];
+    [[PFUser currentUser] setObject:booksArray forKey:@"Books"];
+    [[PFUser currentUser] setObject:televisionArray forKey:@"Television"];
+    [[PFUser currentUser] setObject:sportsArray forKey:@"Sports"];
+    
+    [[PFUser currentUser] saveInBackground];
+    [self updateProfile];
+
+    
 }
 
+- (NSMutableArray *)      names: (NSMutableArray *) array
+                  andRequestURL: (NSString *) url
+                             of: (NSString *) type{
 
+    //if we are at the first page
+    if (!url){
+        if ([type isEqualToString:@"movies"]) {
+            url = @"me?fields=movies";
+        }
+        else if ([type isEqualToString:@"music"]) {
+            url = @"me?fields=music";
+        }
+        else if ([type isEqualToString:@"books"]) {
+            url = @"me?fields=books";
+        }
+        else if ([type isEqualToString:@"television"]) {
+            url = @"me?fields=television";
+        }
+        else if ([type isEqualToString:@"sports"]) {
+            url = @"me?fields=sports";
+        }
+        else if ([type isEqualToString:@"likes"]) {
+            url = @"me?fields=likes";
+        }
+    }
+    
+    __block BOOL moreData = NO;//bool used to know if another request should be made - avoids recursive calls within a request
+    __block NSString* nextURL;
+    
+    FBRequest *request = [FBRequest requestForGraphPath:url];
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        NSDictionary *userData = (NSDictionary *)result;
+        NSDictionary *specificData = userData[type];
+        
+        NSMutableArray *dataArray = [specificData objectForKey:@"data"];
+        
+        //add names to array
+        for(id key in dataArray) {
+            [array addObject:[key objectForKey:@"name"]];
+        }
+        
+        //check if more data awaits
+        id paging = [specificData objectForKey:@"paging"];
+        if ([paging objectForKey:@"next"]) {
+            moreData = YES;
+            nextURL = [paging objectForKey:@"next"];
+        }
+    } ];
+
+    if (moreData){
+        [self names:array andRequestURL:nextURL of:type];
+    }
+    
+    return array;
+}
 #pragma mark - NSURLConnectionDataDelegate for Profile Picture
 
 /* Callback delegate methods used for downloading the user's profile picture */
@@ -161,7 +228,7 @@
     if ([[PFUser currentUser] objectForKey:@"Gender"]) {
         [self.profileInfoArray replaceObjectAtIndex:1 withObject:[[PFUser currentUser] objectForKey:@"Gender"]];
     }
-
+    
     [self.tableView reloadData];
     
     
