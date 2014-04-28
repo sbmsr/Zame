@@ -3,11 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "PQBMW.png"
+      "filename" : "World_Times.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "World_Times@2x.png"
     }
   ],
   "info" : {

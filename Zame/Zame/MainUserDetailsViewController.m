@@ -5,7 +5,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface MainUserDetailsViewController () <CLLocationManagerDelegate, UIAlertViewDelegate>
+@interface MainUserDetailsViewController () <CLLocationManagerDelegate, UIAlertViewDelegate, FBRequestDelegate>
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
@@ -55,7 +55,7 @@
         [self updateProfile];
     }
     
-    FBRequest *request = [FBRequest requestForGraphPath:@"me?fields=political,education,hometown,religion,id,name,gender,birthday,picture, music, movies, likes, sports,"];
+    FBRequest *request = [FBRequest requestForGraphPath:@"me?fields=political,education,hometown,religion,id,name,gender,birthday,picture"];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         // handle response
         if (!error) {
@@ -94,78 +94,50 @@
     
     //fill the rest of the data
     NSMutableArray *movieArray = [[NSMutableArray alloc] init];
-    [self names:movieArray andRequestURL:nil of:@"movies"];
+    [self names:movieArray andRequestURL:@"/me/movies?limit=100" of:@"movies"];
     NSMutableArray *musicArray = [[NSMutableArray alloc] init];
-    [self names:musicArray andRequestURL:nil of:@"music"];
+    [self names:musicArray andRequestURL:@"/me/music?limit=100" of:@"music"];
     NSMutableArray *booksArray = [[NSMutableArray alloc] init];
-    [self names:booksArray andRequestURL:nil of:@"books"];
+    [self names:booksArray andRequestURL:@"/me/books?limit=100" of:@"books"];
     NSMutableArray *televisionArray = [[NSMutableArray alloc] init];
-    [self names:televisionArray andRequestURL:nil of:@"television"];
+    [self names:televisionArray andRequestURL:@"/me/television?limit=100" of:@"television"];
     NSMutableArray *sportsArray = [[NSMutableArray alloc] init];
-    [self names:sportsArray andRequestURL:nil of:@"sports"];
+    [self names:sportsArray andRequestURL:@"/me/sports?limit=100" of:@"sports"];
     NSMutableArray *likesArray = [[NSMutableArray alloc] init];
-    [self names:likesArray andRequestURL:nil of:@"likes"];
+    [self names:likesArray andRequestURL:@"/me/likes?limit=100" of:@"likes"];
 
 }
 
 - (NSMutableArray *)      names: (NSMutableArray *) array
                   andRequestURL: (NSString *) url
                              of: (NSString *) type{
-
-    //if we are at the first page
-    if (!url){
-        if ([type isEqualToString:@"movies"]) {
-            url = @"me?fields=movies";
-        }
-        else if ([type isEqualToString:@"music"]) {
-            url = @"me?fields=music";
-        }
-        else if ([type isEqualToString:@"books"]) {
-            url = @"me?fields=books";
-        }
-        else if ([type isEqualToString:@"television"]) {
-            url = @"me?fields=television";
-        }
-        else if ([type isEqualToString:@"sports"]) {
-            url = @"me?fields=sports";
-        }
-        else if ([type isEqualToString:@"likes"]) {
-            url = @"me?fields=likes";
-        }
-    }
-    
-    __block BOOL moreData = NO;//bool used to know if another request should be made - avoids recursive calls within a request
-    __block NSString* nextURL;
     
     FBRequest *request = [FBRequest requestForGraphPath:url];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         NSDictionary *userData = (NSDictionary *)result;
-        NSDictionary *specificData = userData[type];
         
-        NSMutableArray *dataArray = [specificData objectForKey:@"data"];
-        
-        //add names to array
+        NSArray *dataArray = [userData objectForKey:@"data"];
+   
+        // Add names to array
         for(id key in dataArray) {
             [array addObject:[key objectForKey:@"name"]];
         }
         
-        //check if more data awaits
-        id paging = [specificData objectForKey:@"paging"];
+        // Check if more data awaits
+        id paging = [userData objectForKey:@"paging"];
         if ([paging objectForKey:@"next"]) {
-            moreData = YES;
-            nextURL = [paging objectForKey:@"next"];
+            NSString* nextURL = [url stringByAppendingString:@"&offset=100"];
+            [self names:array andRequestURL:nextURL of:type];
         }
+        
     } ];
-
-    if (moreData){
-        [self names:array andRequestURL:nextURL of:type];
-    }
     
     [[PFUser currentUser] setObject:array forKey:type.capitalizedString];
     [[PFUser currentUser] saveInBackground];
 
     return array;
 }
+
 #pragma mark - NSURLConnectionDataDelegate for Profile Picture
 
 /* Callback delegate methods used for downloading the user's profile picture */

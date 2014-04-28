@@ -40,7 +40,7 @@
 {
     [super viewDidLoad];
     peopleArray = [[NSMutableArray alloc] init];
-    self.title = @"Discover Zame People";
+    //self.title = @"Discover Zame People";
 
     
 }

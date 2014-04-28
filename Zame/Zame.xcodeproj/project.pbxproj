@@ -229,11 +229,11 @@
 			isa = PBXGroup;
 			children = (
 				65C4449C19007CA400E8707A /* AppDelegate.h */,
+				D77385BC190EDC0100A1EC00 /* Settings */,
 				65C4449D19007CA400E8707A /* AppDelegate.m */,
 				D77389A21900838100695718 /* LoginViewController.h */,
 				D77389A31900838100695718 /* LoginViewController.m */,
 				D74C7C83190398CC0028C121 /* Discover */,
-				D74C7C7B19031C7D0028C121 /* Profile */,
 				D74C7C7F190334E40028C121 /* People Nearby */,
 				65C4449F19007CA400E8707A /* Main.storyboard */,
 				65C444A519007CA400E8707A /* Images.xcassets */,
@@ -295,15 +295,6 @@
 			name = "Similar Characteristics";
 			sourceTree = "<group>";
 		};
-		D74C7C7B19031C7D0028C121 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-				D77389A51900839100695718 /* MainUserDetailsViewController.h */,
-				D77389A61900839100695718 /* MainUserDetailsViewController.m */,
-			);
-			name = Profile;
-			sourceTree = "<group>";
-		};
 		D74C7C7F190334E40028C121 /* People Nearby */ = {
 			isa = PBXGroup;
 			children = (
@@ -325,6 +316,15 @@
 				D7B5E2B5190E210F00DC0216 /* CustomAnnotation.m */,
 			);
 			name = Discover;
+			sourceTree = "<group>";
+		};
+		D77385BC190EDC0100A1EC00 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				D77389A51900839100695718 /* MainUserDetailsViewController.h */,
+				D77389A61900839100695718 /* MainUserDetailsViewController.m */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
