@@ -20,7 +20,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Similar Likes";
+    self.title = @"Zame Likes";
 }
 
 - (void)didReceiveMemoryWarning

@@ -121,7 +121,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
     cell.textLabel.numberOfLines = 1;
     NSNumber *score = [person objectForKey:@"Score"];
-    NSMutableString *scoreString = [[NSMutableString alloc] initWithString:@"Score: "];
+    NSMutableString *scoreString = [[NSMutableString alloc] initWithString:@"ZScore: "];
     [scoreString appendString:[score stringValue]];
     cell.detailTextLabel.text = scoreString;
 
@@ -291,9 +291,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
                              double distance = [self calculateDistanceFromLat1: [[myLocation objectForKey:@"lat"] doubleValue] AndLon1:[[myLocation objectForKey:@"lon"] doubleValue] AndLat2:[[location objectForKey:@"lat"] doubleValue] AndLon2:[[location objectForKey:@"lon"] doubleValue]];
                              // Build list
                              NSNumber *distanceNum = [NSNumber numberWithDouble:distance];
-                             NSString *fbid = [object objectForKey:@"Fbid"];
                              NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
-                             NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:firstName, @"Name", distanceNum, @"Distance", fbid, @"Fbid", similarity, @"Similarity", score, @"Score", nil];
+                             NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:firstName, @"Name", distanceNum, @"Distance", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", nil];
                              
                              if (distance < 2000) {
                                  

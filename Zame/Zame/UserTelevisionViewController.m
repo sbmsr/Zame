@@ -19,7 +19,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Similar TV Shows";
+    self.title = @"Zame TV Shows";
     // Do any additional setup after loading the view.
 }
 

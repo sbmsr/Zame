@@ -19,7 +19,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Similar Movies";
+    self.title = @"Zame Movies";
     // Do any additional setup after loading the view.
 }
 

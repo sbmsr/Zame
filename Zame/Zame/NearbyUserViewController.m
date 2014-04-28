@@ -41,13 +41,15 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.titleBar setTitle:[_nearbyUser objectForKey:@"name"]];
+    [self.titleBar setTitle:[_nearbyUser objectForKey:@"Name"]];
     similarityAttributes = [[NSMutableArray alloc] init];
     // Retrieve score
     NSNumber *score = [_nearbyUser objectForKey:@"Score"];
-    NSMutableString *scoreString = [[NSMutableString alloc] initWithString:@"Score: "];
+    NSMutableString *scoreString = [[NSMutableString alloc] initWithString:@"ZScore: "];
     [scoreString appendString:[score stringValue]];
     _scoreLabel.text = scoreString;
+    _scoreLabel.adjustsFontSizeToFitWidth = YES;
+    _scoreLabel.numberOfLines = 1;
     // Assemble similarity attributes
     NSDictionary *similarity = [self.nearbyUser objectForKey:@"Similarity"];
     for (id key in similarity) {
@@ -138,7 +140,7 @@
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"Number of Similarities";
+    return @"Number of Zame Stuff";
 }
 
 

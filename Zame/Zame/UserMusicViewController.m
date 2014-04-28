@@ -19,7 +19,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Similar Music";
+    self.title = @"Zame Music";
     // Do any additional setup after loading the view.
 }
 

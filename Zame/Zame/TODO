@@ -1,20 +1,10 @@
-// TODO: Store More user details so we can propgate NUVC with data
-
-// TODO : Fix logout button not showing for me
-    // TODO: Prevent crash when app changes user while still logged in
-
-
-// TODO: Distance might be slightly buggy: Distance keeps increasing slightly
-
-                Might be a precision error
-
-// TODO: check why pull to refresh grows memory very slightly...
-
-
-// TODO TOGETHER: Discuss Spotify and FB similarity algorithm
-
-
-///////COMPLETE//////////
-
-// TODO: Incorporate MBProgressHUD (activity indicator)
-// TODO: Allow up swipe to redo background task, i.e. refresh table view
+// TODO:
+1) Integrate Spotify, etc. into similarity algorithm
+2) Find ways to integrate other FB fields
+3) Polish similarity algorithm calculation, not just adding all similar fields
+4) Add MBHubActivityIndicator on top of map when map is being dragged
+5) Add similarity gauge in profile page
+6) Change profile page to settings page and tidy up UI
+7) Add more test users!
+8) Optimize program
+9) Improve map further - what's best to show on a map? Gotta brainstorm

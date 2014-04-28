@@ -17,7 +17,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"Similar Books";
+    self.title = @"Zame Books";
     // Do any additional setup after loading the view.
 }
 
