@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NearbyUserViewController : UIViewController
+@interface NearbyUserViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property(nonatomic) NSDictionary *nearbyUser;
 @property (weak, nonatomic) IBOutlet UINavigationItem *titleBar;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
-- (IBAction)backButton:(id)sender;
 
 @end

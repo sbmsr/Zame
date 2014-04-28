@@ -9,13 +9,17 @@
 #import "PeopleNearbyViewController.h"
 #import "NearbyUserViewController.h"
 #import "MBProgressHUD.h"
-
+// Useful macros
 #define UIColorFromRGB(rgbValue) [UIColor \
 colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
-@interface PeopleNearbyViewController ()
+@interface PeopleNearbyViewController () {
+    NSMutableArray *peopleWithinTwoKm;
+    NSMutableArray *peopleWithinTwentyKm;
+    NSMutableArray *peopleOnThisEarth;
+}
 
 - (double) calculateDistanceFromLat1:(double)lat1
                              AndLon1:(double)lon1
@@ -37,19 +41,12 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:refreshControl];
     
-    _listOfPeopleByIncreasingDistanceArray = [[NSMutableArray alloc] init];
+    peopleWithinTwoKm = [[NSMutableArray alloc] init];
+    peopleWithinTwentyKm = [[NSMutableArray alloc] init];
+    peopleOnThisEarth = [[NSMutableArray alloc] init];
+    
     [self getPeopleByIncreasingDistance];
-    self.tableView.layer.borderWidth = 2;
-    self.tableView.layer.borderColor = [UIColorFromRGB(0x3B5998) CGColor];
-    [self.tableView.layer  setCornerRadius:6.0f];
-    [self.tableView.layer setMasksToBounds:YES];
-    [self.tableView.layer setBorderWidth:2.0f];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
 }
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
@@ -68,50 +65,85 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    // Within 2km, Within 20km, On Earth
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [_listOfPeopleByIncreasingDistanceArray count];
+    switch (section) {
+        case 0 :
+            return [peopleWithinTwoKm count];;
+            break;
+        case 1:
+            return [peopleWithinTwentyKm count];
+            break;
+        case 2:
+            return [peopleOnThisEarth count];
+            break;
+        default:
+            return 0;
+            break;
+    }
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"PeopleCell"];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    NSDictionary *person = [_listOfPeopleByIncreasingDistanceArray objectAtIndex:indexPath.row];
-    NSMutableString *personName = [[person objectForKey:@"name"] mutableCopy];
-    double personDist = [[person objectForKey:@"distance"] doubleValue];
-    NSMutableString *personDistance = [NSMutableString stringWithFormat:@"%.2f", personDist / 1000];
-    [personDistance appendString:@"km away"];
+
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"PeopleCell"];
+    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    // This is for custom selection style color
+    UIView *bgColorView = [[UIView alloc] init];
+    bgColorView.backgroundColor = [UIColor colorWithRed:(76.0/255.0) green:(161.0/255.0) blue:(255.0/255.0) alpha:1.0];
+    bgColorView.layer.masksToBounds = YES;
+    cell.selectedBackgroundView = bgColorView;
+    
+    NSDictionary *person = [[NSDictionary alloc] init];
+    switch (indexPath.section) {
+        case 0 :
+            person = [peopleWithinTwoKm objectAtIndex:indexPath.row];
+            break;
+        case 1:
+            person = [peopleWithinTwentyKm objectAtIndex:indexPath.row];
+            break;
+        case 2:
+            person = [peopleOnThisEarth objectAtIndex:indexPath.row];
+            break;
+        default:
+            break;
+    }
+
+    
+    NSMutableString *personName = [[person objectForKey:@"Name"] mutableCopy];
     cell.textLabel.text = personName;
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
     cell.textLabel.numberOfLines = 1;
-    cell.detailTextLabel.text = personDistance;
-    cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
-    cell.detailTextLabel.numberOfLines = 1;
+    NSNumber *score = [person objectForKey:@"Score"];
+    NSMutableString *scoreString = [[NSMutableString alloc] initWithString:@"Score: "];
+    [scoreString appendString:[score stringValue]];
+    cell.detailTextLabel.text = scoreString;
+
     return cell;
 }
 
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    switch (section) {
+        case 0 :
+            return @"Within 2km";
+            break;
+        case 1:
+            return @"Within 20km";
+            break;
+        case 2:
+            return @"On this planet";
+            break;
+        default:
+            return @"";
+            break;
+    }
 }
-
-- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Add your Colour.
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [self setCellColor:[UIColor colorWithWhite:0.888 alpha:1.000] ForCell:cell];  //highlight colour
-}
-
-
-- (void)setCellColor:(UIColor *)color ForCell:(UITableViewCell *)cell {
-    cell.contentView.backgroundColor = color;
-    cell.backgroundColor = color;
-}
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -134,7 +166,20 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
                                    indexPathForSelectedRow];
          
          //get the person
-         NSDictionary *person = [_listOfPeopleByIncreasingDistanceArray objectAtIndex:indexPath.row];
+         NSDictionary *person = [[NSDictionary alloc] init];
+         switch (indexPath.section) {
+             case 0 :
+                 person = [peopleWithinTwoKm objectAtIndex:indexPath.row];
+                 break;
+             case 1:
+                 person = [peopleWithinTwentyKm objectAtIndex:indexPath.row];
+                 break;
+             case 2:
+                 person = [peopleOnThisEarth objectAtIndex:indexPath.row];
+                 break;
+             default:
+                 break;
+         }
          
          //Send them
          NearbyUserViewController *vc = (NearbyUserViewController *)segue.destinationViewController;
@@ -143,7 +188,8 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
      }
  }
 
-#pragma mark - Distance
+#pragma mark - Distance, and Similarity Attributes
+
 // Helper method that calculates distance from 2 pairs of lat,lon
 - (double) calculateDistanceFromLat1:(double)lat1
                              AndLon1:(double)lon1
@@ -156,17 +202,29 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     return distance;
 }
 
+// Helper method to efficiently get similar items in two arrays
+- (NSArray *) similarItemsIn: (NSArray *) arrayOne
+                         and: (NSArray *) arrayTwo {
+    NSMutableSet *setOne = [NSMutableSet setWithArray:arrayOne];
+    NSSet *setTwo = [NSSet setWithArray:arrayTwo];
+    [setOne intersectSet:setTwo];
+    return [setOne allObjects];
+}
+
 // Create background task that pulls all entries in backend and calculate distance between them one by one
 - (void) getPeopleByIncreasingDistance
 {
     // First get ownself
     PFObject *myUser = [PFUser currentUser];
     NSDictionary *myLocation = [myUser objectForKey:@"Location"];
+    NSArray *myLikes = [myUser objectForKey:@"Likes"];
+    NSArray *myMovies = [myUser objectForKey:@"Movies"];
+    NSArray *myMusic = [myUser objectForKey:@"Music"];
+    NSArray *myBooks = [myUser objectForKey:@"Books"];
+    NSArray *myTelevision = [myUser objectForKey:@"Television"];
+    NSArray *mySports = [myUser objectForKey:@"Sports"];
     NSString *myId = [myUser objectForKey:@"Fbid"];
     PFQuery *query = [PFUser query];
-    
-    
-    //[MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -174,34 +232,89 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
              {
                  if (!error) {
                      
-                     [_listOfPeopleByIncreasingDistanceArray removeAllObjects];
+                     // Remove all objects and reload
+                     [peopleWithinTwoKm removeAllObjects];
+                     [peopleWithinTwentyKm removeAllObjects];
+                     [peopleOnThisEarth removeAllObjects];
                      
                      // Get each of their lat and lon
                      for (NSDictionary *object in objects) {
-                         if (![myId isEqualToString:[object objectForKey:@"Fbid"]]) {
+                         NSString *yourId = [object objectForKey:@"Fbid"];
+                         if (![myId isEqualToString:yourId]) {
                              
+                             // Similarity filtering
+                             // Likes
+                             NSArray *likes = [object objectForKey:@"Likes"];
+                             NSArray *similarLikes = [self similarItemsIn:likes and:myLikes];
+                             /* REMOVED BECAUSE IT'S TOO LAGGY
+                             // Mutual Friends
+                             NSString *pathSegment1 = @"/";
+                             NSString *pathSegment2 = @"/mutualfriends/";
+                             NSString *path = [[[pathSegment1 stringByAppendingString:myId] stringByAppendingString:pathSegment2] stringByAppendingString:yourId];
+                             [FBRequestConnection startWithGraphPath:path
+                                                          parameters:nil
+                                                          HTTPMethod:@"GET"
+                                                   completionHandler:^(
+                                                                       FBRequestConnection *connection,
+                                                                       id result,
+                                                                       NSError *error
+                                                                       ) {
+                                                       mutualFriends = (NSArray *) result;
+                                                   }];
+                              */
+                             // Movies
+                             NSArray *movies = [object objectForKey:@"Movies"];
+                             NSArray *similarMovies = [self similarItemsIn:movies and:myMovies];
+                             // Music
+                             NSArray *music = [object objectForKey:@"Music"];
+                             NSArray *similarMusic = [self similarItemsIn:music and:myMusic];
+                             // Books
+                             NSArray *books = [object objectForKey:@"Books"];
+                             NSArray *similarBooks = [self similarItemsIn:books and:myBooks];
+                             // Television
+                             NSArray *television = [object objectForKey:@"Television"];
+                             NSArray *similarTelevision = [self similarItemsIn:television and:myTelevision];
+                             // Sports
+                             NSArray *sports = [object objectForKey:@"Sports"];
+                             NSArray *similarSports = [self similarItemsIn:sports and:mySports];
+                             // Score
+                             NSNumber *score = [[NSNumber alloc] initWithInteger:[similarLikes count] + [similarMovies count] + [similarMusic count] + [similarBooks count] + [similarTelevision count] + [similarSports count] ];
+                             
+                             
+                             // Location filtering
                              NSDictionary *location = [object objectForKey:@"Location"];
                              NSString *name = [object objectForKey:@"Name"];
+                             // Grab first name
+                             NSArray *firstLastStrings = [name componentsSeparatedByString:@" "];
+                             NSString *firstName = [firstLastStrings objectAtIndex:0];
                              // Calculate distance
                              double distance = [self calculateDistanceFromLat1: [[myLocation objectForKey:@"lat"] doubleValue] AndLon1:[[myLocation objectForKey:@"lon"] doubleValue] AndLat2:[[location objectForKey:@"lat"] doubleValue] AndLon2:[[location objectForKey:@"lon"] doubleValue]];
                              // Build list
                              NSNumber *distanceNum = [NSNumber numberWithDouble:distance];
                              NSString *fbid = [object objectForKey:@"Fbid"];
-                             NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:name, @"name", distanceNum, @"distance", fbid, @"Fbid", nil];
+                             NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
+                             NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:firstName, @"Name", distanceNum, @"Distance", fbid, @"Fbid", similarity, @"Similarity", score, @"Score", nil];
                              
-
-                            [_listOfPeopleByIncreasingDistanceArray addObject:personEntry];
+                             if (distance < 2000) {
+                                 
+                                 [peopleWithinTwoKm addObject:personEntry];
+                             } else if (distance < 20000) {
+                                 [peopleWithinTwentyKm addObject:personEntry];
+                             } else {
+                                 [peopleOnThisEarth addObject:personEntry];
+                             }
                          }
                      }
                  } else {
                      NSLog(@"From getPeopleByIncreasingDistance: %@", error);
                  }
-                 // Sort list
-                 NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"distance"
+                 // Sort all three arrays
+                 NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"Distance"
                                                                                 ascending:YES];
                  NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-                 NSArray *tempArray = [_listOfPeopleByIncreasingDistanceArray mutableCopy];
-                 _listOfPeopleByIncreasingDistanceArray = [[tempArray sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
+                 peopleWithinTwoKm = [[[peopleWithinTwoKm mutableCopy] sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
+                 peopleWithinTwentyKm = [[[peopleWithinTwentyKm mutableCopy]sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
+                 peopleOnThisEarth = [[[peopleOnThisEarth mutableCopy] sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
                  [self.tableView reloadData];
                  [MBProgressHUD hideHUDForView:self.view animated:YES];
              }];

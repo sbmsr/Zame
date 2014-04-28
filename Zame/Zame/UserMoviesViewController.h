@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserMoviesViewController : UIViewController
+@interface UserMoviesViewController : UITableViewController
+
+@property (weak, nonatomic) NSArray *moviesArray;
 
 @end

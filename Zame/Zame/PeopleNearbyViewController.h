@@ -9,9 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface PeopleNearbyViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface PeopleNearbyViewController : UITableViewController
 
-@property (nonatomic, strong) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *listOfPeopleByIncreasingDistanceArray;
+//@property (nonatomic, strong) NSMutableArray *listOfPeopleByIncreasingDistanceArray;
 
 @end

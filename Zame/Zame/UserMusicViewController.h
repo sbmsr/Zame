@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserMusicViewController : UIViewController
+@interface UserMusicViewController : UITableViewController
+
+@property (weak, nonatomic) NSArray *musicArray;
 
 @end

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserTelevisionViewController : UIViewController
+@interface UserTelevisionViewController : UITableViewController
+
+@property (weak, nonatomic) NSArray *televisionArray;
 
 @end

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserBooksViewController : UIViewController
+@interface UserBooksViewController : UITableViewController
 
+@property (weak, nonatomic) NSArray *booksArray;
 @end

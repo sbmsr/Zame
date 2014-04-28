@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserLikesViewController : UIViewController
+@interface UserLikesViewController : UITableViewController
+
+@property (weak, nonatomic) NSArray *likesArray;
 
 
 

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserSportsViewController : UIViewController
+@interface UserSportsViewController : UITableViewController
+
+@property (weak, nonatomic) NSArray *sportsArray;
 
 @end

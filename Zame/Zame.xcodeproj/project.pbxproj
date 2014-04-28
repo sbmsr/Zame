@@ -24,7 +24,6 @@
 		65C444CB1900876C00E8707A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C444CA1900876C00E8707A /* Parse.framework */; };
 		65E67F7419063BB900676AB4 /* NearbyUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E67F7319063BB900676AB4 /* NearbyUserViewController.m */; };
 		D733805C1909DEA900958203 /* UserLikesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D733805B1909DEA900958203 /* UserLikesViewController.m */; };
-		D733805F1909DF6700958203 /* UserMutualFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D733805E1909DF6700958203 /* UserMutualFriendsViewController.m */; };
 		D73380621909DF7400958203 /* UserMoviesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D73380611909DF7400958203 /* UserMoviesViewController.m */; };
 		D73380651909DF7F00958203 /* UserTelevisionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D73380641909DF7F00958203 /* UserTelevisionViewController.m */; };
 		D73380681909DF8D00958203 /* UserMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D73380671909DF8D00958203 /* UserMusicViewController.m */; };
@@ -89,8 +88,6 @@
 		65E67F7319063BB900676AB4 /* NearbyUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyUserViewController.m; sourceTree = "<group>"; };
 		D733805A1909DEA900958203 /* UserLikesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserLikesViewController.h; path = ../UserLikesViewController.h; sourceTree = "<group>"; };
 		D733805B1909DEA900958203 /* UserLikesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserLikesViewController.m; path = ../UserLikesViewController.m; sourceTree = "<group>"; };
-		D733805D1909DF6700958203 /* UserMutualFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserMutualFriendsViewController.h; sourceTree = "<group>"; };
-		D733805E1909DF6700958203 /* UserMutualFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserMutualFriendsViewController.m; sourceTree = "<group>"; };
 		D73380601909DF7400958203 /* UserMoviesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserMoviesViewController.h; sourceTree = "<group>"; };
 		D73380611909DF7400958203 /* UserMoviesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserMoviesViewController.m; sourceTree = "<group>"; };
 		D73380631909DF7F00958203 /* UserTelevisionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTelevisionViewController.h; sourceTree = "<group>"; };
@@ -278,8 +275,6 @@
 			children = (
 				D733805A1909DEA900958203 /* UserLikesViewController.h */,
 				D733805B1909DEA900958203 /* UserLikesViewController.m */,
-				D733805D1909DF6700958203 /* UserMutualFriendsViewController.h */,
-				D733805E1909DF6700958203 /* UserMutualFriendsViewController.m */,
 				D73380601909DF7400958203 /* UserMoviesViewController.h */,
 				D73380611909DF7400958203 /* UserMoviesViewController.m */,
 				D73380661909DF8D00958203 /* UserMusicViewController.h */,
@@ -433,7 +428,6 @@
 				65E67F7419063BB900676AB4 /* NearbyUserViewController.m in Sources */,
 				D73380651909DF7F00958203 /* UserTelevisionViewController.m in Sources */,
 				D733806E1909DFAC00958203 /* UserBooksViewController.m in Sources */,
-				D733805F1909DF6700958203 /* UserMutualFriendsViewController.m in Sources */,
 				65C4449E19007CA400E8707A /* AppDelegate.m in Sources */,
 				D77389A71900839100695718 /* MainUserDetailsViewController.m in Sources */,
 				65C4449A19007CA400E8707A /* main.m in Sources */,

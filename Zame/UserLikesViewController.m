@@ -8,27 +8,19 @@
 
 #import "UserLikesViewController.h"
 
-@interface UserLikesViewController ()
+@interface UserLikesViewController () 
 
-- (IBAction)backButton:(id)sender;
+
 
 @end
 
 @implementation UserLikesViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.title = @"Similar Likes";
 }
 
 - (void)didReceiveMemoryWarning
@@ -37,9 +29,28 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)backButton:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
 }
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [_likesArray count];;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"likesCell"];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.textLabel.text = [_likesArray objectAtIndex:indexPath.row];
+    return cell;
+    
+}
+
+
 
 
 @end
