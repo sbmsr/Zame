@@ -7,13 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 
-@interface NearbyUserViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface NearbyUserViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate> {
+     MFMailComposeViewController *mailComposer;
+}
 
 @property(nonatomic) NSDictionary *nearbyUser;
 @property (weak, nonatomic) IBOutlet UINavigationItem *titleBar;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+
+- (IBAction)userSendMessage:(id)sender;
 
 
 @end

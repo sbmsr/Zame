@@ -5,12 +5,9 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface MainUserDetailsViewController () <CLLocationManagerDelegate, UIAlertViewDelegate, FBRequestDelegate>
+@interface MainUserDetailsViewController () <CLLocationManagerDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
-
-- (NSMutableArray*) getNextRequest: (NSMutableArray *)array
-                    andRequestURL: (NSString *) url;
 
 
 @end
@@ -45,7 +42,7 @@
         NSLog(@"Available");
     }
     
-    // Name, Gender, Birthday
+    // Name, Email
     self.profileInfoArray = [@[@"N/A", @"N/A"] mutableCopy];
     
     
@@ -70,17 +67,17 @@
             NSString *politics = userData[@"political"];
             NSString *religion = userData[@"religion"];
             NSString *hometown = userData[@"hometown"][@"name"];
-            
+            PFObject *user = [PFUser currentUser];
             // Insert information into Parse
-            [[PFUser currentUser] setObject:facebookID forKey:@"Fbid"];
-            [[PFUser currentUser] setObject:name forKey:@"Name"];
-            [[PFUser currentUser] setObject:gender forKey:@"Gender"];
-            [[PFUser currentUser] setObject:birthday forKey:@"Birthday"];
-            [[PFUser currentUser] setObject:[pictureURL absoluteString] forKey:@"ImageURL"];
-            [[PFUser currentUser] setObject:politics forKey:@"Politics"];
-            [[PFUser currentUser] setObject:religion forKey:@"Religion"];
-            [[PFUser currentUser] setObject:hometown forKey:@"Hometown"];
-            [[PFUser currentUser] saveInBackground];
+            [user setObject:facebookID forKey:@"Fbid"];
+            [user setObject:name forKey:@"Name"];
+            [user setObject:gender forKey:@"Gender"];
+            [user setObject:birthday forKey:@"Birthday"];
+            [user setObject:[pictureURL absoluteString] forKey:@"ImageURL"];
+            [user setObject:politics forKey:@"Politics"];
+            [user setObject:religion forKey:@"Religion"];
+            [user setObject:hometown forKey:@"Hometown"];
+            [user saveInBackground];
             [self updateProfile];
             
         } else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
@@ -158,6 +155,11 @@
 
 #pragma mark - UITableViewDataSource for Name, Gender, Birthday
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     return self.profileInfoArray.count;
@@ -168,7 +170,13 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     cell.textLabel.text = [_profileInfoArray objectAtIndex:indexPath.row];
+    cell.textLabel.adjustsFontSizeToFitWidth = YES;
+    cell.textLabel.numberOfLines = 1;
     return cell;
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return @"Your Information";
 }
 
 
@@ -190,7 +198,7 @@
     }
     
     if ([[PFUser currentUser] objectForKey:@"Gender"]) {
-        [self.profileInfoArray replaceObjectAtIndex:1 withObject:[[PFUser currentUser] objectForKey:@"Gender"]];
+        [self.profileInfoArray replaceObjectAtIndex:1 withObject:[[PFUser currentUser] objectForKey:@"Email"]];
     }
     
     [self.tableView reloadData];

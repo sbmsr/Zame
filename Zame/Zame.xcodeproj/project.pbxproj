@@ -32,6 +32,8 @@
 		D74C7C821903946A0028C121 /* PeopleNearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D74C7C811903946A0028C121 /* PeopleNearbyViewController.m */; };
 		D74C7C85190399ED0028C121 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D74C7C84190399ED0028C121 /* MapKit.framework */; };
 		D74C7C8719039BA40028C121 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = D74C7C8619039BA40028C121 /* TODO */; };
+		D77385BE190EE1A800A1EC00 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77385BD190EE1A800A1EC00 /* MessageUI.framework */; };
+		D77385C1190EE9C800A1EC00 /* EmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D77385C0190EE9C800A1EC00 /* EmailViewController.m */; };
 		D77389961900832200695718 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D773898A1900832200695718 /* CoreLocation.framework */; };
 		D77389971900832200695718 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D773898B1900832200695718 /* AudioToolbox.framework */; };
 		D77389981900832200695718 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D773898C1900832200695718 /* CFNetwork.framework */; };
@@ -104,6 +106,9 @@
 		D74C7C811903946A0028C121 /* PeopleNearbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeopleNearbyViewController.m; sourceTree = "<group>"; };
 		D74C7C84190399ED0028C121 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		D74C7C8619039BA40028C121 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
+		D77385BD190EE1A800A1EC00 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		D77385BF190EE9C800A1EC00 /* EmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailViewController.h; sourceTree = "<group>"; };
+		D77385C0190EE9C800A1EC00 /* EmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailViewController.m; sourceTree = "<group>"; };
 		D773898A1900832200695718 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D773898B1900832200695718 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D773898C1900832200695718 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -136,6 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D77385BE190EE1A800A1EC00 /* MessageUI.framework in Frameworks */,
 				D74C7C85190399ED0028C121 /* MapKit.framework in Frameworks */,
 				D77389AB190088BB00695718 /* FacebookSDK.framework in Frameworks */,
 				D773899B1900832200695718 /* libz.dylib in Frameworks */,
@@ -202,6 +208,7 @@
 		65C4448C19007CA400E8707A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D77385BD190EE1A800A1EC00 /* MessageUI.framework */,
 				D74C7C84190399ED0028C121 /* MapKit.framework */,
 				D77389AA190088BB00695718 /* FacebookSDK.framework */,
 				65C444CA1900876C00E8707A /* Parse.framework */,
@@ -229,10 +236,12 @@
 			isa = PBXGroup;
 			children = (
 				65C4449C19007CA400E8707A /* AppDelegate.h */,
-				D77385BC190EDC0100A1EC00 /* Settings */,
 				65C4449D19007CA400E8707A /* AppDelegate.m */,
 				D77389A21900838100695718 /* LoginViewController.h */,
 				D77389A31900838100695718 /* LoginViewController.m */,
+				D77385BF190EE9C800A1EC00 /* EmailViewController.h */,
+				D77385C0190EE9C800A1EC00 /* EmailViewController.m */,
+				D77385BC190EDC0100A1EC00 /* Settings */,
 				D74C7C83190398CC0028C121 /* Discover */,
 				D74C7C7F190334E40028C121 /* People Nearby */,
 				65C4449F19007CA400E8707A /* Main.storyboard */,
@@ -436,6 +445,7 @@
 				D73380681909DF8D00958203 /* UserMusicViewController.m in Sources */,
 				D77389A41900838100695718 /* LoginViewController.m in Sources */,
 				D73380621909DF7400958203 /* UserMoviesViewController.m in Sources */,
+				D77385C1190EE9C800A1EC00 /* EmailViewController.m in Sources */,
 				65E67F7419063BB900676AB4 /* NearbyUserViewController.m in Sources */,
 				D73380651909DF7F00958203 /* UserTelevisionViewController.m in Sources */,
 				D733806E1909DFAC00958203 /* UserBooksViewController.m in Sources */,

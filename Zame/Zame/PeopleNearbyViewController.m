@@ -224,6 +224,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     NSArray *myTelevision = [myUser objectForKey:@"Television"];
     NSArray *mySports = [myUser objectForKey:@"Sports"];
     NSString *myId = [myUser objectForKey:@"Fbid"];
+    NSString *myName = [myUser objectForKey:@"Name"];
     PFQuery *query = [PFUser query];
     
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -292,7 +293,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
                              // Build list
                              NSNumber *distanceNum = [NSNumber numberWithDouble:distance];
                              NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
-                             NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:firstName, @"Name", distanceNum, @"Distance", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", nil];
+                             NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", distanceNum, @"Distance", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", nil];
                              
                              if (distance < 2000) {
                                  

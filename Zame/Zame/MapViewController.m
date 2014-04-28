@@ -98,6 +98,7 @@
     [peopleArray removeAllObjects];
     PFObject *myUser = [PFUser currentUser];
     NSString *myId = [myUser objectForKey:@"Fbid"];
+    NSString *myName = [myUser objectForKey:@"Name"];
     NSArray *myLikes = [myUser objectForKey:@"Likes"];
     NSArray *myMovies = [myUser objectForKey:@"Movies"];
     NSArray *myMusic = [myUser objectForKey:@"Music"];
@@ -146,7 +147,7 @@
                                  NSArray *firstLastStrings = [name componentsSeparatedByString:@" "];
                                  NSString *firstName = [firstLastStrings objectAtIndex:0];
                                  NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
-                                 NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:firstName, @"Name", location, @"Location", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", nil];
+                                 NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", location, @"Location", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", nil];
                                  [peopleArray addObject:personEntry];
                              }
                          }
@@ -207,7 +208,7 @@
         CustomAnnotation *annotation = (CustomAnnotation *) view.annotation;
         NSDictionary *user = annotation.user;
         NSNumber *number = [[NSNumber alloc] initWithInt:1]; // whatever number doesn't matter
-        NSDictionary *builtUser = [[NSDictionary alloc] initWithObjectsAndKeys:[user objectForKey:@"Name"], @"Name", number, @"Distance", [user objectForKey:@"Fbid"], @"Fbid", [user objectForKey:@"Similarity"], @"Similarity", [user objectForKey:@"Score"], @"Score", nil];
+        NSDictionary *builtUser = [[NSDictionary alloc] initWithObjectsAndKeys:[user objectForKey:@"MyName"], @"MyName", [user objectForKey:@"Name"], @"Name", number, @"Distance", [user objectForKey:@"Fbid"], @"Fbid", [user objectForKey:@"Similarity"], @"Similarity", [user objectForKey:@"Score"], @"Score", nil];
         vc.nearbyUser = builtUser;
     }
 }

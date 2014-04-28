@@ -19,8 +19,14 @@
     
     // Check if user is cached and linked to Facebook, if so, bypass login
     if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
+        PFObject *user = [PFUser currentUser];
+        if ([user objectForKey:@"Email"] != NULL) {
         UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
         [self presentViewController:vc animated:YES completion:nil];
+        } else {
+            UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"EmailViewController"];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
     }
     
 }
@@ -56,8 +62,14 @@
             [self presentViewController:vc animated:YES completion:nil];
         } else {
             NSLog(@"User with facebook logged in!");
-            UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
-            [self presentViewController:vc animated:YES completion:nil];
+            PFObject *user = [PFUser currentUser];
+            if ([user objectForKey:@"Email"] != NULL) {
+                UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
+                [self presentViewController:vc animated:YES completion:nil];
+            } else {
+                UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"EmailViewController"];
+                [self presentViewController:vc animated:YES completion:nil];
+            }
         }
     }];
     

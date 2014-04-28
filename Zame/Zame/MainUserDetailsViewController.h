@@ -12,8 +12,6 @@
 @property (nonatomic, strong) NSString * name;
 
 // UITableView row data properties
-//@property (nonatomic, strong) NSArray *rowTitleArray;
-//@property (nonatomic, strong) NSMutableArray *rowDataArray;
 @property (nonatomic, strong) NSMutableData *imageData;
 
 // UINavigationBar button touch handler

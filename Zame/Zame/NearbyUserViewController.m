@@ -22,6 +22,7 @@
     UserTelevisionViewController *televisionVC;
     UserSportsViewController *sportsVC;
     NSMutableArray *similarityAttributes;
+    NSMutableString *zscoreMailHeader;
 }
 
 @end
@@ -40,13 +41,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [self.titleBar setTitle:[_nearbyUser objectForKey:@"Name"]];
     similarityAttributes = [[NSMutableArray alloc] init];
     // Retrieve score
     NSNumber *score = [_nearbyUser objectForKey:@"Score"];
     NSMutableString *scoreString = [[NSMutableString alloc] initWithString:@"ZScore: "];
     [scoreString appendString:[score stringValue]];
+    // Assign instance mail header
+    zscoreMailHeader = [[NSMutableString alloc] initWithString:@"[Zame] We have a ZScore of "];
+    [zscoreMailHeader appendString:[score stringValue]];
     _scoreLabel.text = scoreString;
     _scoreLabel.adjustsFontSizeToFitWidth = YES;
     _scoreLabel.numberOfLines = 1;
@@ -173,6 +176,30 @@
         [self.navigationController pushViewController:sportsVC animated:YES];
     }
   
+}
+
+- (IBAction)userSendMessage:(id)sender {
+    mailComposer = [[MFMailComposeViewController alloc]init];
+    mailComposer.mailComposeDelegate = self;
+    [mailComposer setSubject:zscoreMailHeader];
+    NSMutableString *messageBody = [[NSMutableString alloc] initWithString:@"Hey,\nWe have quite a high ZScore! It seems we have some interesting things in common. Let's chat. :)\n\nBest,\n"];
+    [messageBody appendString:[_nearbyUser objectForKey:@"MyName"]];
+    [mailComposer setMessageBody:messageBody isHTML:NO];
+    [self presentViewController:mailComposer animated:YES completion:nil];
+    //[self presentModalViewController:mailComposer animated:YES];
+}
+
+-(void)mailComposeController:(MFMailComposeViewController *)controller
+         didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
+    if (result) {
+        NSLog(@"Result : %d",result);
+    }
+    if (error) {
+        NSLog(@"Error : %@",error);
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+    //[self dismissModalViewControllerAnimated:YES];
+    
 }
 
 
