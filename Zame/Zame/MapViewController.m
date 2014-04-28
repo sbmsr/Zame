@@ -146,8 +146,10 @@
                                  // Grab first name
                                  NSArray *firstLastStrings = [name componentsSeparatedByString:@" "];
                                  NSString *firstName = [firstLastStrings objectAtIndex:0];
+                                 // Grab email
+                                 NSString *email = [object objectForKey:@"Email"];
                                  NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
-                                 NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", location, @"Location", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", nil];
+                                 NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", location, @"Location", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", email, @"Email", nil];
                                  [peopleArray addObject:personEntry];
                              }
                          }
@@ -208,7 +210,7 @@
         CustomAnnotation *annotation = (CustomAnnotation *) view.annotation;
         NSDictionary *user = annotation.user;
         NSNumber *number = [[NSNumber alloc] initWithInt:1]; // whatever number doesn't matter
-        NSDictionary *builtUser = [[NSDictionary alloc] initWithObjectsAndKeys:[user objectForKey:@"MyName"], @"MyName", [user objectForKey:@"Name"], @"Name", number, @"Distance", [user objectForKey:@"Fbid"], @"Fbid", [user objectForKey:@"Similarity"], @"Similarity", [user objectForKey:@"Score"], @"Score", nil];
+        NSDictionary *builtUser = [[NSDictionary alloc] initWithObjectsAndKeys:[user objectForKey:@"MyName"], @"MyName", [user objectForKey:@"Name"], @"Name", number, @"Distance", [user objectForKey:@"Fbid"], @"Fbid", [user objectForKey:@"Similarity"], @"Similarity", [user objectForKey:@"Score"], @"Score", [user objectForKey:@"Email"], @"Email", nil];
         vc.nearbyUser = builtUser;
     }
 }

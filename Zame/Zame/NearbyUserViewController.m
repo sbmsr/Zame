@@ -184,9 +184,11 @@
     [mailComposer setSubject:zscoreMailHeader];
     NSMutableString *messageBody = [[NSMutableString alloc] initWithString:@"Hey,\nWe have quite a high ZScore! It seems we have some interesting things in common. Let's chat. :)\n\nBest,\n"];
     [messageBody appendString:[_nearbyUser objectForKey:@"MyName"]];
+    NSString *emailAddress = [_nearbyUser objectForKey:@"Email"];
+    NSLog(@"%@",emailAddress);
+    [mailComposer setToRecipients:[NSArray arrayWithObject:emailAddress]];
     [mailComposer setMessageBody:messageBody isHTML:NO];
     [self presentViewController:mailComposer animated:YES completion:nil];
-    //[self presentModalViewController:mailComposer animated:YES];
 }
 
 -(void)mailComposeController:(MFMailComposeViewController *)controller
@@ -198,7 +200,6 @@
         NSLog(@"Error : %@",error);
     }
     [self dismissViewControllerAnimated:YES completion:nil];
-    //[self dismissModalViewControllerAnimated:YES];
     
 }
 

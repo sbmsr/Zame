@@ -288,12 +288,14 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
                              // Grab first name
                              NSArray *firstLastStrings = [name componentsSeparatedByString:@" "];
                              NSString *firstName = [firstLastStrings objectAtIndex:0];
+                             // Grab Email
+                             NSString *email = [object objectForKey:@"Email"];
                              // Calculate distance
                              double distance = [self calculateDistanceFromLat1: [[myLocation objectForKey:@"lat"] doubleValue] AndLon1:[[myLocation objectForKey:@"lon"] doubleValue] AndLat2:[[location objectForKey:@"lat"] doubleValue] AndLon2:[[location objectForKey:@"lon"] doubleValue]];
                              // Build list
                              NSNumber *distanceNum = [NSNumber numberWithDouble:distance];
                              NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
-                             NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", distanceNum, @"Distance", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", nil];
+                             NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", distanceNum, @"Distance", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", email, @"Email", nil];
                              
                              if (distance < 2000) {
                                  
