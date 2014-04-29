@@ -5,12 +5,11 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface MainUserDetailsViewController () <CLLocationManagerDelegate, UIAlertViewDelegate> {
+@interface MainUserDetailsViewController () <UIAlertViewDelegate> {
     NSInteger minimumScore;
     PFObject *user;
 }
 
-@property (nonatomic, strong) CLLocationManager *locationManager;
 
 
 @end
@@ -18,18 +17,6 @@
 
 
 @implementation MainUserDetailsViewController
-
-- (CLLocationManager *)locationManager
-{
-    if (!_locationManager) {
-        _locationManager = [[CLLocationManager alloc] init];
-        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        _locationManager.delegate = self;
-    }
-    
-    return _locationManager;
-}
-
 
 #pragma mark - UIViewController
 
@@ -45,14 +32,7 @@
         _sliderValueLabel.text = minScoreString;
         _slider.value = [minScore floatValue];
     }
-    [self.locationManager startUpdatingLocation];
-    if (self.isGeolocationAvailable == NO) {
-        NSLog(@"Not available");
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enable location services" message:@"You previously denied permission for location services. Please enable it in Settings again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-    } else {
-        NSLog(@"Available");
-    }
+  
     
     // Name, Email
     self.profileInfoArray = [@[@"N/A", @"N/A"] mutableCopy];
@@ -138,41 +118,6 @@
             NSLog(@"Failed to download picture");
         }
     }
-}
-
-#pragma mark - Location Manager
-- (void)locationManager:(CLLocationManager *)manager
-     didUpdateLocations:(NSArray *)locations
-{
-    CLGeocoder *reverseGeocoder = [[CLGeocoder alloc] init];
-    
-    CLLocation *locationToGeocode = [locations objectAtIndex:0];
-    
-    [reverseGeocoder reverseGeocodeLocation:locationToGeocode
-                          completionHandler:^(NSArray *placemarks, NSError *error){
-                              if (!error) {
-                                  // Update lat, lon on Parse
-                                  NSString *lat = [NSString stringWithFormat:@"%.9f", locationToGeocode.coordinate.latitude];
-                                  NSString *lon = [NSString stringWithFormat:@"%.9f", locationToGeocode.coordinate.longitude];
-                                  NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:lat, @"lat", lon, @"lon", nil];
-                                  [user setObject:dictionary forKey:@"Location"];
-                                  [user saveInBackground];
-                              }
-                          }];
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-       didFailWithError:(NSError *)error
-{
-    NSLog(@"%@", error);
-}
-
-- (BOOL)isGeolocationAvailable
-{
-    if(([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied)||(![CLLocationManager locationServicesEnabled])){
-        return NO;
-    }
-    return YES;
 }
 
 #pragma mark - Slider

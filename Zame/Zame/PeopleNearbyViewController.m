@@ -15,12 +15,14 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
-@interface PeopleNearbyViewController () <UIAlertViewDelegate> {
+@interface PeopleNearbyViewController () <UIAlertViewDelegate, CLLocationManagerDelegate> {
     NSMutableArray *peopleWithinTwoKm;
     NSMutableArray *peopleWithinTwentyKm;
     NSMutableArray *peopleOnThisEarth;
     PFObject *myUser;
 }
+
+@property (nonatomic, strong) CLLocationManager *locationManager;
 
 - (double) calculateDistanceFromLat1:(double)lat1
                              AndLon1:(double)lon1
@@ -53,6 +55,16 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/television?limit=100" of:@"television"];
     [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/sports?limit=100" of:@"sports"];
     [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/likes?limit=100" of:@"likes"];
+    
+    // Update user's distance
+    [self.locationManager startUpdatingLocation];
+    if (self.isGeolocationAvailable == NO) {
+        NSLog(@"Not available");
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enable location services" message:@"You previously denied permission for location services. Please enable it in Settings again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    } else {
+        NSLog(@"Available");
+    }
     
     
 }
@@ -97,6 +109,54 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Update current user's location
+#pragma mark - Location Manager
+
+- (CLLocationManager *)locationManager
+{
+    if (!_locationManager) {
+        _locationManager = [[CLLocationManager alloc] init];
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        _locationManager.delegate = self;
+    }
+    
+    return _locationManager;
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+     didUpdateLocations:(NSArray *)locations
+{
+    CLGeocoder *reverseGeocoder = [[CLGeocoder alloc] init];
+    
+    CLLocation *locationToGeocode = [locations objectAtIndex:0];
+    
+    [reverseGeocoder reverseGeocodeLocation:locationToGeocode
+                          completionHandler:^(NSArray *placemarks, NSError *error){
+                              if (!error) {
+                                  // Update lat, lon on Parse
+                                  NSString *lat = [NSString stringWithFormat:@"%.9f", locationToGeocode.coordinate.latitude];
+                                  NSString *lon = [NSString stringWithFormat:@"%.9f", locationToGeocode.coordinate.longitude];
+                                  NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:lat, @"lat", lon, @"lon", nil];
+                                  [myUser setObject:dictionary forKey:@"Location"];
+                                  [myUser saveInBackground];
+                              }
+                          }];
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error
+{
+    NSLog(@"%@", error);
+}
+
+- (BOOL)isGeolocationAvailable
+{
+    if(([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied)||(![CLLocationManager locationServicesEnabled])){
+        return NO;
+    }
+    return YES;
 }
 
 #pragma mark - Table view data source

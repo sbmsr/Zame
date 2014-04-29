@@ -20,6 +20,9 @@
     // Check if user is cached and linked to Facebook, if so, bypass login
     if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
         PFObject *user = [PFUser currentUser];
+        if ([user objectForKey:@"MinimumScore"] == NULL) {
+            [user setObject:[NSNumber numberWithInteger:0] forKey:@"MinimumScore"];
+        }
         if ([user objectForKey:@"Email"] != NULL) {
         UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
         [self presentViewController:vc animated:YES completion:nil];
