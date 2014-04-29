@@ -23,19 +23,19 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb815916685088707</string>
-			</array>
-		</dict>
-		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>spotify-ios-sdk-beta</string>
+			<string>com.spotify.sso.callback</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>spotify-ios-sdk-beta</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb815916685088707</string>
 			</array>
 		</dict>
 	</array>

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+static NSString * const kClientId = @"spotify-ios-sdk-beta";
+static NSString * const kCallbackURL = @"spotify-ios-sdk-beta://callback";
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
