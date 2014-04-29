@@ -96,10 +96,6 @@
     return cell;
 }
 
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"Your Information";
-}
-
 
 #pragma mark - Helper methods
 
