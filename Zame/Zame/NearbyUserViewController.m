@@ -14,7 +14,7 @@
 #import "UserTelevisionViewController.h"
 #import "UserSportsViewController.h"
 
-@interface NearbyUserViewController () {
+@interface NearbyUserViewController () <UIAlertViewDelegate> {
     UserLikesViewController *likesVC;
     UserMoviesViewController *moviesVC;
     UserMusicViewController *musicVC;
@@ -185,10 +185,16 @@
     NSMutableString *messageBody = [[NSMutableString alloc] initWithString:@"Hey,\nWe have quite a high ZScore! It seems we have some interesting things in common. Let's chat. :)\n\nBest,\n"];
     [messageBody appendString:[_nearbyUser objectForKey:@"MyName"]];
     NSString *emailAddress = [_nearbyUser objectForKey:@"Email"];
-    NSLog(@"%@",emailAddress);
-    [mailComposer setToRecipients:[NSArray arrayWithObject:emailAddress]];
-    [mailComposer setMessageBody:messageBody isHTML:NO];
-    [self presentViewController:mailComposer animated:YES completion:nil];
+    
+    if (emailAddress == NULL) {
+        // Throw a UIAlertView
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"User has yet to register email" message:@"This user has yet to set his or her email. Check back soon!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    } else {
+        [mailComposer setToRecipients:[NSArray arrayWithObject:emailAddress]];
+        [mailComposer setMessageBody:messageBody isHTML:NO];
+        [self presentViewController:mailComposer animated:YES completion:nil];
+    }
 }
 
 -(void)mailComposeController:(MFMailComposeViewController *)controller

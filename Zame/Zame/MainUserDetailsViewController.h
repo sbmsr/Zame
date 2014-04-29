@@ -17,4 +17,9 @@
 // UINavigationBar button touch handler
 - (IBAction)logoutButtonTouchHandler:(id)sender;
 
+// UISlider
+@property (weak, nonatomic) IBOutlet UISlider* slider;
+@property (weak, nonatomic) IBOutlet UILabel* sliderValueLabel;
+- (IBAction)sliderValueChanged:(id)sender;
+
 @end

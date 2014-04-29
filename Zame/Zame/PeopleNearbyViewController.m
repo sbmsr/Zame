@@ -33,7 +33,10 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    peopleWithinTwoKm = [[NSMutableArray alloc] init];
+    peopleWithinTwentyKm = [[NSMutableArray alloc] init];
+    peopleOnThisEarth = [[NSMutableArray alloc] init];
+    [self getPeopleByIncreasingDistance];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     //pulltorefresh
@@ -41,11 +44,9 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:refreshControl];
     
-    peopleWithinTwoKm = [[NSMutableArray alloc] init];
-    peopleWithinTwentyKm = [[NSMutableArray alloc] init];
-    peopleOnThisEarth = [[NSMutableArray alloc] init];
+
     
-    [self getPeopleByIncreasingDistance];
+
 
 }
 
@@ -216,6 +217,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 {
     // First get ownself
     PFObject *myUser = [PFUser currentUser];
+    NSNumber *minScore = [myUser objectForKey:@"MinimumScore"];
     NSDictionary *myLocation = [myUser objectForKey:@"Location"];
     NSArray *myLikes = [myUser objectForKey:@"Likes"];
     NSArray *myMovies = [myUser objectForKey:@"Movies"];
@@ -280,30 +282,30 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
                              NSArray *similarSports = [self similarItemsIn:sports and:mySports];
                              // Score
                              NSNumber *score = [[NSNumber alloc] initWithInteger:[similarLikes count] + [similarMovies count] + [similarMusic count] + [similarBooks count] + [similarTelevision count] + [similarSports count] ];
-                             
-                             
-                             // Location filtering
-                             NSDictionary *location = [object objectForKey:@"Location"];
-                             NSString *name = [object objectForKey:@"Name"];
-                             // Grab first name
-                             NSArray *firstLastStrings = [name componentsSeparatedByString:@" "];
-                             NSString *firstName = [firstLastStrings objectAtIndex:0];
-                             // Grab Email
-                             NSString *email = [object objectForKey:@"Email"];
-                             // Calculate distance
-                             double distance = [self calculateDistanceFromLat1: [[myLocation objectForKey:@"lat"] doubleValue] AndLon1:[[myLocation objectForKey:@"lon"] doubleValue] AndLat2:[[location objectForKey:@"lat"] doubleValue] AndLon2:[[location objectForKey:@"lon"] doubleValue]];
-                             // Build list
-                             NSNumber *distanceNum = [NSNumber numberWithDouble:distance];
-                             NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
-                             NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", distanceNum, @"Distance", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", email, @"Email", nil];
-                             
-                             if (distance < 2000) {
+                             // Only proceed when score >= minScore
+                             if (score >= minScore) {
+                                 // Location filtering
+                                 NSDictionary *location = [object objectForKey:@"Location"];
+                                 NSString *name = [object objectForKey:@"Name"];
+                                 // Grab first name
+                                 NSArray *firstLastStrings = [name componentsSeparatedByString:@" "];
+                                 NSString *firstName = [firstLastStrings objectAtIndex:0];
+                                 // Grab Email
+                                 NSString *email = [object objectForKey:@"Email"];
+                                 // Calculate distance
+                                 double distance = [self calculateDistanceFromLat1: [[myLocation objectForKey:@"lat"] doubleValue] AndLon1:[[myLocation objectForKey:@"lon"] doubleValue] AndLat2:[[location objectForKey:@"lat"] doubleValue] AndLon2:[[location objectForKey:@"lon"] doubleValue]];
+                                 // Build list
+                                 NSNumber *distanceNum = [NSNumber numberWithDouble:distance];
+                                 NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
+                                 NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", distanceNum, @"Distance", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", email, @"Email", nil];
                                  
-                                 [peopleWithinTwoKm addObject:personEntry];
-                             } else if (distance < 20000) {
-                                 [peopleWithinTwentyKm addObject:personEntry];
-                             } else {
-                                 [peopleOnThisEarth addObject:personEntry];
+                                 if (distance < 2000) {
+                                     [peopleWithinTwoKm addObject:personEntry];
+                                 } else if (distance < 20000) {
+                                     [peopleWithinTwentyKm addObject:personEntry];
+                                 } else {
+                                     [peopleOnThisEarth addObject:personEntry];
+                                 }
                              }
                          }
                      }

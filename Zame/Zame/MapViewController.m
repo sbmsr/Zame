@@ -97,6 +97,7 @@
 -(void)findPeopleIn: (MKCoordinateRegion ) viewedRegion {
     [peopleArray removeAllObjects];
     PFObject *myUser = [PFUser currentUser];
+    NSNumber *minScore = [myUser objectForKey:@"MinimumScore"];
     NSString *myId = [myUser objectForKey:@"Fbid"];
     NSString *myName = [myUser objectForKey:@"Name"];
     NSArray *myLikes = [myUser objectForKey:@"Likes"];
@@ -142,15 +143,18 @@
                                  NSArray *similarSports = [self similarItemsIn:sports and:mySports];
                                  // Score
                                  NSNumber *score = [[NSNumber alloc] initWithInteger:[similarLikes count] + [similarMovies count] + [similarMusic count] + [similarBooks count] + [similarTelevision count] + [similarSports count] ];
-                                 NSString *name = [object objectForKey:@"Name"];
-                                 // Grab first name
-                                 NSArray *firstLastStrings = [name componentsSeparatedByString:@" "];
-                                 NSString *firstName = [firstLastStrings objectAtIndex:0];
-                                 // Grab email
-                                 NSString *email = [object objectForKey:@"Email"];
-                                 NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
-                                 NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", location, @"Location", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", email, @"Email", nil];
-                                 [peopleArray addObject:personEntry];
+                                 // Only proceed when score is greater than minimum
+                                 if (score >= minScore) {
+                                     NSString *name = [object objectForKey:@"Name"];
+                                     // Grab first name
+                                     NSArray *firstLastStrings = [name componentsSeparatedByString:@" "];
+                                     NSString *firstName = [firstLastStrings objectAtIndex:0];
+                                     // Grab email
+                                     NSString *email = [object objectForKey:@"Email"];
+                                     NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
+                                     NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", location, @"Location", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", email, @"Email", nil];
+                                     [peopleArray addObject:personEntry];
+                                 }
                              }
                          }
                      }

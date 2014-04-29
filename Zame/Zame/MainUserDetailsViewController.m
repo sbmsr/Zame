@@ -5,7 +5,10 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface MainUserDetailsViewController () <CLLocationManagerDelegate, UIAlertViewDelegate>
+@interface MainUserDetailsViewController () <CLLocationManagerDelegate, UIAlertViewDelegate> {
+    NSInteger minimumScore;
+    PFObject *user;
+}
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
@@ -31,8 +34,10 @@
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
+    user = [PFUser currentUser];
     [super viewDidLoad];
-    
+    _sliderValueLabel.adjustsFontSizeToFitWidth = YES;
+    _sliderValueLabel.numberOfLines = 1;
     [self.locationManager startUpdatingLocation];
     if (self.isGeolocationAvailable == NO) {
         NSLog(@"Not available");
@@ -45,50 +50,9 @@
     // Name, Email
     self.profileInfoArray = [@[@"N/A", @"N/A"] mutableCopy];
     
-    
-    // If the user is already logged in, display any previously cached values before we get the latest from Facebook.
-    
-    if ([PFUser currentUser]) {
-        [self updateProfile];
-    }
-    
-    FBRequest *request = [FBRequest requestForGraphPath:@"me?fields=political,education,hometown,religion,id,name,gender,birthday,picture"];
-    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        // handle response
-        if (!error) {
-            // Parse the data received
-            NSDictionary *userData = (NSDictionary *)result;
-            
-            NSString *facebookID = userData[@"id"];
-            NSString *name = userData[@"name"];
-            NSString *gender = userData[@"gender"];
-            NSString *birthday = userData[@"birthday"];
-            NSURL *pictureURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large&return_ssl_resources=1", facebookID]];
-            NSString *politics = userData[@"political"];
-            NSString *religion = userData[@"religion"];
-            NSString *hometown = userData[@"hometown"][@"name"];
-            PFObject *user = [PFUser currentUser];
-            // Insert information into Parse
-            [user setObject:facebookID forKey:@"Fbid"];
-            [user setObject:name forKey:@"Name"];
-            [user setObject:gender forKey:@"Gender"];
-            [user setObject:birthday forKey:@"Birthday"];
-            [user setObject:[pictureURL absoluteString] forKey:@"ImageURL"];
-            [user setObject:politics forKey:@"Politics"];
-            [user setObject:religion forKey:@"Religion"];
-            [user setObject:hometown forKey:@"Hometown"];
-            [user saveInBackground];
-            [self updateProfile];
-            
-        } else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
-                    isEqualToString: @"OAuthException"]) { // Since the request failed, we can check if it was due to an invalid session
-            NSLog(@"The facebook session was invalidated");
-            [self logoutButtonTouchHandler:nil];
-        } else {
-            NSLog(@"Some other error: %@", error.localizedDescription);
-        }
-    }];
-    
+    // Loads table view
+    [self updateProfile];
+       
     //fill the rest of the data
     NSMutableArray *movieArray = [[NSMutableArray alloc] init];
     [self names:movieArray andRequestURL:@"/me/movies?limit=100" of:@"movies"];
@@ -129,8 +93,8 @@
         
     } ];
     
-    [[PFUser currentUser] setObject:array forKey:type.capitalizedString];
-    [[PFUser currentUser] saveInBackground];
+    [user setObject:array forKey:type.capitalizedString];
+    [user saveInBackground];
 
     return array;
 }
@@ -193,23 +157,17 @@
 
 // Local method for setting data
 - (void)updateProfile {
-    if ([[PFUser currentUser] objectForKey:@"Name"]) {
-        [self.profileInfoArray replaceObjectAtIndex:0 withObject:[[PFUser currentUser] objectForKey:@"Name"]];
-    }
     
-    if ([[PFUser currentUser] objectForKey:@"Gender"]) {
-        [self.profileInfoArray replaceObjectAtIndex:1 withObject:[[PFUser currentUser] objectForKey:@"Email"]];
-    }
-    
+    [self.profileInfoArray replaceObjectAtIndex:0 withObject:[user objectForKey:@"Name"]];
+    [self.profileInfoArray replaceObjectAtIndex:1 withObject:[user objectForKey:@"Email"]];
     [self.tableView reloadData];
     
     
     // Download the user's facebook profile picture
     self.imageData = [[NSMutableData alloc] init]; // the data will be loaded in here
     
-    if ([[PFUser currentUser] objectForKey:@"ImageURL"]) {
-        NSURL *pictureURL = [NSURL URLWithString:[[PFUser currentUser] objectForKey:@"ImageURL"]];
-        
+    if ([user objectForKey:@"ImageURL"]) {
+        NSURL *pictureURL = [NSURL URLWithString:[user objectForKey:@"ImageURL"]];
         NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:pictureURL
                                                                   cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                               timeoutInterval:2.0f];
@@ -236,8 +194,8 @@
                                   NSString *lat = [NSString stringWithFormat:@"%.9f", locationToGeocode.coordinate.latitude];
                                   NSString *lon = [NSString stringWithFormat:@"%.9f", locationToGeocode.coordinate.longitude];
                                   NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:lat, @"lat", lon, @"lon", nil];
-                                  [[PFUser currentUser] setObject:dictionary forKey:@"Location"];
-                                  [[PFUser currentUser] saveInBackground];
+                                  [user setObject:dictionary forKey:@"Location"];
+                                  [user saveInBackground];
                               }
                           }];
 }
@@ -254,6 +212,18 @@
         return NO;
     }
     return YES;
+}
+
+#pragma mark - Slider
+- (IBAction)sliderValueChanged:(id)sender {
+    UISlider* slider = (UISlider *) sender;
+    minimumScore = slider.value;
+    _sliderValueLabel.text = [@(minimumScore) stringValue];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    // Stores minimum score to parse before view disappears
+    [user setObject:[NSNumber numberWithInteger:minimumScore] forKey:@"MinimumScore"];
 }
 
 @end
