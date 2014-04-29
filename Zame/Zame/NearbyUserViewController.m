@@ -13,6 +13,7 @@
 #import "UserBooksViewController.h"
 #import "UserTelevisionViewController.h"
 #import "UserSportsViewController.h"
+// #import <QuartzCore/QuartzCore.h> // Style message button
 
 @interface NearbyUserViewController () <UIAlertViewDelegate> {
     UserLikesViewController *likesVC;
@@ -179,21 +180,29 @@
 }
 
 - (IBAction)userSendMessage:(id)sender {
-    mailComposer = [[MFMailComposeViewController alloc]init];
-    mailComposer.mailComposeDelegate = self;
-    [mailComposer setSubject:zscoreMailHeader];
-    NSMutableString *messageBody = [[NSMutableString alloc] initWithString:@"Hey,\nWe have quite a high ZScore! It seems we have some interesting things in common. Let's chat. :)\n\nBest,\n"];
-    [messageBody appendString:[_nearbyUser objectForKey:@"MyName"]];
-    NSString *emailAddress = [_nearbyUser objectForKey:@"Email"];
-    
-    if (emailAddress == NULL) {
-        // Throw a UIAlertView
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"User has yet to register email" message:@"This user has yet to set his or her email. Check back soon!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
+    // Can only send when ZScore is above 10
+    NSNumber *zscore = [_nearbyUser objectForKey:@"Score"];
+    // TODO: Change this to 10
+    if ([zscore integerValue] > 1) {
+        mailComposer = [[MFMailComposeViewController alloc]init];
+        mailComposer.mailComposeDelegate = self;
+        [mailComposer setSubject:zscoreMailHeader];
+        NSMutableString *messageBody = [[NSMutableString alloc] initWithString:@"Hey,\nWe have quite a high ZScore! It seems we have some interesting things in common. Let's chat. :)\n\nBest,\n"];
+        [messageBody appendString:[_nearbyUser objectForKey:@"MyName"]];
+        NSString *emailAddress = [_nearbyUser objectForKey:@"Email"];
+
+        if (emailAddress == NULL) {
+            // Throw a UIAlertView
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"User has yet to register email" message:@"This user has yet to set his or her email. Check back soon!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        } else {
+            [mailComposer setToRecipients:[NSArray arrayWithObject:emailAddress]];
+            [mailComposer setMessageBody:messageBody isHTML:NO];
+            [self presentViewController:mailComposer animated:YES completion:nil];
+        }
     } else {
-        [mailComposer setToRecipients:[NSArray arrayWithObject:emailAddress]];
-        [mailComposer setMessageBody:messageBody isHTML:NO];
-        [self presentViewController:mailComposer animated:YES completion:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Not zame enough" message:@"We're sorry. You need a ZScore of at least 10 to send someone a message." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
     }
 }
 

@@ -1,6 +1,5 @@
 // TODO:
 S: 1) Integrate Spotify, etc. into similarity algorithm
 S: 2) Find ways to integrate other FB fields
-S&L: 3) Polish similarity algorithm calculation, not just adding all similar fields
 S&L: 6) Add more test users!
 L: 7) Improve map further - what's best to show on a map? Gotta brainstorm

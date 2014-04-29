@@ -365,7 +365,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Au-PN-OWJ">
-                                <rect key="frame" x="119" y="476" width="82" height="31"/>
+                                <rect key="frame" x="20" y="476" width="280" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Message">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -379,6 +379,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="YDk-6F-A2g"/>
                     <connections>
+                        <outlet property="messageButton" destination="5Au-PN-OWJ" id="W6D-dJ-6sB"/>
                         <outlet property="scoreLabel" destination="w57-f5-DoP" id="eq2-DI-yvS"/>
                         <outlet property="tableView" destination="E5O-C5-3lF" id="dQQ-wx-UvF"/>
                         <outlet property="titleBar" destination="YDk-6F-A2g" id="jgL-07-cca"/>

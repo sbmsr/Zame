@@ -18,7 +18,9 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 
+// Message button
 - (IBAction)userSendMessage:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *messageButton;
 
 
 @end
