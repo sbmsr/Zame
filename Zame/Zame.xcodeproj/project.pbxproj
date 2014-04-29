@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		650844401905DFA700DC78BB /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6508443F1905DFA700DC78BB /* MBProgressHUD.m */; };
-		6579488F190F3A97007C0D16 /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6579488E190F3A97007C0D16 /* Spotify.framework */; };
 		65794891190F3A9E007C0D16 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65794890190F3A9E007C0D16 /* AVFoundation.framework */; };
 		65C4448E19007CA400E8707A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C4448D19007CA400E8707A /* Foundation.framework */; };
 		65C4449019007CA400E8707A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C4448F19007CA400E8707A /* CoreGraphics.framework */; };
@@ -72,7 +71,6 @@
 /* Begin PBXFileReference section */
 		6508443E1905DFA700DC78BB /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		6508443F1905DFA700DC78BB /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		6579488E190F3A97007C0D16 /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Spotify.framework; path = "../../../Downloads/ios-sdk-master/Spotify.framework"; sourceTree = "<group>"; };
 		65794890190F3A9E007C0D16 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		65C4448A19007CA400E8707A /* Zame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65C4448D19007CA400E8707A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -113,6 +111,7 @@
 		D77385BD190EE1A800A1EC00 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		D77385BF190EE9C800A1EC00 /* EmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailViewController.h; sourceTree = "<group>"; };
 		D77385C0190EE9C800A1EC00 /* EmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailViewController.m; sourceTree = "<group>"; };
+		D77385C2190F3E9700A1EC00 /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Spotify.framework; sourceTree = "<group>"; };
 		D773898A1900832200695718 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D773898B1900832200695718 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D773898C1900832200695718 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -149,7 +148,6 @@
 				D77385BE190EE1A800A1EC00 /* MessageUI.framework in Frameworks */,
 				D74C7C85190399ED0028C121 /* MapKit.framework in Frameworks */,
 				D77389AB190088BB00695718 /* FacebookSDK.framework in Frameworks */,
-				6579488F190F3A97007C0D16 /* Spotify.framework in Frameworks */,
 				D773899B1900832200695718 /* libz.dylib in Frameworks */,
 				D773899D1900832200695718 /* QuartzCore.framework in Frameworks */,
 				D77389961900832200695718 /* CoreLocation.framework in Frameworks */,
@@ -214,8 +212,8 @@
 		65C4448C19007CA400E8707A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D77385C2190F3E9700A1EC00 /* Spotify.framework */,
 				65794890190F3A9E007C0D16 /* AVFoundation.framework */,
-				6579488E190F3A97007C0D16 /* Spotify.framework */,
 				D77385BD190EE1A800A1EC00 /* MessageUI.framework */,
 				D74C7C84190399ED0028C121 /* MapKit.framework */,
 				D77389AA190088BB00695718 /* FacebookSDK.framework */,
