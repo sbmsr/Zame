@@ -15,10 +15,12 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
-@interface PeopleNearbyViewController () {
+@interface PeopleNearbyViewController () <UIAlertViewDelegate> {
     NSMutableArray *peopleWithinTwoKm;
     NSMutableArray *peopleWithinTwentyKm;
     NSMutableArray *peopleOnThisEarth;
+    PFObject *myUser;
+    BOOL loadIsDone;
 }
 
 - (double) calculateDistanceFromLat1:(double)lat1
@@ -33,22 +35,60 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    loadIsDone = NO;
+    myUser = [PFUser currentUser];
     peopleWithinTwoKm = [[NSMutableArray alloc] init];
     peopleWithinTwentyKm = [[NSMutableArray alloc] init];
     peopleOnThisEarth = [[NSMutableArray alloc] init];
     [self getPeopleByIncreasingDistance];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    //pulltorefresh
+    // Pull to Refresh
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:refreshControl];
     
-
+    // Update user's data through async blocks
+    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/movies?limit=100" of:@"movies"];
+    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/music?limit=100" of:@"music"];
+    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/books?limit=100" of:@"books"];
+    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/television?limit=100" of:@"television"];
+    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/sports?limit=100" of:@"sports"];
+    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/likes?limit=100" of:@"likes"];
     
-
-
+    
 }
+
+- (NSMutableArray *)      names: (NSMutableArray *) array
+                  andRequestURL: (NSString *) url
+                             of: (NSString *) type{
+    
+    FBRequest *request = [FBRequest requestForGraphPath:url];
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        NSDictionary *userData = (NSDictionary *)result;
+        
+        NSArray *dataArray = [userData objectForKey:@"data"];
+        
+        // Add names to array
+        for(id key in dataArray) {
+            [array addObject:[key objectForKey:@"name"]];
+        }
+        
+        // Check if more data awaits
+        id paging = [userData objectForKey:@"paging"];
+        if ([paging objectForKey:@"next"]) {
+            NSString* nextURL = [url stringByAppendingString:@"&offset=100"];
+            [self names:array andRequestURL:nextURL of:type];
+        }
+        
+    } ];
+    
+    [myUser setObject:array forKey:type.capitalizedString];
+    [myUser saveInBackground];
+    
+    return array;
+}
+
 
 - (void)refresh:(UIRefreshControl *)refreshControl {
     [self getPeopleByIncreasingDistance];
@@ -216,8 +256,10 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 - (void) getPeopleByIncreasingDistance
 {
     // First get ownself
-    PFObject *myUser = [PFUser currentUser];
     NSNumber *minScore = [myUser objectForKey:@"MinimumScore"];
+    if (minScore == NULL) {
+        minScore = [NSNumber numberWithInteger:0];
+    }
     NSDictionary *myLocation = [myUser objectForKey:@"Location"];
     NSArray *myLikes = [myUser objectForKey:@"Likes"];
     NSArray *myMovies = [myUser objectForKey:@"Movies"];
@@ -283,7 +325,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
                              // Score
                              NSNumber *score = [[NSNumber alloc] initWithInteger:[similarLikes count] + [similarMovies count] + [similarMusic count] + [similarBooks count] + [similarTelevision count] + [similarSports count] ];
                              // Only proceed when score >= minScore
-                             if (score >= minScore) {
+                             if ([score integerValue] >= [minScore integerValue]) {
                                  // Location filtering
                                  NSDictionary *location = [object objectForKey:@"Location"];
                                  NSString *name = [object objectForKey:@"Name"];
@@ -320,6 +362,10 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
                  peopleWithinTwentyKm = [[[peopleWithinTwentyKm mutableCopy]sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
                  peopleOnThisEarth = [[[peopleOnThisEarth mutableCopy] sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
                  [self.tableView reloadData];
+                 if ([peopleWithinTwoKm count] == 0 && [peopleWithinTwentyKm count] == 0 && [peopleOnThisEarth count] == 0) {
+                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops! You're that unique." message:@"Unfortunately, you're a really special individual. No one around you has zame interests. If you're willing to settle for less zame people, go to Settings and lower the minimum ZScore." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                     [alert show];
+                 }
                  [MBProgressHUD hideHUDForView:self.view animated:YES];
              }];
         });

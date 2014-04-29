@@ -52,52 +52,9 @@
     
     // Loads table view
     [self updateProfile];
-       
-    //fill the rest of the data
-    NSMutableArray *movieArray = [[NSMutableArray alloc] init];
-    [self names:movieArray andRequestURL:@"/me/movies?limit=100" of:@"movies"];
-    NSMutableArray *musicArray = [[NSMutableArray alloc] init];
-    [self names:musicArray andRequestURL:@"/me/music?limit=100" of:@"music"];
-    NSMutableArray *booksArray = [[NSMutableArray alloc] init];
-    [self names:booksArray andRequestURL:@"/me/books?limit=100" of:@"books"];
-    NSMutableArray *televisionArray = [[NSMutableArray alloc] init];
-    [self names:televisionArray andRequestURL:@"/me/television?limit=100" of:@"television"];
-    NSMutableArray *sportsArray = [[NSMutableArray alloc] init];
-    [self names:sportsArray andRequestURL:@"/me/sports?limit=100" of:@"sports"];
-    NSMutableArray *likesArray = [[NSMutableArray alloc] init];
-    [self names:likesArray andRequestURL:@"/me/likes?limit=100" of:@"likes"];
 
 }
 
-- (NSMutableArray *)      names: (NSMutableArray *) array
-                  andRequestURL: (NSString *) url
-                             of: (NSString *) type{
-    
-    FBRequest *request = [FBRequest requestForGraphPath:url];
-    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        NSDictionary *userData = (NSDictionary *)result;
-        
-        NSArray *dataArray = [userData objectForKey:@"data"];
-   
-        // Add names to array
-        for(id key in dataArray) {
-            [array addObject:[key objectForKey:@"name"]];
-        }
-        
-        // Check if more data awaits
-        id paging = [userData objectForKey:@"paging"];
-        if ([paging objectForKey:@"next"]) {
-            NSString* nextURL = [url stringByAppendingString:@"&offset=100"];
-            [self names:array andRequestURL:nextURL of:type];
-        }
-        
-    } ];
-    
-    [user setObject:array forKey:type.capitalizedString];
-    [user saveInBackground];
-
-    return array;
-}
 
 #pragma mark - NSURLConnectionDataDelegate for Profile Picture
 
@@ -149,6 +106,7 @@
 - (IBAction)logoutButtonTouchHandler:(id)sender {
     // Logout user, this automatically clears the cache
     [PFUser logOut];
+    
     
     // Return to login view controller
     UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"LoginViewController"];
@@ -219,10 +177,6 @@
     UISlider* slider = (UISlider *) sender;
     minimumScore = slider.value;
     _sliderValueLabel.text = [@(minimumScore) stringValue];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    // Stores minimum score to parse before view disappears
     [user setObject:[NSNumber numberWithInteger:minimumScore] forKey:@"MinimumScore"];
 }
 

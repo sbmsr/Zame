@@ -98,6 +98,9 @@
     [peopleArray removeAllObjects];
     PFObject *myUser = [PFUser currentUser];
     NSNumber *minScore = [myUser objectForKey:@"MinimumScore"];
+    if (minScore == NULL) {
+        minScore = [NSNumber numberWithInteger:0];
+    }
     NSString *myId = [myUser objectForKey:@"Fbid"];
     NSString *myName = [myUser objectForKey:@"Name"];
     NSArray *myLikes = [myUser objectForKey:@"Likes"];
@@ -144,7 +147,7 @@
                                  // Score
                                  NSNumber *score = [[NSNumber alloc] initWithInteger:[similarLikes count] + [similarMovies count] + [similarMusic count] + [similarBooks count] + [similarTelevision count] + [similarSports count] ];
                                  // Only proceed when score is greater than minimum
-                                 if (score >= minScore) {
+                                 if ([score integerValue] >= [minScore integerValue]) {
                                      NSString *name = [object objectForKey:@"Name"];
                                      // Grab first name
                                      NSArray *firstLastStrings = [name componentsSeparatedByString:@" "];
