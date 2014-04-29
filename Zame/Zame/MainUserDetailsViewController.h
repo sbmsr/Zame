@@ -3,10 +3,6 @@
 
 #import <Parse/Parse.h>
 
-//Spotify Constants
-static NSString * const kClientId = @"spotify-ios-sdk-beta";
-static NSString * const kCallbackURL = @"spotify-ios-sdk-beta://callback";
-
 @interface MainUserDetailsViewController : UIViewController <NSURLConnectionDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UITableView *tableView;

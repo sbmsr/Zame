@@ -6,6 +6,12 @@
 #import <CoreLocation/CoreLocation.h>
 #import <Spotify/Spotify.h>
 
+
+static NSString * const kClientId = @"spotify-ios-sdk-beta";
+static NSString * const kCallbackURL = @"spotify-ios-sdk-beta://callback";
+
+
+
 @interface MainUserDetailsViewController () <UIAlertViewDelegate> {
     NSInteger minimumScore;
     PFObject *user;
@@ -14,6 +20,10 @@
 @end
 
 @implementation MainUserDetailsViewController
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	return YES;
+}
 
 #pragma mark - UIViewController
 
@@ -148,11 +158,12 @@
 																  scopes:@[@"login"]];
     
 	[[UIApplication sharedApplication] openURL:loginPageURL];
+
+    
 }
 
+
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    
-    NSLog(@"this was reached");
     
 	SPTAuthCallback authCallback = ^(NSError *error, SPTSession *session) {
 		// This is the callback that'll be triggered when auth is completed (or fails).
@@ -161,9 +172,6 @@
 			NSLog(@"Error: %@", error);
 			return;
 		}
-        else {
-            NSLog(@"PINGA!!!");
-        }
         
 		UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"Logged In from Safari"
 													   message:[NSString stringWithFormat:@"Logged in as user %@", session.canonicalUsername]
@@ -173,8 +181,6 @@
 		[view show];
         
 		[self performTestCallWithSession:session];
-        
-        //Do as i wish with the session here
 	};
     
 	/*
@@ -207,8 +213,7 @@
 		else
 			NSLog(@"%@", playlists);
 	}];
+    
 }
-
-
 
 @end
