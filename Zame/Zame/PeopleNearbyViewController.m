@@ -20,7 +20,6 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     NSMutableArray *peopleWithinTwentyKm;
     NSMutableArray *peopleOnThisEarth;
     PFObject *myUser;
-    BOOL loadIsDone;
 }
 
 - (double) calculateDistanceFromLat1:(double)lat1
@@ -35,7 +34,6 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    loadIsDone = NO;
     myUser = [PFUser currentUser];
     peopleWithinTwoKm = [[NSMutableArray alloc] init];
     peopleWithinTwentyKm = [[NSMutableArray alloc] init];

@@ -38,6 +38,13 @@
     [super viewDidLoad];
     _sliderValueLabel.adjustsFontSizeToFitWidth = YES;
     _sliderValueLabel.numberOfLines = 1;
+    NSNumber *minScore = [user objectForKey:@"MinimumScore"];
+    if (minScore != NULL) {
+        NSLog(@"%@",minScore);
+        NSString *minScoreString = [minScore stringValue];
+        _sliderValueLabel.text = minScoreString;
+        _slider.value = [minScore floatValue];
+    }
     [self.locationManager startUpdatingLocation];
     if (self.isGeolocationAvailable == NO) {
         NSLog(@"Not available");
@@ -173,7 +180,13 @@
     UISlider* slider = (UISlider *) sender;
     minimumScore = slider.value;
     _sliderValueLabel.text = [@(minimumScore) stringValue];
-    [user setObject:[NSNumber numberWithInteger:minimumScore] forKey:@"MinimumScore"];
+
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    NSNumber *sliderValue = [NSNumber numberWithFloat:[_sliderValueLabel.text floatValue]];
+    [user setObject:sliderValue forKey:@"MinimumScore"];
+    [user saveInBackground];
 }
 
 @end
