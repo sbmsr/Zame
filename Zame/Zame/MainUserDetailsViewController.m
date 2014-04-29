@@ -10,8 +10,6 @@
     PFObject *user;
 }
 
-
-
 @end
 
 
@@ -21,24 +19,24 @@
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
+    
     user = [PFUser currentUser];
     [super viewDidLoad];
     _sliderValueLabel.adjustsFontSizeToFitWidth = YES;
     _sliderValueLabel.numberOfLines = 1;
     NSNumber *minScore = [user objectForKey:@"MinimumScore"];
     if (minScore != NULL) {
-        NSLog(@"%@",minScore);
         NSString *minScoreString = [minScore stringValue];
         _sliderValueLabel.text = minScoreString;
         _slider.value = [minScore floatValue];
     }
-  
-    
     // Name, Email
     self.profileInfoArray = [@[@"N/A", @"N/A"] mutableCopy];
     
     // Loads table view
-    [self updateProfile];
+    if ([PFUser currentUser]) {
+        [self updateProfile];
+    }
 
 }
 
@@ -87,10 +85,11 @@
 #pragma mark - Helper methods
 
 - (IBAction)logoutButtonTouchHandler:(id)sender {
-    // Logout user, this automatically clears the cache
+    // Pass slider value first
+    NSNumber *sliderValue = [NSNumber numberWithFloat:[_sliderValueLabel.text floatValue]];
+    [user setObject:sliderValue forKey:@"MinimumScore"];
+    [user save];
     [PFUser logOut];
-    
-    
     // Return to login view controller
     UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"LoginViewController"];
     [self presentViewController:vc animated:YES completion:nil];
@@ -130,8 +129,11 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     NSNumber *sliderValue = [NSNumber numberWithFloat:[_sliderValueLabel.text floatValue]];
-    [user setObject:sliderValue forKey:@"MinimumScore"];
-    [user saveInBackground];
+    if ([PFUser currentUser]) {
+        [user setObject:sliderValue forKey:@"MinimumScore"];
+        [user saveInBackground];
+    }
+    
 }
 
 @end

@@ -22,6 +22,7 @@
     [super viewDidLoad];
     self.emailField.delegate = self;
     // Loads the user's information
+    
     FBRequest *request = [FBRequest requestForGraphPath:@"me?fields=political,education,hometown,religion,id,name,gender,birthday,picture"];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         // handle response
