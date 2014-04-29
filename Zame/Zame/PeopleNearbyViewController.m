@@ -20,6 +20,13 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     NSMutableArray *peopleWithinTwentyKm;
     NSMutableArray *peopleOnThisEarth;
     PFObject *myUser;
+    NSInteger offset; // Used for getting pagination of current user's FB details
+    NSMutableArray *moviesHolderArray;
+    NSMutableArray *musicHolderArray;
+    NSMutableArray *booksHolderArray;
+    NSMutableArray *televisionHolderArray;
+    NSMutableArray *sportsHolderArray;
+    NSMutableArray *likesHolderArray;
 }
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
@@ -49,12 +56,18 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     [self.tableView addSubview:refreshControl];
     
     // Update user's data through async blocks
-    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/movies?limit=100" of:@"movies"];
-    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/music?limit=100" of:@"music"];
-    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/books?limit=100" of:@"books"];
-    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/television?limit=100" of:@"television"];
-    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/sports?limit=100" of:@"sports"];
-    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/likes?limit=100" of:@"likes"];
+    moviesHolderArray = [[NSMutableArray alloc] init];
+    musicHolderArray = [[NSMutableArray alloc] init];
+    booksHolderArray = [[NSMutableArray alloc] init];
+    televisionHolderArray = [[NSMutableArray alloc] init];
+    sportsHolderArray = [[NSMutableArray alloc] init];
+    likesHolderArray = [[NSMutableArray alloc] init];
+    [self namesWithRequestURL:@"/me/movies?limit=99999" of:@"movies"];
+    [self namesWithRequestURL:@"/me/music?limit=99999" of:@"music"];
+    [self namesWithRequestURL:@"/me/books?limit=99999" of:@"books"];
+    [self namesWithRequestURL:@"/me/television?limit=99999" of:@"television"];
+    [self namesWithRequestURL:@"/me/sports?limit=99999" of:@"sports"];
+    [self namesWithRequestURL:@"/me/likes?limit=99999" of:@"likes"];
     
     // Update user's distance
     [self.locationManager startUpdatingLocation];
@@ -66,37 +79,56 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
         NSLog(@"Available");
     }
     
+    offset = 0;
     
 }
 
-- (NSMutableArray *)      names: (NSMutableArray *) array
-                  andRequestURL: (NSString *) url
-                             of: (NSString *) type{
+- (void) namesWithRequestURL: (NSString *) url
+                          of: (NSString *) type{
     
     FBRequest *request = [FBRequest requestForGraphPath:url];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        NSDictionary *userData = (NSDictionary *)result;
         
+        NSDictionary *userData = (NSDictionary *)result;
         NSArray *dataArray = [userData objectForKey:@"data"];
         
-        // Add names to array
+        // Keep building instance array
         for(id key in dataArray) {
-            [array addObject:[key objectForKey:@"name"]];
+            [[self getHolderArrayOfType:type] addObject:[key objectForKey:@"name"]];
         }
-        
-        // Check if more data awaits
-        id paging = [userData objectForKey:@"paging"];
+        // Check if more data awaits - JUST IN CASE THOUGH NO ONE WILL HAVE 99999 LIKES
+        NSDictionary *paging = (NSDictionary *)[userData objectForKey:@"paging"];
         if ([paging objectForKey:@"next"]) {
-            NSString* nextURL = [url stringByAppendingString:@"&offset=100"];
-            [self names:array andRequestURL:nextURL of:type];
+            offset += 99999;
+            NSString *nextURL = [[[@"/me/" stringByAppendingString:type] stringByAppendingString:@"?limit=99999&offset="] stringByAppendingString:[@(offset) stringValue]];
+            [self namesWithRequestURL:nextURL of:type];
         }
+        [myUser setObject:[self getHolderArrayOfType:type] forKey:type.capitalizedString];
+        [myUser saveInBackground];
         
     } ];
     
-    [myUser setObject:array forKey:type.capitalizedString];
-    [myUser saveInBackground];
-    
-    return array;
+
+}
+
+// Helper method for getting holder array of type in NSString
+
+- (NSMutableArray *) getHolderArrayOfType: (NSString *)type {
+    if ([type isEqualToString:@"movies"]) {
+        return moviesHolderArray;
+    } else if ([type isEqualToString:@"music"]) {
+        return musicHolderArray;
+    } else if ([type isEqualToString:@"books"]) {
+        return booksHolderArray;
+    } else if ([type isEqualToString:@"television"]) {
+        return televisionHolderArray;
+    } else if ([type isEqualToString:@"sports"]) {
+        return sportsHolderArray;
+    } else if ([type isEqualToString:@"likes"]) {
+        return likesHolderArray;
+    } else {
+        return NULL;
+    }
 }
 
 
