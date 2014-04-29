@@ -5,13 +5,10 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface MainUserDetailsViewController () <CLLocationManagerDelegate, UIAlertViewDelegate> {
+@interface MainUserDetailsViewController () <UIAlertViewDelegate> {
     NSInteger minimumScore;
     PFObject *user;
 }
-
-@property (nonatomic, strong) CLLocationManager *locationManager;
-
 
 @end
 
@@ -19,46 +16,27 @@
 
 @implementation MainUserDetailsViewController
 
-- (CLLocationManager *)locationManager
-{
-    if (!_locationManager) {
-        _locationManager = [[CLLocationManager alloc] init];
-        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        _locationManager.delegate = self;
-    }
-    
-    return _locationManager;
-}
-
-
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
+    
     user = [PFUser currentUser];
     [super viewDidLoad];
     _sliderValueLabel.adjustsFontSizeToFitWidth = YES;
     _sliderValueLabel.numberOfLines = 1;
     NSNumber *minScore = [user objectForKey:@"MinimumScore"];
     if (minScore != NULL) {
-        NSLog(@"%@",minScore);
         NSString *minScoreString = [minScore stringValue];
         _sliderValueLabel.text = minScoreString;
         _slider.value = [minScore floatValue];
     }
-    [self.locationManager startUpdatingLocation];
-    if (self.isGeolocationAvailable == NO) {
-        NSLog(@"Not available");
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enable location services" message:@"You previously denied permission for location services. Please enable it in Settings again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-    } else {
-        NSLog(@"Available");
-    }
-    
     // Name, Email
     self.profileInfoArray = [@[@"N/A", @"N/A"] mutableCopy];
     
     // Loads table view
-    [self updateProfile];
+    if ([PFUser currentUser]) {
+        [self updateProfile];
+    }
 
 }
 
@@ -107,10 +85,11 @@
 #pragma mark - Helper methods
 
 - (IBAction)logoutButtonTouchHandler:(id)sender {
-    // Logout user, this automatically clears the cache
+    // Pass slider value first
+    NSNumber *sliderValue = [NSNumber numberWithFloat:[_sliderValueLabel.text floatValue]];
+    [user setObject:sliderValue forKey:@"MinimumScore"];
+    [user save];
     [PFUser logOut];
-    
-    
     // Return to login view controller
     UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"LoginViewController"];
     [self presentViewController:vc animated:YES completion:nil];
@@ -140,41 +119,6 @@
     }
 }
 
-#pragma mark - Location Manager
-- (void)locationManager:(CLLocationManager *)manager
-     didUpdateLocations:(NSArray *)locations
-{
-    CLGeocoder *reverseGeocoder = [[CLGeocoder alloc] init];
-    
-    CLLocation *locationToGeocode = [locations objectAtIndex:0];
-    
-    [reverseGeocoder reverseGeocodeLocation:locationToGeocode
-                          completionHandler:^(NSArray *placemarks, NSError *error){
-                              if (!error) {
-                                  // Update lat, lon on Parse
-                                  NSString *lat = [NSString stringWithFormat:@"%.9f", locationToGeocode.coordinate.latitude];
-                                  NSString *lon = [NSString stringWithFormat:@"%.9f", locationToGeocode.coordinate.longitude];
-                                  NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:lat, @"lat", lon, @"lon", nil];
-                                  [user setObject:dictionary forKey:@"Location"];
-                                  [user saveInBackground];
-                              }
-                          }];
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-       didFailWithError:(NSError *)error
-{
-    NSLog(@"%@", error);
-}
-
-- (BOOL)isGeolocationAvailable
-{
-    if(([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied)||(![CLLocationManager locationServicesEnabled])){
-        return NO;
-    }
-    return YES;
-}
-
 #pragma mark - Slider
 - (IBAction)sliderValueChanged:(id)sender {
     UISlider* slider = (UISlider *) sender;
@@ -185,8 +129,11 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     NSNumber *sliderValue = [NSNumber numberWithFloat:[_sliderValueLabel.text floatValue]];
-    [user setObject:sliderValue forKey:@"MinimumScore"];
-    [user saveInBackground];
+    if ([PFUser currentUser]) {
+        [user setObject:sliderValue forKey:@"MinimumScore"];
+        [user saveInBackground];
+    }
+    
 }
 
 @end

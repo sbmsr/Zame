@@ -183,7 +183,7 @@
     // Can only send when ZScore is above 10
     NSNumber *zscore = [_nearbyUser objectForKey:@"Score"];
     // TODO: Change this to 10
-    if ([zscore integerValue] > 1) {
+    if ([zscore integerValue] >= 1) {
         mailComposer = [[MFMailComposeViewController alloc]init];
         mailComposer.mailComposeDelegate = self;
         [mailComposer setSubject:zscoreMailHeader];

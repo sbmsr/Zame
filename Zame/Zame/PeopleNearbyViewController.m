@@ -15,12 +15,21 @@ colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
-@interface PeopleNearbyViewController () <UIAlertViewDelegate> {
+@interface PeopleNearbyViewController () <UIAlertViewDelegate, CLLocationManagerDelegate> {
     NSMutableArray *peopleWithinTwoKm;
     NSMutableArray *peopleWithinTwentyKm;
     NSMutableArray *peopleOnThisEarth;
     PFObject *myUser;
+    NSInteger offset; // Used for getting pagination of current user's FB details
+    NSMutableArray *moviesHolderArray;
+    NSMutableArray *musicHolderArray;
+    NSMutableArray *booksHolderArray;
+    NSMutableArray *televisionHolderArray;
+    NSMutableArray *sportsHolderArray;
+    NSMutableArray *likesHolderArray;
 }
+
+@property (nonatomic, strong) CLLocationManager *locationManager;
 
 - (double) calculateDistanceFromLat1:(double)lat1
                              AndLon1:(double)lon1
@@ -47,44 +56,79 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     [self.tableView addSubview:refreshControl];
     
     // Update user's data through async blocks
-    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/movies?limit=100" of:@"movies"];
-    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/music?limit=100" of:@"music"];
-    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/books?limit=100" of:@"books"];
-    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/television?limit=100" of:@"television"];
-    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/sports?limit=100" of:@"sports"];
-    [self names:[[NSMutableArray alloc] init] andRequestURL:@"/me/likes?limit=100" of:@"likes"];
+    moviesHolderArray = [[NSMutableArray alloc] init];
+    musicHolderArray = [[NSMutableArray alloc] init];
+    booksHolderArray = [[NSMutableArray alloc] init];
+    televisionHolderArray = [[NSMutableArray alloc] init];
+    sportsHolderArray = [[NSMutableArray alloc] init];
+    likesHolderArray = [[NSMutableArray alloc] init];
+    [self namesWithRequestURL:@"/me/movies?limit=99999" of:@"movies"];
+    [self namesWithRequestURL:@"/me/music?limit=99999" of:@"music"];
+    [self namesWithRequestURL:@"/me/books?limit=99999" of:@"books"];
+    [self namesWithRequestURL:@"/me/television?limit=99999" of:@"television"];
+    [self namesWithRequestURL:@"/me/sports?limit=99999" of:@"sports"];
+    [self namesWithRequestURL:@"/me/likes?limit=99999" of:@"likes"];
     
+    // Update user's distance
+    [self.locationManager startUpdatingLocation];
+    if (self.isGeolocationAvailable == NO) {
+        NSLog(@"Not available");
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enable location services" message:@"You previously denied permission for location services. Please enable it in Settings again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+    } else {
+        NSLog(@"Available");
+    }
+    
+    offset = 0;
     
 }
 
-- (NSMutableArray *)      names: (NSMutableArray *) array
-                  andRequestURL: (NSString *) url
-                             of: (NSString *) type{
+- (void) namesWithRequestURL: (NSString *) url
+                          of: (NSString *) type{
     
     FBRequest *request = [FBRequest requestForGraphPath:url];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        NSDictionary *userData = (NSDictionary *)result;
         
+        NSDictionary *userData = (NSDictionary *)result;
         NSArray *dataArray = [userData objectForKey:@"data"];
         
-        // Add names to array
+        // Keep building instance array
         for(id key in dataArray) {
-            [array addObject:[key objectForKey:@"name"]];
+            [[self getHolderArrayOfType:type] addObject:[key objectForKey:@"name"]];
         }
-        
-        // Check if more data awaits
-        id paging = [userData objectForKey:@"paging"];
+        // Check if more data awaits - JUST IN CASE THOUGH NO ONE WILL HAVE 99999 LIKES
+        NSDictionary *paging = (NSDictionary *)[userData objectForKey:@"paging"];
         if ([paging objectForKey:@"next"]) {
-            NSString* nextURL = [url stringByAppendingString:@"&offset=100"];
-            [self names:array andRequestURL:nextURL of:type];
+            offset += 99999;
+            NSString *nextURL = [[[@"/me/" stringByAppendingString:type] stringByAppendingString:@"?limit=99999&offset="] stringByAppendingString:[@(offset) stringValue]];
+            [self namesWithRequestURL:nextURL of:type];
         }
+        [myUser setObject:[self getHolderArrayOfType:type] forKey:type.capitalizedString];
+        [myUser saveInBackground];
         
     } ];
     
-    [myUser setObject:array forKey:type.capitalizedString];
-    [myUser saveInBackground];
-    
-    return array;
+
+}
+
+// Helper method for getting holder array of type in NSString
+
+- (NSMutableArray *) getHolderArrayOfType: (NSString *)type {
+    if ([type isEqualToString:@"movies"]) {
+        return moviesHolderArray;
+    } else if ([type isEqualToString:@"music"]) {
+        return musicHolderArray;
+    } else if ([type isEqualToString:@"books"]) {
+        return booksHolderArray;
+    } else if ([type isEqualToString:@"television"]) {
+        return televisionHolderArray;
+    } else if ([type isEqualToString:@"sports"]) {
+        return sportsHolderArray;
+    } else if ([type isEqualToString:@"likes"]) {
+        return likesHolderArray;
+    } else {
+        return NULL;
+    }
 }
 
 
@@ -97,6 +141,53 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Update current user's location
+
+- (CLLocationManager *)locationManager
+{
+    if (!_locationManager) {
+        _locationManager = [[CLLocationManager alloc] init];
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        _locationManager.delegate = self;
+    }
+    
+    return _locationManager;
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+     didUpdateLocations:(NSArray *)locations
+{
+    CLGeocoder *reverseGeocoder = [[CLGeocoder alloc] init];
+    
+    CLLocation *locationToGeocode = [locations objectAtIndex:0];
+    
+    [reverseGeocoder reverseGeocodeLocation:locationToGeocode
+                          completionHandler:^(NSArray *placemarks, NSError *error){
+                              if (!error) {
+                                  // Update lat, lon on Parse
+                                  NSString *lat = [NSString stringWithFormat:@"%.9f", locationToGeocode.coordinate.latitude];
+                                  NSString *lon = [NSString stringWithFormat:@"%.9f", locationToGeocode.coordinate.longitude];
+                                  NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:lat, @"lat", lon, @"lon", nil];
+                                  [myUser setObject:dictionary forKey:@"Location"];
+                                  [myUser saveInBackground];
+                              }
+                          }];
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error
+{
+    NSLog(@"%@", error);
+}
+
+- (BOOL)isGeolocationAvailable
+{
+    if(([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied)||(![CLLocationManager locationServicesEnabled])){
+        return NO;
+    }
+    return YES;
 }
 
 #pragma mark - Table view data source
@@ -267,108 +358,94 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     NSArray *mySports = [myUser objectForKey:@"Sports"];
     NSString *myId = [myUser objectForKey:@"Fbid"];
     NSString *myName = [myUser objectForKey:@"Name"];
-    PFQuery *query = [PFUser query];
-    
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
-             {
-                 if (!error) {
-                     
-                     // Remove all objects and reload
-                     [peopleWithinTwoKm removeAllObjects];
-                     [peopleWithinTwentyKm removeAllObjects];
-                     [peopleOnThisEarth removeAllObjects];
-                     
-                     // Get each of their lat and lon
-                     for (NSDictionary *object in objects) {
-                         NSString *yourId = [object objectForKey:@"Fbid"];
-                         if (![myId isEqualToString:yourId]) {
-                             
-                             // Similarity filtering
-                             // Likes
-                             NSArray *likes = [object objectForKey:@"Likes"];
-                             NSArray *similarLikes = [self similarItemsIn:likes and:myLikes];
-                             /* REMOVED BECAUSE IT'S TOO LAGGY
-                             // Mutual Friends
-                             NSString *pathSegment1 = @"/";
-                             NSString *pathSegment2 = @"/mutualfriends/";
-                             NSString *path = [[[pathSegment1 stringByAppendingString:myId] stringByAppendingString:pathSegment2] stringByAppendingString:yourId];
-                             [FBRequestConnection startWithGraphPath:path
-                                                          parameters:nil
-                                                          HTTPMethod:@"GET"
-                                                   completionHandler:^(
-                                                                       FBRequestConnection *connection,
-                                                                       id result,
-                                                                       NSError *error
-                                                                       ) {
-                                                       mutualFriends = (NSArray *) result;
-                                                   }];
-                              */
-                             // Movies
-                             NSArray *movies = [object objectForKey:@"Movies"];
-                             NSArray *similarMovies = [self similarItemsIn:movies and:myMovies];
-                             // Music
-                             NSArray *music = [object objectForKey:@"Music"];
-                             NSArray *similarMusic = [self similarItemsIn:music and:myMusic];
-                             // Books
-                             NSArray *books = [object objectForKey:@"Books"];
-                             NSArray *similarBooks = [self similarItemsIn:books and:myBooks];
-                             // Television
-                             NSArray *television = [object objectForKey:@"Television"];
-                             NSArray *similarTelevision = [self similarItemsIn:television and:myTelevision];
-                             // Sports
-                             NSArray *sports = [object objectForKey:@"Sports"];
-                             NSArray *similarSports = [self similarItemsIn:sports and:mySports];
-                             // Score
-                             NSNumber *score = [[NSNumber alloc] initWithInteger:[similarLikes count] + [similarMovies count] + [similarMusic count] + [similarBooks count] + [similarTelevision count] + [similarSports count] ];
-                             // Only proceed when score >= minScore
-                             if ([score integerValue] >= [minScore integerValue]) {
-                                 // Location filtering
-                                 NSDictionary *location = [object objectForKey:@"Location"];
-                                 NSString *name = [object objectForKey:@"Name"];
-                                 // Grab first name
-                                 NSArray *firstLastStrings = [name componentsSeparatedByString:@" "];
-                                 NSString *firstName = [firstLastStrings objectAtIndex:0];
-                                 // Grab Email
-                                 NSString *email = [object objectForKey:@"Email"];
-                                 // Calculate distance
-                                 double distance = [self calculateDistanceFromLat1: [[myLocation objectForKey:@"lat"] doubleValue] AndLon1:[[myLocation objectForKey:@"lon"] doubleValue] AndLat2:[[location objectForKey:@"lat"] doubleValue] AndLon2:[[location objectForKey:@"lon"] doubleValue]];
-                                 // Build list
-                                 NSNumber *distanceNum = [NSNumber numberWithDouble:distance];
-                                 NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
-                                 NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", distanceNum, @"Distance", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", email, @"Email", nil];
+    if ([PFUser currentUser]) {
+        PFQuery *query = [PFUser query];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+                 {
+                     if (!error) {
+                         
+                         // Remove all objects and reload
+                         [peopleWithinTwoKm removeAllObjects];
+                         [peopleWithinTwentyKm removeAllObjects];
+                         [peopleOnThisEarth removeAllObjects];
+                         
+                         // Get each of their lat and lon
+                         for (NSDictionary *object in objects) {
+                             NSString *yourId = [object objectForKey:@"Fbid"];
+                             if (![myId isEqualToString:yourId]) {
                                  
-                                 if (distance < 2000) {
-                                     [peopleWithinTwoKm addObject:personEntry];
-                                 } else if (distance < 20000) {
-                                     [peopleWithinTwentyKm addObject:personEntry];
-                                 } else {
-                                     [peopleOnThisEarth addObject:personEntry];
+                                 // Similarity filtering
+                                 // Likes
+                                 NSArray *likes = [object objectForKey:@"Likes"];
+                                 NSArray *similarLikes = [self similarItemsIn:likes and:myLikes];
+                                 // Movies
+                                 NSArray *movies = [object objectForKey:@"Movies"];
+                                 NSArray *similarMovies = [self similarItemsIn:movies and:myMovies];
+                                 // Music
+                                 NSArray *music = [object objectForKey:@"Music"];
+                                 NSArray *similarMusic = [self similarItemsIn:music and:myMusic];
+                                 // Books
+                                 NSArray *books = [object objectForKey:@"Books"];
+                                 NSArray *similarBooks = [self similarItemsIn:books and:myBooks];
+                                 // Television
+                                 NSArray *television = [object objectForKey:@"Television"];
+                                 NSArray *similarTelevision = [self similarItemsIn:television and:myTelevision];
+                                 // Sports
+                                 NSArray *sports = [object objectForKey:@"Sports"];
+                                 NSArray *similarSports = [self similarItemsIn:sports and:mySports];
+                                 // Score
+                                 NSNumber *score = [[NSNumber alloc] initWithInteger:[similarLikes count] + [similarMovies count] + [similarMusic count] + [similarBooks count] + [similarTelevision count] + [similarSports count] ];
+                                 // Only proceed when score >= minScore
+                                 if ([score integerValue] >= [minScore integerValue]) {
+                                     // Location filtering
+                                     NSDictionary *location = [object objectForKey:@"Location"];
+                                     NSString *name = [object objectForKey:@"Name"];
+                                     // Grab first name
+                                     NSArray *firstLastStrings = [name componentsSeparatedByString:@" "];
+                                     NSString *firstName = [firstLastStrings objectAtIndex:0];
+                                     // Grab Email
+                                     NSString *email = [object objectForKey:@"Email"];
+                                     // Calculate distance
+                                     double distance = [self calculateDistanceFromLat1: [[myLocation objectForKey:@"lat"] doubleValue] AndLon1:[[myLocation objectForKey:@"lon"] doubleValue] AndLat2:[[location objectForKey:@"lat"] doubleValue] AndLon2:[[location objectForKey:@"lon"] doubleValue]];
+                                     // Build list
+                                     NSNumber *distanceNum = [NSNumber numberWithDouble:distance];
+                                     NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
+                                     NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", distanceNum, @"Distance", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", email, @"Email", nil];
+                                     
+                                     if (distance < 2000) {
+                                         [peopleWithinTwoKm addObject:personEntry];
+                                     } else if (distance < 20000) {
+                                         [peopleWithinTwentyKm addObject:personEntry];
+                                     } else {
+                                         [peopleOnThisEarth addObject:personEntry];
+                                     }
                                  }
                              }
                          }
+                     } else {
+                         NSLog(@"From getPeopleByIncreasingDistance: %@", error);
                      }
-                 } else {
-                     NSLog(@"From getPeopleByIncreasingDistance: %@", error);
-                 }
-                 // Sort all three arrays
-                 NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"Distance"
-                                                                                ascending:YES];
-                 NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-                 peopleWithinTwoKm = [[[peopleWithinTwoKm mutableCopy] sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
-                 peopleWithinTwentyKm = [[[peopleWithinTwentyKm mutableCopy]sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
-                 peopleOnThisEarth = [[[peopleOnThisEarth mutableCopy] sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
-                 [self.tableView reloadData];
-                 if ([peopleWithinTwoKm count] == 0 && [peopleWithinTwentyKm count] == 0 && [peopleOnThisEarth count] == 0) {
-                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops! You're that unique." message:@"Unfortunately, you're a really special individual. No one around you has zame interests. If you're willing to settle for less zame people, go to Settings and lower the minimum ZScore." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                     [alert show];
-                 }
-                 [MBProgressHUD hideHUDForView:self.view animated:YES];
-             }];
+                     // Sort all three arrays
+                     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"Distance"
+                                                                                    ascending:YES];
+                     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+                     peopleWithinTwoKm = [[[peopleWithinTwoKm mutableCopy] sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
+                     peopleWithinTwentyKm = [[[peopleWithinTwentyKm mutableCopy]sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
+                     peopleOnThisEarth = [[[peopleOnThisEarth mutableCopy] sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
+                     [self.tableView reloadData];
+                     if ([peopleWithinTwoKm count] == 0 && [peopleWithinTwentyKm count] == 0 && [peopleOnThisEarth count] == 0) {
+                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops! You're that unique." message:@"Unfortunately, you're a really special individual. No one around you has zame interests. If you're willing to settle for less zame people, go to Settings and lower the minimum ZScore." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                         [alert show];
+                     }
+                     [MBProgressHUD hideHUDForView:self.view animated:YES];
+                 }];
+            });
+            
         });
-    
-    });
+
+    }
     
     
 }

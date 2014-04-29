@@ -109,84 +109,87 @@
     NSArray *myBooks = [myUser objectForKey:@"Books"];
     NSArray *myTelevision = [myUser objectForKey:@"Television"];
     NSArray *mySports = [myUser objectForKey:@"Sports"];
-    PFQuery *query = [PFUser query];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
-             {
-                 if (!error) {
-                     for (id object in objects) {
-                         NSString *yourId = [object objectForKey:@"Fbid"];
-                         if (![myId isEqualToString:yourId]) {
-                             NSDictionary *location = [object objectForKey:@"Location"];
-                             // Build CLLocationCoordinate2d
-                             double lat = [[location objectForKey:@"lat"] doubleValue];
-                             double lon = [[location objectForKey:@"lon"] doubleValue];
-                             CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(lat, lon);
-                             
-                             if ([self isCoordinate:coords insideRegion:viewedRegion]) {
-                                 // Similarity filtering
-                                 // Likes
-                                 NSArray *likes = [object objectForKey:@"Likes"];
-                                 NSArray *similarLikes = [self similarItemsIn:likes and:myLikes];
-                                 // Movies
-                                 NSArray *movies = [object objectForKey:@"Movies"];
-                                 NSArray *similarMovies = [self similarItemsIn:movies and:myMovies];
-                                 // Music
-                                 NSArray *music = [object objectForKey:@"Music"];
-                                 NSArray *similarMusic = [self similarItemsIn:music and:myMusic];
-                                 // Books
-                                 NSArray *books = [object objectForKey:@"Books"];
-                                 NSArray *similarBooks = [self similarItemsIn:books and:myBooks];
-                                 // Television
-                                 NSArray *television = [object objectForKey:@"Television"];
-                                 NSArray *similarTelevision = [self similarItemsIn:television and:myTelevision];
-                                 // Sports
-                                 NSArray *sports = [object objectForKey:@"Sports"];
-                                 NSArray *similarSports = [self similarItemsIn:sports and:mySports];
-                                 // Score
-                                 NSNumber *score = [[NSNumber alloc] initWithInteger:[similarLikes count] + [similarMovies count] + [similarMusic count] + [similarBooks count] + [similarTelevision count] + [similarSports count] ];
-                                 // Only proceed when score is greater than minimum
-                                 if ([score integerValue] >= [minScore integerValue]) {
-                                     NSString *name = [object objectForKey:@"Name"];
-                                     // Grab first name
-                                     NSArray *firstLastStrings = [name componentsSeparatedByString:@" "];
-                                     NSString *firstName = [firstLastStrings objectAtIndex:0];
-                                     // Grab email
-                                     NSString *email = [object objectForKey:@"Email"];
-                                     NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
-                                     NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", location, @"Location", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", email, @"Email", nil];
-                                     [peopleArray addObject:personEntry];
+    if ([PFUser currentUser]) {
+        PFQuery *query = [PFUser query];
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error)
+                 {
+                     if (!error) {
+                         for (id object in objects) {
+                             NSString *yourId = [object objectForKey:@"Fbid"];
+                             if (![myId isEqualToString:yourId]) {
+                                 NSDictionary *location = [object objectForKey:@"Location"];
+                                 // Build CLLocationCoordinate2d
+                                 double lat = [[location objectForKey:@"lat"] doubleValue];
+                                 double lon = [[location objectForKey:@"lon"] doubleValue];
+                                 CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(lat, lon);
+                                 
+                                 if ([self isCoordinate:coords insideRegion:viewedRegion]) {
+                                     // Similarity filtering
+                                     // Likes
+                                     NSArray *likes = [object objectForKey:@"Likes"];
+                                     NSArray *similarLikes = [self similarItemsIn:likes and:myLikes];
+                                     // Movies
+                                     NSArray *movies = [object objectForKey:@"Movies"];
+                                     NSArray *similarMovies = [self similarItemsIn:movies and:myMovies];
+                                     // Music
+                                     NSArray *music = [object objectForKey:@"Music"];
+                                     NSArray *similarMusic = [self similarItemsIn:music and:myMusic];
+                                     // Books
+                                     NSArray *books = [object objectForKey:@"Books"];
+                                     NSArray *similarBooks = [self similarItemsIn:books and:myBooks];
+                                     // Television
+                                     NSArray *television = [object objectForKey:@"Television"];
+                                     NSArray *similarTelevision = [self similarItemsIn:television and:myTelevision];
+                                     // Sports
+                                     NSArray *sports = [object objectForKey:@"Sports"];
+                                     NSArray *similarSports = [self similarItemsIn:sports and:mySports];
+                                     // Score
+                                     NSNumber *score = [[NSNumber alloc] initWithInteger:[similarLikes count] + [similarMovies count] + [similarMusic count] + [similarBooks count] + [similarTelevision count] + [similarSports count] ];
+                                     // Only proceed when score is greater than minimum
+                                     if ([score integerValue] >= [minScore integerValue]) {
+                                         NSString *name = [object objectForKey:@"Name"];
+                                         // Grab first name
+                                         NSArray *firstLastStrings = [name componentsSeparatedByString:@" "];
+                                         NSString *firstName = [firstLastStrings objectAtIndex:0];
+                                         // Grab email
+                                         NSString *email = [object objectForKey:@"Email"];
+                                         NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
+                                         NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", location, @"Location", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", email, @"Email", nil];
+                                         [peopleArray addObject:personEntry];
+                                     }
                                  }
                              }
                          }
+                         
+                     }
+                     else {
+                         NSLog(@"MapView Background task error: %@", error);
                      }
                      
-                 }
-                 else {
-                     NSLog(@"MapView Background task error: %@", error);
-                 }
-                 
-                 // Remove all pins and drop them again
-                 [_mapView removeAnnotations:_mapView.annotations];
-                 for (id person in peopleArray) {
-                     NSDictionary *personEntry = (NSDictionary *) person;
-                     NSDictionary *location = [personEntry objectForKey:@"Location"];
-                     // Build CLLocationCoordinate2d
-                     double lat = [[location objectForKey:@"lat"] doubleValue];
-                     double lon = [[location objectForKey:@"lon"] doubleValue];
-                     CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(lat, lon);
-                     NSNumber *score = [personEntry objectForKey:@"Score"];
-                     NSMutableString *scoreString = [[NSMutableString alloc] initWithString:@"ZScore: "];
-                     [scoreString appendString:[score stringValue]];
-                     CustomAnnotation *annotation = [[CustomAnnotation alloc] initWithCoordinate:coords AndTitle:[personEntry objectForKey:@"Name"] AndSubtitle:scoreString AndUser:personEntry];
-                     [_mapView addAnnotation:(id)annotation];
-                 }
-                 
-                 
-             }];
+                     // Remove all pins and drop them again
+                     [_mapView removeAnnotations:_mapView.annotations];
+                     for (id person in peopleArray) {
+                         NSDictionary *personEntry = (NSDictionary *) person;
+                         NSDictionary *location = [personEntry objectForKey:@"Location"];
+                         // Build CLLocationCoordinate2d
+                         double lat = [[location objectForKey:@"lat"] doubleValue];
+                         double lon = [[location objectForKey:@"lon"] doubleValue];
+                         CLLocationCoordinate2D coords = CLLocationCoordinate2DMake(lat, lon);
+                         NSNumber *score = [personEntry objectForKey:@"Score"];
+                         NSMutableString *scoreString = [[NSMutableString alloc] initWithString:@"ZScore: "];
+                         [scoreString appendString:[score stringValue]];
+                         CustomAnnotation *annotation = [[CustomAnnotation alloc] initWithCoordinate:coords AndTitle:[personEntry objectForKey:@"Name"] AndSubtitle:scoreString AndUser:personEntry];
+                         [_mapView addAnnotation:(id)annotation];
+                     }
+                     
+                     
+                 }];
+            });
         });
-    });
+
+    }
     
 }
 
