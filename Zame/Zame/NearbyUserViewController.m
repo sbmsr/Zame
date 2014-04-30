@@ -63,8 +63,8 @@
            [similarityAttributes addObject:entry];
         }
     }
-
 }
+                            
 
 - (void)didReceiveMemoryWarning
 {
@@ -178,6 +178,8 @@
     }
   
 }
+
+#pragma mark - Message
 
 - (IBAction)userSendMessage:(id)sender {
     // Can only send when ZScore is above 10
