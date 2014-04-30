@@ -5,6 +5,7 @@
 
 #import <Parse/Parse.h>
 #import "LoginViewController.h"
+#import <Spotify/Spotify.h>
 
 @implementation AppDelegate
 
