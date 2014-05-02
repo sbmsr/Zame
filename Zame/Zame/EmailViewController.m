@@ -8,21 +8,32 @@
 
 #import "EmailViewController.h"
 #import <Parse/Parse.h>
+#import "AppDelegate.h"
 
 @interface EmailViewController () <UITextFieldDelegate>
     
 -(IBAction)userHitSubmitEmail:(id)sender;
+@property (strong, nonatomic) AppDelegate *appDelegate;
 
 @end
 
 @implementation EmailViewController
 
+- (AppDelegate *)appDelegate
+{
+    if (!_appDelegate) {
+        _appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    }
+    return _appDelegate;
+}
+
 - (void)viewDidLoad
 {
+//    user = [PFUser currentUser];
     [super viewDidLoad];
     self.emailField.delegate = self;
     // Loads the user's information
-    if ([PFUser currentUser]) {
+    if (self.appDelegate.globalUser) {
         FBRequest *request = [FBRequest requestForGraphPath:@"me?fields=political,education,hometown,religion,id,name,gender,birthday,picture"];
         [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
             // handle response
@@ -38,19 +49,18 @@
                 NSString *politics = userData[@"political"];
                 NSString *religion = userData[@"religion"];
                 NSString *hometown = userData[@"hometown"][@"name"];
-                PFObject *user = [PFUser currentUser];
                 // Insert information into Parse
-                [user setObject:facebookID forKey:@"Fbid"];
-                [user setObject:name forKey:@"Name"];
-                [user setObject:gender forKey:@"Gender"];
-                [user setObject:birthday forKey:@"Birthday"];
-                [user setObject:[pictureURL absoluteString] forKey:@"ImageURL"];
-                [user setObject:politics forKey:@"Politics"];
-                [user setObject:religion forKey:@"Religion"];
-                [user setObject:hometown forKey:@"Hometown"];
+                [self.appDelegate.globalUser setObject:facebookID forKey:@"Fbid"];
+                [self.appDelegate.globalUser setObject:name forKey:@"Name"];
+                [self.appDelegate.globalUser setObject:gender forKey:@"Gender"];
+                [self.appDelegate.globalUser setObject:birthday forKey:@"Birthday"];
+                [self.appDelegate.globalUser setObject:[pictureURL absoluteString] forKey:@"ImageURL"];
+                [self.appDelegate.globalUser setObject:politics forKey:@"Politics"];
+                [self.appDelegate.globalUser setObject:religion forKey:@"Religion"];
+                [self.appDelegate.globalUser setObject:hometown forKey:@"Hometown"];
                 // Also set minimum score to 0 for a start
-                [user setObject:[NSNumber numberWithInteger:0] forKey:@"MinimumScore"];
-                [user saveInBackground];
+                [self.appDelegate.globalUser setObject:[NSNumber numberWithInteger:0] forKey:@"MinimumScore"];
+                [self.appDelegate.globalUser saveInBackground];
                 
             } else if ([[[[error userInfo] objectForKey:@"error"] objectForKey:@"type"]
                         isEqualToString: @"OAuthException"]) { // Since the request failed, we can check if it was due to an invalid session
@@ -76,10 +86,10 @@
 
 -(IBAction)userHitSubmitEmail:(id)sender {
     // Update email in backend
-    PFObject *user = [PFUser currentUser];
+//    PFObject *user = [PFUser currentUser];
     NSString *email = self.emailField.text;
-    [user setObject:email forKey:@"Email"];
-    [user saveInBackground];
+    [self.appDelegate.globalUser setObject:email forKey:@"Email"];
+    [self.appDelegate.globalUser saveInBackground];
     // Move to next screen
     [self.emailField resignFirstResponder];
     UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];

@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
+
 static NSString * const kClientId = @"spotify-ios-sdk-beta";
 static NSString * const kCallbackURL = @"spotify-ios-sdk-beta://callback";
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic) BOOL sliderValueDidChange;
+@property (weak, nonatomic) PFObject *globalUser;
 
 @end

@@ -15,7 +15,7 @@
     NSMutableArray *peopleWithinTwoKm;
     NSMutableArray *peopleWithinTwentyKm;
     NSMutableArray *peopleOnThisEarth;
-    PFObject *myUser;
+//    PFObject *myUser;
     NSInteger offset; // Used for getting pagination of current user's FB details
     NSMutableArray *moviesHolderArray;
     NSMutableArray *musicHolderArray;
@@ -48,7 +48,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    myUser = [PFUser currentUser];
+//    myUser = [PFUser currentUser];
     peopleWithinTwoKm = [[NSMutableArray alloc] init];
     peopleWithinTwentyKm = [[NSMutableArray alloc] init];
     peopleOnThisEarth = [[NSMutableArray alloc] init];
@@ -117,8 +117,8 @@
             NSString *nextURL = [[[@"/me/" stringByAppendingString:type] stringByAppendingString:@"?limit=99999&offset="] stringByAppendingString:[@(offset) stringValue]];
             [self namesWithRequestURL:nextURL of:type];
         }
-        [myUser setObject:[self getHolderArrayOfType:type] forKey:type.capitalizedString];
-        [myUser saveInBackground];
+        [self.appDelegate.globalUser setObject:[self getHolderArrayOfType:type] forKey:type.capitalizedString];
+        [self.appDelegate.globalUser saveInBackground];
         
     } ];
     
@@ -184,8 +184,8 @@
                                   NSString *lat = [NSString stringWithFormat:@"%.9f", locationToGeocode.coordinate.latitude];
                                   NSString *lon = [NSString stringWithFormat:@"%.9f", locationToGeocode.coordinate.longitude];
                                   NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:lat, @"lat", lon, @"lon", nil];
-                                  [myUser setObject:dictionary forKey:@"Location"];
-                                  [myUser saveInBackground];
+                                  [self.appDelegate.globalUser setObject:dictionary forKey:@"Location"];
+                                  [self.appDelegate.globalUser saveInBackground];
                               }
                           }];
 }
@@ -359,20 +359,20 @@
 - (void) getPeopleByIncreasingDistance
 {
     // First get ownself
-    NSNumber *minScore = [myUser objectForKey:@"MinimumScore"];
+    NSNumber *minScore = [self.appDelegate.globalUser objectForKey:@"MinimumScore"];
 //    NSLog(@"%d",[minScore intValue]);
     if (minScore == NULL) {
         minScore = [NSNumber numberWithInteger:0];
     }
-    NSDictionary *myLocation = [myUser objectForKey:@"Location"];
-    NSArray *myLikes = [myUser objectForKey:@"Likes"];
-    NSArray *myMovies = [myUser objectForKey:@"Movies"];
-    NSArray *myMusic = [myUser objectForKey:@"Music"];
-    NSArray *myBooks = [myUser objectForKey:@"Books"];
-    NSArray *myTelevision = [myUser objectForKey:@"Television"];
-    NSArray *mySports = [myUser objectForKey:@"Sports"];
-    NSString *myId = [myUser objectForKey:@"Fbid"];
-    NSString *myName = [myUser objectForKey:@"Name"];
+    NSDictionary *myLocation = [self.appDelegate.globalUser objectForKey:@"Location"];
+    NSArray *myLikes = [self.appDelegate.globalUser objectForKey:@"Likes"];
+    NSArray *myMovies = [self.appDelegate.globalUser objectForKey:@"Movies"];
+    NSArray *myMusic = [self.appDelegate.globalUser objectForKey:@"Music"];
+    NSArray *myBooks = [self.appDelegate.globalUser objectForKey:@"Books"];
+    NSArray *myTelevision = [self.appDelegate.globalUser objectForKey:@"Television"];
+    NSArray *mySports = [self.appDelegate.globalUser objectForKey:@"Sports"];
+    NSString *myId = [self.appDelegate.globalUser objectForKey:@"Fbid"];
+    NSString *myName = [self.appDelegate.globalUser objectForKey:@"Name"];
     if ([PFUser currentUser]) {
         PFQuery *query = [PFUser query];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
