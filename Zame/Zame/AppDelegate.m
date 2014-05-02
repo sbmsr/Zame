@@ -38,10 +38,99 @@
 // App switching methods to support Facebook Single Sign-On.
 // ****************************************************************************
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+
+    if (!([[url absoluteString] rangeOfString:@"spotify"].location == NSNotFound)){
+        SPTAuthCallback authCallback = ^(NSError *error, SPTSession *session) {
+            // This is the callback that'll be triggered when auth is completed (or fails).
+            
+            if (error != nil) {
+                NSLog(@"Error: %@", error);
+                return;
+            }
+            
+            UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"Logged In from Safari"
+                                                           message:[NSString stringWithFormat:@"Logged in as user %@", session.canonicalUsername]
+                                                          delegate:nil
+                                                 cancelButtonTitle:@"OK"
+                                                 otherButtonTitles:nil];
+            [view show];
+            
+            [self performTestCallWithSession:session];
+        };
+        
+        /*
+         STEP 2: Handle the callback from the authentication service. -[SPAuth -canHandleURL:withDeclaredRedirectURL:]
+         helps us filter out URLs that aren't authentication URLs (i.e., URLs you use elsewhere in your application).
+         
+         Make the token swap endpoint URL matches your auth service URL.
+         */
+        
+        if ([[SPTAuth defaultInstance] canHandleURL:url withDeclaredRedirectURL:[NSURL URLWithString:kCallbackURL]]) {
+            [[SPTAuth defaultInstance] handleAuthCallbackWithTriggeredAuthURL:url
+                                                tokenSwapServiceEndpointAtURL:[NSURL URLWithString:@"http://localhost:1234/swap"]
+                                                                     callback:authCallback];
+            return YES;
+            
+        }
+        
+        return NO;
+    }
+    
     return [FBAppCall handleOpenURL:url
                   sourceApplication:sourceApplication
                         withSession:[PFFacebookUtils session]];
 }
+
+
+-(void)performTestCallWithSession:(SPTSession *)session {
+    
+	/*
+	 STEP 3: Execute a simple authenticated API call using our new credentials.
+	 */
+	[SPTRequest playlistsForUser:session.canonicalUsername withSession:session callback:^(NSError *error, SPTPlaylistList *playlists) {
+		if (error)
+			NSLog(@"%@", error);
+		else{
+            //Store data in parse
+            
+            NSMutableArray *playlistCreators = [[NSMutableArray alloc] init];
+            
+            if ([[playlists valueForKey:(@"items")] count] > 50) {
+                for (int iter = 0; iter < 50; iter++) {
+                    SPTPartialPlaylist *pl = [playlists valueForKey:(@"items")][iter];
+                    
+                    NSString *creator = [pl valueForKey:@"_creator"];
+                    BOOL isCreatorInArray = [playlistCreators containsObject:creator];
+                    
+                    if (!isCreatorInArray) {
+                        [playlistCreators addObject:creator];
+                    }
+                }
+            }
+            
+            else
+            {
+                for (SPTPartialPlaylist *pl in [playlists valueForKey:(@"_items")]) {
+                    NSString *creator = [pl valueForKey:@"_creator"];
+                    BOOL isCreatorInArray = [playlistCreators containsObject:creator];
+                    
+                    if (!isCreatorInArray){
+                        [playlistCreators addObject:[pl valueForKey:@"_creator"]];
+                    }
+                    
+                }
+            }
+            
+            //Add PlaylistCreators to Parse
+            PFUser *myUser= [PFUser currentUser];
+            
+            [myUser setObject:playlistCreators forKey:@"followingOnSpotify"];
+            [myUser saveInBackground];
+            
+        }
+	}];
+}
+
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     /*

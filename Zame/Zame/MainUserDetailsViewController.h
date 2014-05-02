@@ -2,6 +2,8 @@
 //  Copyright (c) 2013 Parse. All rights reserved.
 
 #import <Parse/Parse.h>
+#import "AppDelegate.h"
+#import <Spotify/Spotify.h>
 
 @interface MainUserDetailsViewController : UIViewController <NSURLConnectionDelegate, UITableViewDataSource, UITableViewDelegate>
 
