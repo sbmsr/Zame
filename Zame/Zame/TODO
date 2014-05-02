@@ -1,7 +1,4 @@
 // TODO:
 S: 1) Integrate Spotify, etc. into similarity algorithm
-S: 2) Find ways to integrate other FB fields
 L: 3) Fix orientation
 S&L: 6) Add more test users - import a csv file into Parse data browser.
-L: 7) Drop pin that will create circle overlay that aggregates the ZScore of everyone there.
-L: Upon tabbing back to People Nearby, need to refresh control again!

@@ -146,6 +146,23 @@
     [self findPeopleIn:MKCoordinateRegionForMapRect(mapRect)];
 }*/
 
+// This isn't working??!?!?!?
+-(void) willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    CGRect frame = self.view.frame;
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+        NSLog(@"Landscape mode");
+        frame.size.width = 568;
+        frame.size.height = 320;
+        CGRect labelFrame = _aggregateScoreLabel.frame;
+        _aggregateScoreLabel.frame = CGRectMake(20, 20, 568, 100);
+    } else if (toInterfaceOrientation == UIInterfaceOrientationPortrait || toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+        NSLog(@"Portrait mode");
+        frame.size.width = 320;
+        frame.size.height = 568;
+    }
+    [self.view setFrame:frame];
+}
+
 -(void)findPeopleIn: (MKCoordinateRegion ) viewedRegion {
     [peopleArray removeAllObjects];
     PFObject *myUser = [PFUser currentUser];
