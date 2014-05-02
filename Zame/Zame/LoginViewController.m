@@ -78,7 +78,6 @@
         } else {
             NSLog(@"User with facebook logged in!");
            self.appDelegate.globalUser = [PFUser currentUser];
-            NSLog(@"%@", self.appDelegate.globalUser);
             if ([self.appDelegate.globalUser objectForKey:@"Email"] != NULL) {
                 UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
                 [self presentViewController:vc animated:YES completion:nil];
