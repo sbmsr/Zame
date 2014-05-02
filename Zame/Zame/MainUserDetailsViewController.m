@@ -5,18 +5,13 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreLocation/CoreLocation.h>
 #import <Spotify/Spotify.h>
-
-
-static NSString * const kClientId = @"spotify-ios-sdk-beta";
-static NSString * const kCallbackURL = @"spotify-ios-sdk-beta://callback";
-
-
+#import "AppDelegate.h"
 
 @interface MainUserDetailsViewController () <UIAlertViewDelegate> {
     NSInteger minimumScore;
     PFObject *user;
 }
-
+@property (strong, nonatomic) AppDelegate *appDelegate;
 @end
 
 @implementation MainUserDetailsViewController
@@ -25,10 +20,17 @@ static NSString * const kCallbackURL = @"spotify-ios-sdk-beta://callback";
 	return YES;
 }
 
+- (AppDelegate *)appDelegate
+{
+    if (!_appDelegate) {
+        _appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    }
+    return _appDelegate;
+}
+
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
-    
     user = [PFUser currentUser];
     [super viewDidLoad];
     _sliderValueLabel.adjustsFontSizeToFitWidth = YES;
@@ -133,6 +135,8 @@ static NSString * const kCallbackURL = @"spotify-ios-sdk-beta://callback";
     UISlider* slider = (UISlider *) sender;
     minimumScore = slider.value;
     _sliderValueLabel.text = [@(minimumScore) stringValue];
+    // Might have to use _ to change
+    self.appDelegate.sliderValueDidChange = YES;
 
 }
 
@@ -141,6 +145,7 @@ static NSString * const kCallbackURL = @"spotify-ios-sdk-beta://callback";
     if ([PFUser currentUser]) {
         [user setObject:sliderValue forKey:@"MinimumScore"];
         [user saveInBackground];
+        NSLog(@"%d",[sliderValue integerValue]);
     }
 }
 

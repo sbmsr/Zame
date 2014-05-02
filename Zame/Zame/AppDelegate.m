@@ -14,7 +14,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
+    self.sliderValueDidChange = NO;
     // ****************************************************************************
     // Fill in with your Parse credentials:
     // ****************************************************************************

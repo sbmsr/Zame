@@ -9,11 +9,7 @@
 #import "PeopleNearbyViewController.h"
 #import "NearbyUserViewController.h"
 #import "MBProgressHUD.h"
-// Useful macros
-#define UIColorFromRGB(rgbValue) [UIColor \
-colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
-green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
-blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+#import "AppDelegate.h"
 
 @interface PeopleNearbyViewController () <UIAlertViewDelegate, CLLocationManagerDelegate> {
     NSMutableArray *peopleWithinTwoKm;
@@ -30,6 +26,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 }
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
+@property (strong, nonatomic) AppDelegate *appDelegate;
 
 - (double) calculateDistanceFromLat1:(double)lat1
                              AndLon1:(double)lon1
@@ -39,6 +36,14 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 @end
 
 @implementation PeopleNearbyViewController
+
+- (AppDelegate *)appDelegate
+{
+    if (!_appDelegate) {
+        _appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    }
+    return _appDelegate;
+}
 
 - (void)viewDidLoad
 {
@@ -81,6 +86,15 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
     
     offset = 0;
     
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    if (self.appDelegate.sliderValueDidChange == YES) {
+        [self getPeopleByIncreasingDistance];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    }
+    self.appDelegate.sliderValueDidChange = NO;
 }
 
 - (void) namesWithRequestURL: (NSString *) url
@@ -346,6 +360,7 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 {
     // First get ownself
     NSNumber *minScore = [myUser objectForKey:@"MinimumScore"];
+//    NSLog(@"%d",[minScore intValue]);
     if (minScore == NULL) {
         minScore = [NSNumber numberWithInteger:0];
     }
