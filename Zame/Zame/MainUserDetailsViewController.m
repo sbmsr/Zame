@@ -9,7 +9,6 @@
 
 @interface MainUserDetailsViewController () <UIAlertViewDelegate> {
     NSInteger minimumScore;
-//    PFObject *user;
 }
 @property (strong, nonatomic) AppDelegate *appDelegate;
 @end
@@ -31,7 +30,6 @@
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
-//    user = [PFUser currentUser];
     [super viewDidLoad];
     _sliderValueLabel.adjustsFontSizeToFitWidth = YES;
     _sliderValueLabel.numberOfLines = 1;
@@ -135,7 +133,6 @@
     UISlider* slider = (UISlider *) sender;
     minimumScore = slider.value;
     _sliderValueLabel.text = [@(minimumScore) stringValue];
-    // Might have to use _ to change
     self.appDelegate.sliderValueDidChange = YES;
 
 }

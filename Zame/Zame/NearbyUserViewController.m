@@ -13,7 +13,6 @@
 #import "UserBooksViewController.h"
 #import "UserTelevisionViewController.h"
 #import "UserSportsViewController.h"
-// #import <QuartzCore/QuartzCore.h> // Style message button
 
 @interface NearbyUserViewController () <UIAlertViewDelegate> {
     UserLikesViewController *likesVC;

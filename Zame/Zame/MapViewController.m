@@ -176,7 +176,6 @@
 
 -(void)findPeopleIn: (MKCoordinateRegion ) viewedRegion {
     [peopleArray removeAllObjects];
-//    PFObject *myUser = [PFUser currentUser];
     NSNumber *minScore = [self.appDelegate.globalUser objectForKey:@"MinimumScore"];
     if (minScore == NULL) {
         minScore = [NSNumber numberWithInteger:0];

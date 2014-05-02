@@ -29,7 +29,6 @@
 
 - (void)viewDidLoad
 {
-//    user = [PFUser currentUser];
     [super viewDidLoad];
     self.emailField.delegate = self;
     // Loads the user's information
@@ -86,7 +85,6 @@
 
 -(IBAction)userHitSubmitEmail:(id)sender {
     // Update email in backend
-//    PFObject *user = [PFUser currentUser];
     NSString *email = self.emailField.text;
     [self.appDelegate.globalUser setObject:email forKey:@"Email"];
     [self.appDelegate.globalUser saveInBackground];

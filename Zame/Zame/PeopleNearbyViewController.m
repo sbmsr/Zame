@@ -15,7 +15,6 @@
     NSMutableArray *peopleWithinTwoKm;
     NSMutableArray *peopleWithinTwentyKm;
     NSMutableArray *peopleOnThisEarth;
-//    PFObject *myUser;
     NSInteger offset; // Used for getting pagination of current user's FB details
     NSMutableArray *moviesHolderArray;
     NSMutableArray *musicHolderArray;
@@ -48,7 +47,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    myUser = [PFUser currentUser];
     peopleWithinTwoKm = [[NSMutableArray alloc] init];
     peopleWithinTwentyKm = [[NSMutableArray alloc] init];
     peopleOnThisEarth = [[NSMutableArray alloc] init];
@@ -373,7 +371,7 @@
     NSArray *mySports = [self.appDelegate.globalUser objectForKey:@"Sports"];
     NSString *myId = [self.appDelegate.globalUser objectForKey:@"Fbid"];
     NSString *myName = [self.appDelegate.globalUser objectForKey:@"Name"];
-    if ([PFUser currentUser]) {
+    if (self.appDelegate.globalUser) {
         PFQuery *query = [PFUser query];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             dispatch_async(dispatch_get_main_queue(), ^{
