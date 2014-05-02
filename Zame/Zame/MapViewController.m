@@ -13,7 +13,8 @@
 
 @interface MapViewController () <CLLocationManagerDelegate> {
     NSMutableArray *peopleArray;
-    NSInteger regionScore;
+    float regionScore;
+    NSInteger regionCount;
 }
 
 // Everytime we shift we will redrop the pins
@@ -80,6 +81,7 @@
     
     // Compute and display the aggregate ZScore
     regionScore = 0;
+    regionCount = 0;
     [self findPeopleIn:MKCoordinateRegionForMapRect(mapRect)];
     
     
@@ -217,6 +219,7 @@
                                      // Score
                                      NSNumber *score = [[NSNumber alloc] initWithInteger:[similarLikes count] + [similarMovies count] + [similarMusic count] + [similarBooks count] + [similarTelevision count] + [similarSports count] ];
                                      regionScore += [score integerValue];
+                                     regionCount++;
                                      // Only proceed when score is greater than minimum
                                      /*
                                      if ([score integerValue] >= [minScore integerValue]) {
@@ -257,7 +260,7 @@
                          [_mapView addAnnotation:(id)annotation];
                      }
                       */
-                     NSString *scoreText = [@"Aggregate ZScore: " stringByAppendingString:[@(regionScore) stringValue]];
+                     NSString *scoreText = [@"Aggregate ZScore: " stringByAppendingString:[@(regionScore/regionCount) stringValue]];
                      _aggregateScoreLabel.text = scoreText;
                      _aggregateScoreLabel.adjustsFontSizeToFitWidth = YES;
                      _aggregateScoreLabel.numberOfLines = 1;
