@@ -144,7 +144,7 @@ static NSString * const kCallbackURL = @"spotify-ios-sdk-beta://callback";
     }
 }
 
-//Spotify
+#pragma mark - Spotify
 
 - (IBAction)sync:(id)sender {
     

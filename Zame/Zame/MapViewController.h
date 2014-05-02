@@ -12,5 +12,6 @@
 @interface MapViewController : UIViewController <MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView * mapView;
+@property (weak, nonatomic) IBOutlet UILabel * aggregateScoreLabel;
 
 @end

@@ -13,6 +13,7 @@
 
 @interface MapViewController () <CLLocationManagerDelegate> {
     NSMutableArray *peopleArray;
+    NSInteger regionScore;
 }
 
 // Everytime we shift we will redrop the pins
@@ -39,10 +40,60 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // Throw UIAlertView explaining what to do
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Tap and hold" message:@"Tap and hold the screen to discover the aggregate ZScore of everyone in that region!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+    self.mapView.delegate = self;
     peopleArray = [[NSMutableArray alloc] init];
-    //self.title = @"Discover Zame People";
+    regionScore = 0;
+    // Gesture recognizer
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
+                                               initWithTarget:self
+                                               action:@selector(mapLongPress:)];
+    longPress.minimumPressDuration = 1.0;
+    [_mapView addGestureRecognizer:longPress];
 
     
+}
+
+// Selector for gesture recognizer
+-(void)mapLongPress:(UIGestureRecognizer*)gesture {
+    if (gesture.state != UIGestureRecognizerStateBegan)
+        return;
+    
+    // Clear existing overlays
+    [_mapView removeOverlays:self.mapView.overlays];
+    
+    MKMapRect mapRect = [_mapView visibleMapRect];
+    // Get coordinate of four bounding coordinates
+    CLLocationCoordinate2D NEcoordinate = MKCoordinateForMapPoint(MKMapPointMake(MKMapRectGetMaxX(mapRect), mapRect.origin.y));
+    CLLocationCoordinate2D NWcoordinate = MKCoordinateForMapPoint(MKMapPointMake(MKMapRectGetMinX(mapRect), mapRect.origin.y));
+    CLLocationCoordinate2D SEcoordinate = MKCoordinateForMapPoint(MKMapPointMake(MKMapRectGetMaxX(mapRect), MKMapRectGetMaxY(mapRect)));
+    CLLocationCoordinate2D SWcoordinate = MKCoordinateForMapPoint(MKMapPointMake(mapRect.origin.x, MKMapRectGetMaxY(mapRect)));
+    CLLocationCoordinate2D points[4] = {NEcoordinate, NWcoordinate, SWcoordinate, SEcoordinate};
+    
+    
+    // Draw the overlay
+    MKPolygon *polygonOverlay = [MKPolygon polygonWithCoordinates:points count:4];
+    [_mapView addOverlay:polygonOverlay];
+    
+    
+    // Compute and display the aggregate ZScore
+    regionScore = 0;
+    [self findPeopleIn:MKCoordinateRegionForMapRect(mapRect)];
+    
+    
+}
+
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
+{
+    if ([overlay isKindOfClass:[MKPolygon class]]) {
+        MKPolygon *polygon = overlay;
+        MKPolygonRenderer *polygonRenderer = [[MKPolygonRenderer alloc] initWithOverlay:polygon];
+        polygonRenderer.strokeColor = [UIColor blueColor];
+        return polygonRenderer;
+    }
+    else return nil;
 }
 
 // Helper method to efficiently get similar items in two arrays
@@ -56,12 +107,12 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+
     // Sets start on current location
     [self.locationManager startUpdatingLocation];
     CLLocationCoordinate2D zoomLocation = [[self.locationManager location] coordinate];
     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 1500, 1500);
     [_mapView setRegion:viewRegion animated:YES];
-    [self findPeopleIn:viewRegion];
 
     
 }
@@ -88,11 +139,12 @@
            );
 }
 
-
+/*
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
     MKMapRect mapRect = [mapView visibleMapRect];
+    regionScore = 0;
     [self findPeopleIn:MKCoordinateRegionForMapRect(mapRect)];
-}
+}*/
 
 -(void)findPeopleIn: (MKCoordinateRegion ) viewedRegion {
     [peopleArray removeAllObjects];
@@ -102,7 +154,7 @@
         minScore = [NSNumber numberWithInteger:0];
     }
     NSString *myId = [myUser objectForKey:@"Fbid"];
-    NSString *myName = [myUser objectForKey:@"Name"];
+//    NSString *myName = [myUser objectForKey:@"Name"];
     NSArray *myLikes = [myUser objectForKey:@"Likes"];
     NSArray *myMovies = [myUser objectForKey:@"Movies"];
     NSArray *myMusic = [myUser objectForKey:@"Music"];
@@ -147,7 +199,9 @@
                                      NSArray *similarSports = [self similarItemsIn:sports and:mySports];
                                      // Score
                                      NSNumber *score = [[NSNumber alloc] initWithInteger:[similarLikes count] + [similarMovies count] + [similarMusic count] + [similarBooks count] + [similarTelevision count] + [similarSports count] ];
+                                     regionScore += [score integerValue];
                                      // Only proceed when score is greater than minimum
+                                     /*
                                      if ([score integerValue] >= [minScore integerValue]) {
                                          NSString *name = [object objectForKey:@"Name"];
                                          // Grab first name
@@ -159,6 +213,7 @@
                                          NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", location, @"Location", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", email, @"Email", nil];
                                          [peopleArray addObject:personEntry];
                                      }
+                                      */
                                  }
                              }
                          }
@@ -169,6 +224,7 @@
                      }
                      
                      // Remove all pins and drop them again
+                     /*
                      [_mapView removeAnnotations:_mapView.annotations];
                      for (id person in peopleArray) {
                          NSDictionary *personEntry = (NSDictionary *) person;
@@ -183,6 +239,11 @@
                          CustomAnnotation *annotation = [[CustomAnnotation alloc] initWithCoordinate:coords AndTitle:[personEntry objectForKey:@"Name"] AndSubtitle:scoreString AndUser:personEntry];
                          [_mapView addAnnotation:(id)annotation];
                      }
+                      */
+                     NSString *scoreText = [@"Aggregate ZScore: " stringByAppendingString:[@(regionScore) stringValue]];
+                     _aggregateScoreLabel.text = scoreText;
+                     _aggregateScoreLabel.adjustsFontSizeToFitWidth = YES;
+                     _aggregateScoreLabel.numberOfLines = 1;
                      
                      
                  }];
@@ -192,7 +253,7 @@
     }
     
 }
-
+/*
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id)annotation {
     
     if([annotation isKindOfClass:[MKUserLocation class]])
@@ -224,7 +285,7 @@
         vc.nearbyUser = builtUser;
     }
 }
-
+*/
 
 
 @end
