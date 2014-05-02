@@ -260,7 +260,11 @@
                          [_mapView addAnnotation:(id)annotation];
                      }
                       */
-                     NSString *scoreText = [@"Aggregate ZScore: " stringByAppendingString:[@(regionScore/regionCount) stringValue]];
+                     if (regionCount == 0) { // prevent NaN
+                         regionCount = 1;
+                     }
+                     NSString *scoreString = [NSString stringWithFormat:@"%.2f", regionScore/regionCount];
+                     NSString *scoreText = [@"Aggregate ZScore: " stringByAppendingString:scoreString];
                      _aggregateScoreLabel.text = scoreText;
                      _aggregateScoreLabel.adjustsFontSizeToFitWidth = YES;
                      _aggregateScoreLabel.numberOfLines = 1;
