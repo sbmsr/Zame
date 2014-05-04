@@ -6,8 +6,21 @@
 #import "MainUserDetailsViewController.h"
 #import "MBProgressHUD.h"
 #import <Parse/Parse.h>
+#import "AppDelegate.h"
+
+@interface LoginViewController ()
+@property (strong, nonatomic) AppDelegate *appDelegate;
+@end
 
 @implementation LoginViewController
+
+- (AppDelegate *)appDelegate
+{
+    if (!_appDelegate) {
+        _appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    }
+    return _appDelegate;
+}
 
 #pragma mark - UIViewController
 
@@ -17,12 +30,13 @@
     
     [_activityIndicator hidesWhenStopped];
     // Check if user is cached and linked to Facebook, if so, bypass login
-    if ([PFUser currentUser] && [PFFacebookUtils isLinkedWithUser:[PFUser currentUser]]) {
-        PFObject *user = [PFUser currentUser];
-        if ([user objectForKey:@"MinimumScore"] == NULL) {
-            [user setObject:[NSNumber numberWithInteger:0] forKey:@"MinimumScore"];
+    self.appDelegate.globalUser = [PFUser currentUser];
+    if (self.appDelegate.globalUser && [PFFacebookUtils isLinkedWithUser:(PFUser*)self.appDelegate.globalUser]) {
+//        PFObject *user = [PFUser currentUser];
+        if ([self.appDelegate.globalUser objectForKey:@"MinimumScore"] == NULL) {
+            [self.appDelegate.globalUser setObject:[NSNumber numberWithInteger:0] forKey:@"MinimumScore"];
         }
-        if ([user objectForKey:@"Email"] != NULL) {
+        if ([self.appDelegate.globalUser objectForKey:@"Email"] != NULL) {
         UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
         [self presentViewController:vc animated:YES completion:nil];
         } else {
@@ -63,8 +77,8 @@
             [self presentViewController:vc animated:YES completion:nil];
         } else {
             NSLog(@"User with facebook logged in!");
-            PFObject *user = [PFUser currentUser];
-            if ([user objectForKey:@"Email"] != NULL) {
+           self.appDelegate.globalUser = [PFUser currentUser];
+            if ([self.appDelegate.globalUser objectForKey:@"Email"] != NULL) {
                 UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
                 [self presentViewController:vc animated:YES completion:nil];
             }

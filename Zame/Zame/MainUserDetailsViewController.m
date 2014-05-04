@@ -7,7 +7,6 @@
 
 @interface MainUserDetailsViewController () <UIAlertViewDelegate> {
     NSInteger minimumScore;
-    PFObject *user;
 }
 @property (strong, nonatomic) AppDelegate *appDelegate;
 @end
@@ -25,11 +24,10 @@
 #pragma mark - UIViewController
 
 - (void)viewDidLoad {
-    user = [PFUser currentUser];
     [super viewDidLoad];
     _sliderValueLabel.adjustsFontSizeToFitWidth = YES;
     _sliderValueLabel.numberOfLines = 1;
-    NSNumber *minScore = [user objectForKey:@"MinimumScore"];
+    NSNumber *minScore = [self.appDelegate.globalUser objectForKey:@"MinimumScore"];
     if (minScore != NULL) {
         NSString *minScoreString = [minScore stringValue];
         _sliderValueLabel.text = minScoreString;
@@ -39,7 +37,7 @@
     self.profileInfoArray = [@[@"N/A", @"N/A"] mutableCopy];
     
     // Loads table view
-    if ([PFUser currentUser]) {
+    if (self.appDelegate.globalUser) {
         [self updateProfile];
     }
 
@@ -92,8 +90,8 @@
 - (IBAction)logoutButtonTouchHandler:(id)sender {
     // Pass slider value first
     NSNumber *sliderValue = [NSNumber numberWithFloat:[_sliderValueLabel.text floatValue]];
-    [user setObject:sliderValue forKey:@"MinimumScore"];
-    [user save];
+    [self.appDelegate.globalUser setObject:sliderValue forKey:@"MinimumScore"];
+    [self.appDelegate.globalUser save];
     [PFUser logOut];
     // Return to login view controller
     UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"LoginViewController"];
@@ -103,16 +101,16 @@
 // Local method for setting data
 - (void)updateProfile {
     
-    [self.profileInfoArray replaceObjectAtIndex:0 withObject:[user objectForKey:@"Name"]];
-    [self.profileInfoArray replaceObjectAtIndex:1 withObject:[user objectForKey:@"Email"]];
+    [self.profileInfoArray replaceObjectAtIndex:0 withObject:[self.appDelegate.globalUser objectForKey:@"Name"]];
+    [self.profileInfoArray replaceObjectAtIndex:1 withObject:[self.appDelegate.globalUser objectForKey:@"Email"]];
     [self.tableView reloadData];
     
     
     // Download the user's facebook profile picture
     self.imageData = [[NSMutableData alloc] init]; // the data will be loaded in here
     
-    if ([user objectForKey:@"ImageURL"]) {
-        NSURL *pictureURL = [NSURL URLWithString:[user objectForKey:@"ImageURL"]];
+    if ([self.appDelegate.globalUser objectForKey:@"ImageURL"]) {
+        NSURL *pictureURL = [NSURL URLWithString:[self.appDelegate.globalUser objectForKey:@"ImageURL"]];
         NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:pictureURL
                                                                   cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                               timeoutInterval:2.0f];
@@ -129,17 +127,15 @@
     UISlider* slider = (UISlider *) sender;
     minimumScore = slider.value;
     _sliderValueLabel.text = [@(minimumScore) stringValue];
-    // Might have to use _ to change
     self.appDelegate.sliderValueDidChange = YES;
 
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     NSNumber *sliderValue = [NSNumber numberWithFloat:[_sliderValueLabel.text floatValue]];
-    if ([PFUser currentUser]) {
-        [user setObject:sliderValue forKey:@"MinimumScore"];
-        [user saveInBackground];
-        NSLog(@"%d",[sliderValue integerValue]);
+    if (self.appDelegate.globalUser) {
+        [self.appDelegate.globalUser setObject:sliderValue forKey:@"MinimumScore"];
+        [self.appDelegate.globalUser saveInBackground];
     }
 }
 

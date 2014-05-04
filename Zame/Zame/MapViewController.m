@@ -10,14 +10,15 @@
 #import <Parse/Parse.h>
 #import "NearbyUserViewController.h"
 #import "CustomAnnotation.h"
+#import "AppDelegate.h"
 
 @interface MapViewController () <CLLocationManagerDelegate> {
     NSMutableArray *peopleArray;
-    NSInteger regionScore;
+    float regionScore;
+    NSInteger regionCount;
 }
 
-// Everytime we shift we will redrop the pins
-
+@property (strong, nonatomic) AppDelegate *appDelegate;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 -(BOOL)isCoordinate:(CLLocationCoordinate2D)coordinate insideRegion:(MKCoordinateRegion)region;
 -(void)findPeopleIn: (MKCoordinateRegion )viewedRegion;
@@ -25,6 +26,15 @@
 @end
 
 @implementation MapViewController
+
+- (AppDelegate *)appDelegate
+{
+    if (!_appDelegate) {
+        _appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    }
+    return _appDelegate;
+}
+
 
 - (CLLocationManager *)locationManager
 {
@@ -80,6 +90,7 @@
     
     // Compute and display the aggregate ZScore
     regionScore = 0;
+    regionCount = 0;
     [self findPeopleIn:MKCoordinateRegionForMapRect(mapRect)];
     
     
@@ -165,20 +176,18 @@
 
 -(void)findPeopleIn: (MKCoordinateRegion ) viewedRegion {
     [peopleArray removeAllObjects];
-    PFObject *myUser = [PFUser currentUser];
-    NSNumber *minScore = [myUser objectForKey:@"MinimumScore"];
+    NSNumber *minScore = [self.appDelegate.globalUser objectForKey:@"MinimumScore"];
     if (minScore == NULL) {
         minScore = [NSNumber numberWithInteger:0];
     }
-    NSString *myId = [myUser objectForKey:@"Fbid"];
-//    NSString *myName = [myUser objectForKey:@"Name"];
-    NSArray *myLikes = [myUser objectForKey:@"Likes"];
-    NSArray *myMovies = [myUser objectForKey:@"Movies"];
-    NSArray *myMusic = [myUser objectForKey:@"Music"];
-    NSArray *myBooks = [myUser objectForKey:@"Books"];
-    NSArray *myTelevision = [myUser objectForKey:@"Television"];
-    NSArray *mySports = [myUser objectForKey:@"Sports"];
-    if ([PFUser currentUser]) {
+    NSString *myId = [self.appDelegate.globalUser objectForKey:@"Fbid"];
+    NSArray *myLikes = [self.appDelegate.globalUser objectForKey:@"Likes"];
+    NSArray *myMovies = [self.appDelegate.globalUser objectForKey:@"Movies"];
+    NSArray *myMusic = [self.appDelegate.globalUser objectForKey:@"Music"];
+    NSArray *myBooks = [self.appDelegate.globalUser objectForKey:@"Books"];
+    NSArray *myTelevision = [self.appDelegate.globalUser objectForKey:@"Television"];
+    NSArray *mySports = [self.appDelegate.globalUser objectForKey:@"Sports"];
+    if (self.appDelegate.globalUser) {
         PFQuery *query = [PFUser query];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -217,6 +226,7 @@
                                      // Score
                                      NSNumber *score = [[NSNumber alloc] initWithInteger:[similarLikes count] + [similarMovies count] + [similarMusic count] + [similarBooks count] + [similarTelevision count] + [similarSports count] ];
                                      regionScore += [score integerValue];
+                                     regionCount++;
                                      // Only proceed when score is greater than minimum
                                      /*
                                      if ([score integerValue] >= [minScore integerValue]) {
@@ -257,7 +267,11 @@
                          [_mapView addAnnotation:(id)annotation];
                      }
                       */
-                     NSString *scoreText = [@"Aggregate ZScore: " stringByAppendingString:[@(regionScore) stringValue]];
+                     if (regionCount == 0) { // prevent NaN
+                         regionCount = 1;
+                     }
+                     NSString *scoreString = [NSString stringWithFormat:@"%.2f", regionScore/regionCount];
+                     NSString *scoreText = [@"Aggregate ZScore: " stringByAppendingString:scoreString];
                      _aggregateScoreLabel.text = scoreText;
                      _aggregateScoreLabel.adjustsFontSizeToFitWidth = YES;
                      _aggregateScoreLabel.numberOfLines = 1;
