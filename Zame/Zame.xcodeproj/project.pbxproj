@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		650844401905DFA700DC78BB /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6508443F1905DFA700DC78BB /* MBProgressHUD.m */; };
-		654240931913E09D00841B4A /* UserFollowingOnSpotifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 654240921913E09D00841B4A /* UserFollowingOnSpotifyViewController.m */; };
 		65794891190F3A9E007C0D16 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65794890190F3A9E007C0D16 /* AVFoundation.framework */; };
 		65BBC922190F972A00E09F08 /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65BBC921190F972A00E09F08 /* Spotify.framework */; };
 		65BBC923190F9B9C00E09F08 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65C4449F19007CA400E8707A /* Main.storyboard */; };
@@ -26,12 +25,7 @@
 		65C444B919007CA400E8707A /* ZameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C444B819007CA400E8707A /* ZameTests.m */; };
 		65C444CB1900876C00E8707A /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65C444CA1900876C00E8707A /* Parse.framework */; };
 		65E67F7419063BB900676AB4 /* NearbyUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E67F7319063BB900676AB4 /* NearbyUserViewController.m */; };
-		D733805C1909DEA900958203 /* UserLikesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D733805B1909DEA900958203 /* UserLikesViewController.m */; };
-		D73380621909DF7400958203 /* UserMoviesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D73380611909DF7400958203 /* UserMoviesViewController.m */; };
-		D73380651909DF7F00958203 /* UserTelevisionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D73380641909DF7F00958203 /* UserTelevisionViewController.m */; };
-		D73380681909DF8D00958203 /* UserMusicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D73380671909DF8D00958203 /* UserMusicViewController.m */; };
-		D733806B1909DF9900958203 /* UserSportsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D733806A1909DF9900958203 /* UserSportsViewController.m */; };
-		D733806E1909DFAC00958203 /* UserBooksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D733806D1909DFAC00958203 /* UserBooksViewController.m */; };
+		65F81354191648410073E09C /* SimilaritiesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65F81353191648410073E09C /* SimilaritiesTableViewController.m */; };
 		D74C7C821903946A0028C121 /* PeopleNearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D74C7C811903946A0028C121 /* PeopleNearbyViewController.m */; };
 		D74C7C85190399ED0028C121 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D74C7C84190399ED0028C121 /* MapKit.framework */; };
 		D74C7C8719039BA40028C121 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = D74C7C8619039BA40028C121 /* TODO */; };
@@ -73,8 +67,6 @@
 /* Begin PBXFileReference section */
 		6508443E1905DFA700DC78BB /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		6508443F1905DFA700DC78BB /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		654240911913E09D00841B4A /* UserFollowingOnSpotifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserFollowingOnSpotifyViewController.h; sourceTree = "<group>"; };
-		654240921913E09D00841B4A /* UserFollowingOnSpotifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserFollowingOnSpotifyViewController.m; sourceTree = "<group>"; };
 		65794890190F3A9E007C0D16 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		65BBC920190F96A400E09F08 /* Basic Auth-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Basic Auth-Prefix.pch"; sourceTree = "<group>"; };
 		65BBC921190F972A00E09F08 /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Spotify.framework; sourceTree = "<group>"; };
@@ -98,18 +90,8 @@
 		65C444CA1900876C00E8707A /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		65E67F7219063BB900676AB4 /* NearbyUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyUserViewController.h; sourceTree = "<group>"; };
 		65E67F7319063BB900676AB4 /* NearbyUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyUserViewController.m; sourceTree = "<group>"; };
-		D733805A1909DEA900958203 /* UserLikesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserLikesViewController.h; path = ../UserLikesViewController.h; sourceTree = "<group>"; };
-		D733805B1909DEA900958203 /* UserLikesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserLikesViewController.m; path = ../UserLikesViewController.m; sourceTree = "<group>"; };
-		D73380601909DF7400958203 /* UserMoviesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserMoviesViewController.h; sourceTree = "<group>"; };
-		D73380611909DF7400958203 /* UserMoviesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserMoviesViewController.m; sourceTree = "<group>"; };
-		D73380631909DF7F00958203 /* UserTelevisionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserTelevisionViewController.h; sourceTree = "<group>"; };
-		D73380641909DF7F00958203 /* UserTelevisionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTelevisionViewController.m; sourceTree = "<group>"; };
-		D73380661909DF8D00958203 /* UserMusicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserMusicViewController.h; sourceTree = "<group>"; };
-		D73380671909DF8D00958203 /* UserMusicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserMusicViewController.m; sourceTree = "<group>"; };
-		D73380691909DF9900958203 /* UserSportsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserSportsViewController.h; path = ../UserSportsViewController.h; sourceTree = "<group>"; };
-		D733806A1909DF9900958203 /* UserSportsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserSportsViewController.m; path = ../UserSportsViewController.m; sourceTree = "<group>"; };
-		D733806C1909DFAC00958203 /* UserBooksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserBooksViewController.h; sourceTree = "<group>"; };
-		D733806D1909DFAC00958203 /* UserBooksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserBooksViewController.m; sourceTree = "<group>"; };
+		65F81352191648410073E09C /* SimilaritiesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SimilaritiesTableViewController.h; path = ../SimilaritiesTableViewController.h; sourceTree = "<group>"; };
+		65F81353191648410073E09C /* SimilaritiesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SimilaritiesTableViewController.m; path = ../SimilaritiesTableViewController.m; sourceTree = "<group>"; };
 		D74C7C801903946A0028C121 /* PeopleNearbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeopleNearbyViewController.h; sourceTree = "<group>"; };
 		D74C7C811903946A0028C121 /* PeopleNearbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeopleNearbyViewController.m; sourceTree = "<group>"; };
 		D74C7C84190399ED0028C121 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -298,27 +280,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		D73380561909DDC000958203 /* Similar Characteristics */ = {
-			isa = PBXGroup;
-			children = (
-				D733805A1909DEA900958203 /* UserLikesViewController.h */,
-				D733805B1909DEA900958203 /* UserLikesViewController.m */,
-				D73380601909DF7400958203 /* UserMoviesViewController.h */,
-				D73380611909DF7400958203 /* UserMoviesViewController.m */,
-				D73380661909DF8D00958203 /* UserMusicViewController.h */,
-				D73380671909DF8D00958203 /* UserMusicViewController.m */,
-				D733806C1909DFAC00958203 /* UserBooksViewController.h */,
-				D733806D1909DFAC00958203 /* UserBooksViewController.m */,
-				D73380631909DF7F00958203 /* UserTelevisionViewController.h */,
-				D73380641909DF7F00958203 /* UserTelevisionViewController.m */,
-				D73380691909DF9900958203 /* UserSportsViewController.h */,
-				D733806A1909DF9900958203 /* UserSportsViewController.m */,
-				654240911913E09D00841B4A /* UserFollowingOnSpotifyViewController.h */,
-				654240921913E09D00841B4A /* UserFollowingOnSpotifyViewController.m */,
-			);
-			name = "Similar Characteristics";
-			sourceTree = "<group>";
-		};
 		D74C7C7F190334E40028C121 /* People Nearby */ = {
 			isa = PBXGroup;
 			children = (
@@ -326,7 +287,8 @@
 				D74C7C811903946A0028C121 /* PeopleNearbyViewController.m */,
 				65E67F7219063BB900676AB4 /* NearbyUserViewController.h */,
 				65E67F7319063BB900676AB4 /* NearbyUserViewController.m */,
-				D73380561909DDC000958203 /* Similar Characteristics */,
+				65F81352191648410073E09C /* SimilaritiesTableViewController.h */,
+				65F81353191648410073E09C /* SimilaritiesTableViewController.m */,
 			);
 			name = "People Nearby";
 			sourceTree = "<group>";
@@ -456,20 +418,14 @@
 				D7B5E2B6190E210F00DC0216 /* CustomAnnotation.m in Sources */,
 				D74C7C821903946A0028C121 /* PeopleNearbyViewController.m in Sources */,
 				650844401905DFA700DC78BB /* MBProgressHUD.m in Sources */,
-				D733805C1909DEA900958203 /* UserLikesViewController.m in Sources */,
-				D73380681909DF8D00958203 /* UserMusicViewController.m in Sources */,
 				D77389A41900838100695718 /* LoginViewController.m in Sources */,
-				D73380621909DF7400958203 /* UserMoviesViewController.m in Sources */,
 				D77385C1190EE9C800A1EC00 /* EmailViewController.m in Sources */,
 				65E67F7419063BB900676AB4 /* NearbyUserViewController.m in Sources */,
-				D73380651909DF7F00958203 /* UserTelevisionViewController.m in Sources */,
-				D733806E1909DFAC00958203 /* UserBooksViewController.m in Sources */,
 				65C4449E19007CA400E8707A /* AppDelegate.m in Sources */,
 				D77389A71900839100695718 /* MainUserDetailsViewController.m in Sources */,
 				65C4449A19007CA400E8707A /* main.m in Sources */,
-				D733806B1909DF9900958203 /* UserSportsViewController.m in Sources */,
+				65F81354191648410073E09C /* SimilaritiesTableViewController.m in Sources */,
 				D7B5E2B0190DFD4100DC0216 /* MapViewController.m in Sources */,
-				654240931913E09D00841B4A /* UserFollowingOnSpotifyViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

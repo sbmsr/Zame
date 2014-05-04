@@ -2,8 +2,8 @@ People
 - empty sections -> no users in range tab
 - custom cells (web image)
 X sections (movie, likes, etc) (Top 3, and see all)
-- message to navigation (bar button)
-- one view that handles all table views (variable toggle)
+X message to navigation (bar button)
+X one view that handles all table views (variable toggle)
 
 Map
 - reintroduce pins

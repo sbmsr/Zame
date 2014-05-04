@@ -7,23 +7,13 @@
 //
 
 #import "NearbyUserViewController.h"
-#import "UserLikesViewController.h"
-#import "UserMoviesViewController.h"
-#import "UserMusicViewController.h"
-#import "UserBooksViewController.h"
-#import "UserTelevisionViewController.h"
-#import "UserSportsViewController.h"
-#import "UserFollowingOnSpotifyViewController.h"
+
+#import "SimilaritiesTableViewController.h"
 // #import <QuartzCore/QuartzCore.h> // Style message button
 
 @interface NearbyUserViewController () <UIAlertViewDelegate> {
-    UserLikesViewController *likesVC;
-    UserMoviesViewController *moviesVC;
-    UserMusicViewController *musicVC;
-    UserBooksViewController *booksVC;
-    UserTelevisionViewController *televisionVC;
-    UserSportsViewController *sportsVC;
-    UserFollowingOnSpotifyViewController *followingVC;
+    
+    SimilaritiesTableViewController *nextVC;
     NSMutableArray *similarityAttributes;
     NSMutableString *zscoreMailHeader;
 }
@@ -144,35 +134,30 @@
 {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     if ([cell.textLabel.text isEqualToString:@"click here to see all..."]) {
+        nextVC = [[SimilaritiesTableViewController alloc] init];
+        
         if ([cell.detailTextLabel.text isEqualToString:@"Likes"]) {
-            likesVC = [[UserLikesViewController alloc] init];
-            likesVC.likesArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Likes"];
-            [self.navigationController pushViewController:likesVC animated:YES];
+            nextVC.data =[[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Likes"];
+            nextVC.criteria = @"likes";
         } else if ([cell.detailTextLabel.text isEqualToString:@"Movies"]) {
-            moviesVC = [[UserMoviesViewController alloc] init];
-            moviesVC.moviesArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Movies"];
-            [self.navigationController pushViewController:moviesVC animated:YES];
+            nextVC.data =[[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Movies"];
+            nextVC.criteria = @"movies";
         } else if ([cell.detailTextLabel.text isEqualToString:@"Music"]) {
-            musicVC = [[UserMusicViewController alloc] init];
-            musicVC.musicArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Music"];
-            [self.navigationController pushViewController:musicVC animated:YES];
+            nextVC.data =[[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Music"];
+            nextVC.criteria = @"music";
         } else if ([cell.detailTextLabel.text isEqualToString:@"Books"]) {
-            booksVC = [[UserBooksViewController alloc] init];
-            booksVC.booksArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Books"];
-            [self.navigationController pushViewController:booksVC animated:YES];
+            nextVC.data =[[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Books"];
+            nextVC.criteria = @"sports";
         } else if ([cell.detailTextLabel.text isEqualToString:@"Television"]) {
-            televisionVC = [[UserTelevisionViewController alloc] init];
-            televisionVC.televisionArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Television"];
-            [self.navigationController pushViewController:televisionVC animated:YES];
+            nextVC.data =[[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Television"];
+            nextVC.criteria = @"television";
         } else if ([cell.detailTextLabel.text isEqualToString:@"Sports"]) {
-            sportsVC = [[UserSportsViewController alloc] init];
-            sportsVC.sportsArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Sports"];
-            [self.navigationController pushViewController:sportsVC animated:YES];
-        }else if ([cell.detailTextLabel.text isEqualToString:@"followingOnSpotify"]) {
-            followingVC = [[UserFollowingOnSpotifyViewController alloc] init];
-            followingVC.followingArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"followingOnSpotify"];
-            [self.navigationController pushViewController:followingVC animated:YES];
+            nextVC.data =[[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Sports"];
+            nextVC.criteria = @"books";
         }
+        
+        [self.navigationController pushViewController:nextVC animated:YES];
+
     }
 }
 

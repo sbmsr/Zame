@@ -51,7 +51,7 @@
 {
     [super viewDidLoad];
     // Throw UIAlertView explaining what to do
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Tap and hold" message:@"Tap and hold the screen to discover the aggregate ZScore of everyone in that region!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Tap and hold" message:@"Tap and hold the screen to discover the average ZScore of the region!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
     self.mapView.delegate = self;
     peopleArray = [[NSMutableArray alloc] init];
@@ -271,7 +271,7 @@
                          regionCount = 1;
                      }
                      NSString *scoreString = [NSString stringWithFormat:@"%.2f", regionScore/regionCount];
-                     NSString *scoreText = [@"Aggregate ZScore: " stringByAppendingString:scoreString];
+                     NSString *scoreText = [@"Average ZScore: " stringByAppendingString:scoreString];
                      _aggregateScoreLabel.text = scoreText;
                      _aggregateScoreLabel.adjustsFontSizeToFitWidth = YES;
                      _aggregateScoreLabel.numberOfLines = 1;

@@ -219,7 +219,7 @@
     // Return the number of rows in the section.
     switch (section) {
         case 0 :
-            return [peopleWithinTwoKm count];;
+            return [peopleWithinTwoKm count];
             break;
         case 1:
             return [peopleWithinTwentyKm count];
