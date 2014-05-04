@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		650844401905DFA700DC78BB /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6508443F1905DFA700DC78BB /* MBProgressHUD.m */; };
+		654240931913E09D00841B4A /* UserFollowingOnSpotifyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 654240921913E09D00841B4A /* UserFollowingOnSpotifyViewController.m */; };
 		65794891190F3A9E007C0D16 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65794890190F3A9E007C0D16 /* AVFoundation.framework */; };
 		65BBC922190F972A00E09F08 /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65BBC921190F972A00E09F08 /* Spotify.framework */; };
 		65BBC923190F9B9C00E09F08 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65C4449F19007CA400E8707A /* Main.storyboard */; };
@@ -72,6 +73,8 @@
 /* Begin PBXFileReference section */
 		6508443E1905DFA700DC78BB /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		6508443F1905DFA700DC78BB /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		654240911913E09D00841B4A /* UserFollowingOnSpotifyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserFollowingOnSpotifyViewController.h; sourceTree = "<group>"; };
+		654240921913E09D00841B4A /* UserFollowingOnSpotifyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserFollowingOnSpotifyViewController.m; sourceTree = "<group>"; };
 		65794890190F3A9E007C0D16 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		65BBC920190F96A400E09F08 /* Basic Auth-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Basic Auth-Prefix.pch"; sourceTree = "<group>"; };
 		65BBC921190F972A00E09F08 /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Spotify.framework; sourceTree = "<group>"; };
@@ -310,6 +313,8 @@
 				D73380641909DF7F00958203 /* UserTelevisionViewController.m */,
 				D73380691909DF9900958203 /* UserSportsViewController.h */,
 				D733806A1909DF9900958203 /* UserSportsViewController.m */,
+				654240911913E09D00841B4A /* UserFollowingOnSpotifyViewController.h */,
+				654240921913E09D00841B4A /* UserFollowingOnSpotifyViewController.m */,
 			);
 			name = "Similar Characteristics";
 			sourceTree = "<group>";
@@ -464,6 +469,7 @@
 				65C4449A19007CA400E8707A /* main.m in Sources */,
 				D733806B1909DF9900958203 /* UserSportsViewController.m in Sources */,
 				D7B5E2B0190DFD4100DC0216 /* MapViewController.m in Sources */,
+				654240931913E09D00841B4A /* UserFollowingOnSpotifyViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

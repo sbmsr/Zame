@@ -23,6 +23,7 @@
     NSMutableArray *televisionHolderArray;
     NSMutableArray *sportsHolderArray;
     NSMutableArray *likesHolderArray;
+    NSMutableArray *followingOnSpotifyHolderArray;
 }
 
 @property (nonatomic, strong) CLLocationManager *locationManager;
@@ -140,6 +141,8 @@
         return sportsHolderArray;
     } else if ([type isEqualToString:@"likes"]) {
         return likesHolderArray;
+    }else if ([type isEqualToString:@"followingOnSpotify"]) {
+        return followingOnSpotifyHolderArray;
     } else {
         return NULL;
     }
@@ -364,6 +367,8 @@
     if (minScore == NULL) {
         minScore = [NSNumber numberWithInteger:0];
     }
+    
+    NSArray *myFollowing = [myUser objectForKey:@"followingOnSpotify"];
     NSDictionary *myLocation = [myUser objectForKey:@"Location"];
     NSArray *myLikes = [myUser objectForKey:@"Likes"];
     NSArray *myMovies = [myUser objectForKey:@"Movies"];
@@ -410,8 +415,12 @@
                                  // Sports
                                  NSArray *sports = [object objectForKey:@"Sports"];
                                  NSArray *similarSports = [self similarItemsIn:sports and:mySports];
+                                 // Spotify
+                                 NSArray *following = [object objectForKey:@"followingOnSpotify"];
+                                 NSArray *similarFollowing = [self similarItemsIn:following and:myFollowing];
+                                 
                                  // Score
-                                 NSNumber *score = [[NSNumber alloc] initWithInteger:[similarLikes count] + [similarMovies count] + [similarMusic count] + [similarBooks count] + [similarTelevision count] + [similarSports count] ];
+                                 NSNumber *score = [[NSNumber alloc] initWithInteger:[similarLikes count] + [similarMovies count] + [similarMusic count] + [similarBooks count] + [similarTelevision count] + [similarSports count] + [similarFollowing count]];
                                  // Only proceed when score >= minScore
                                  if ([score integerValue] >= [minScore integerValue]) {
                                      // Location filtering
@@ -427,7 +436,7 @@
                                      // Build list
                                      NSNumber *distanceNum = [NSNumber numberWithDouble:distance];
                                      NSDictionary *similarity = [[NSDictionary alloc] initWithObjectsAndKeys:similarLikes, @"Likes", similarMovies, @"Movies", similarMusic, @"Music", similarBooks, @"Books", similarTelevision, @"Television", similarSports, @"Sports", nil];
-                                     NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", distanceNum, @"Distance", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", email, @"Email", nil];
+                                     NSDictionary *personEntry = [[NSDictionary alloc] initWithObjectsAndKeys:myName, @"MyName",firstName, @"Name", distanceNum, @"Distance", yourId, @"Fbid", similarity, @"Similarity", score, @"Score", email, @"Email",similarFollowing, @"followingOnSpotify", nil];
                                      
                                      if (distance < 2000) {
                                          [peopleWithinTwoKm addObject:personEntry];

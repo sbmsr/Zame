@@ -13,6 +13,7 @@
 #import "UserBooksViewController.h"
 #import "UserTelevisionViewController.h"
 #import "UserSportsViewController.h"
+#import "UserFollowingOnSpotifyViewController.h"
 // #import <QuartzCore/QuartzCore.h> // Style message button
 
 @interface NearbyUserViewController () <UIAlertViewDelegate> {
@@ -22,6 +23,7 @@
     UserBooksViewController *booksVC;
     UserTelevisionViewController *televisionVC;
     UserSportsViewController *sportsVC;
+    UserFollowingOnSpotifyViewController *followingVC;
     NSMutableArray *similarityAttributes;
     NSMutableString *zscoreMailHeader;
 }
@@ -175,7 +177,12 @@
         sportsVC = [[UserSportsViewController alloc] init];
         sportsVC.sportsArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Sports"];
         [self.navigationController pushViewController:sportsVC animated:YES];
+    }else if ([cell.textLabel.text isEqualToString:@"followingOnSpotify"]) {
+        followingVC = [[UserFollowingOnSpotifyViewController alloc] init];
+        followingVC.followingArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"followingOnSpotify"];
+        [self.navigationController pushViewController:followingVC animated:YES];
     }
+
   
 }
 

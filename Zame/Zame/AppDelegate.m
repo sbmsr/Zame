@@ -87,6 +87,7 @@
 	/*
 	 STEP 3: Execute a simple authenticated API call using our new credentials.
 	 */
+    
 	[SPTRequest playlistsForUser:session.canonicalUsername withSession:session callback:^(NSError *error, SPTPlaylistList *playlists) {
 		if (error)
 			NSLog(@"%@", error);
