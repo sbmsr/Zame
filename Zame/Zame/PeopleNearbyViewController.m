@@ -365,18 +365,17 @@
     if (minScore == NULL) {
         minScore = [NSNumber numberWithInteger:0];
     }
-    
-    NSArray *myFollowing = [myUser objectForKey:@"followingOnSpotify"];
-    NSDictionary *myLocation = [myUser objectForKey:@"Location"];
-    NSArray *myLikes = [myUser objectForKey:@"Likes"];
-    NSArray *myMovies = [myUser objectForKey:@"Movies"];
-    NSArray *myMusic = [myUser objectForKey:@"Music"];
-    NSArray *myBooks = [myUser objectForKey:@"Books"];
-    NSArray *myTelevision = [myUser objectForKey:@"Television"];
-    NSArray *mySports = [myUser objectForKey:@"Sports"];
-    NSString *myId = [myUser objectForKey:@"Fbid"];
-    NSString *myName = [myUser objectForKey:@"Name"];
-    if ([PFUser currentUser]) {
+    NSDictionary *myLocation = [self.appDelegate.globalUser objectForKey:@"Location"];
+    NSArray *myFollowing = [self.appDelegate.globalUser objectForKey:@"followingOnSpotify"];
+    NSArray *myLikes = [self.appDelegate.globalUser objectForKey:@"Likes"];
+    NSArray *myMovies = [self.appDelegate.globalUser objectForKey:@"Movies"];
+    NSArray *myMusic = [self.appDelegate.globalUser objectForKey:@"Music"];
+    NSArray *myBooks = [self.appDelegate.globalUser objectForKey:@"Books"];
+    NSArray *myTelevision = [self.appDelegate.globalUser objectForKey:@"Television"];
+    NSArray *mySports = [self.appDelegate.globalUser objectForKey:@"Sports"];
+    NSString *myId = [self.appDelegate.globalUser objectForKey:@"Fbid"];
+    NSString *myName = [self.appDelegate.globalUser objectForKey:@"Name"];
+    if (self.appDelegate.globalUser) {
         PFQuery *query = [PFUser query];
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             dispatch_async(dispatch_get_main_queue(), ^{
