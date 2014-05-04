@@ -60,10 +60,10 @@
     NSDictionary *similarity = [self.nearbyUser objectForKey:@"Similarity"];
     for (id key in similarity) {
         NSArray *categoryArray = [similarity objectForKey:key];
-        if ([categoryArray count] != 0) {
+        //if ([categoryArray count] != 0) {
             NSArray *entry = [[NSArray alloc] initWithObjects:key, categoryArray, nil];
            [similarityAttributes addObject:entry];
-        }
+        //}
     }
 }
                             
@@ -79,14 +79,26 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    // Within 2km, Within 20km, On Earth
-    return 1;
+    // Likes, Music, Sports, Television, Movies, Books
+    return 6;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [similarityAttributes count];
+    
+    //Check if > 0 and < 4 : present all of them
+    //      if > 0 and > 4 : present only 3 and a "next" cell
+    //      if <= 0 : present "No similar attributes" cell
+
+    if([similarityAttributes[section][1] count] > 3) {
+        return 4;
+    }else if ([similarityAttributes[section][1] count] > 0){
+        return [similarityAttributes[section][1] count];
+    }
+    else {
+        return 1;
+    }
 }
 
 
@@ -103,87 +115,65 @@
     cell.selectedBackgroundView = bgColorView;
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
     cell.textLabel.numberOfLines = 1;
-    NSArray *item = [similarityAttributes objectAtIndex:indexPath.row];
-    cell.textLabel.text = [item objectAtIndex:0];
-    cell.detailTextLabel.text = [@([[item objectAtIndex:1] count]) stringValue];
+    NSArray *item = similarityAttributes[indexPath.section][1];
+    cell.detailTextLabel.text = similarityAttributes[indexPath.section][0]; //store type of cell (movie,like,etc...)
+    cell.detailTextLabel.hidden = YES;
 
-    /*
-    switch (indexPath.row) {
-        case 0 :
-            cell.textLabel.text = @"Likes";
-            cell.detailTextLabel.text = [@([[[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"SimilarLikes"] count]) stringValue];
-            break;
-        case 1 :
-            cell.textLabel.text = @"Movies";
-            cell.detailTextLabel.text = [@([[[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"SimilarMovies"] count]) stringValue];
-            break;
-        case 2 :
-            cell.textLabel.text = @"Music";
-            cell.detailTextLabel.text = [@([[[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"SimilarMusic" ] count]) stringValue];
-            break;
-        case 3 :
-            cell.textLabel.text = @"Books";
-            cell.detailTextLabel.text = [@([[[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"SimilarBooks"] count]) stringValue];
-            break;
-        case 4 :
-            cell.textLabel.text = @"Television";
-            cell.detailTextLabel.text = [@([[[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"SimilarTelevision" ] count]) stringValue];
-            break;
-        case 5 :
-            cell.textLabel.text = @"Sports";
-            cell.detailTextLabel.text = [@([[[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"SimilarSports" ] count]) stringValue];
-            break;
-        default:
-            break;
+    if (indexPath.row > 2){
+        cell.textLabel.text = @"click here to see all...";
     }
     
-    */
-    
-    
-
+    else {
+        if ([item count] > 0){
+            cell.textLabel.text = item[indexPath.row];
+        }
+        else {
+            cell.textLabel.text = @"No Similarities Found";
+        }
+    }
     
     return cell;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"Number of Zame Stuff";
+    return similarityAttributes[section][0];
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if ([cell.textLabel.text isEqualToString:@"Likes"]) {
-        likesVC = [[UserLikesViewController alloc] init];
-        likesVC.likesArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Likes"];
-        [self.navigationController pushViewController:likesVC animated:YES];
-    } else if ([cell.textLabel.text isEqualToString:@"Movies"]) {
-        moviesVC = [[UserMoviesViewController alloc] init];
-        moviesVC.moviesArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Movies"];
-        [self.navigationController pushViewController:moviesVC animated:YES];
-    } else if ([cell.textLabel.text isEqualToString:@"Music"]) {
-        musicVC = [[UserMusicViewController alloc] init];
-        musicVC.musicArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Music"];
-        [self.navigationController pushViewController:musicVC animated:YES];
-    } else if ([cell.textLabel.text isEqualToString:@"Books"]) {
-        booksVC = [[UserBooksViewController alloc] init];
-        booksVC.booksArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Books"];
-        [self.navigationController pushViewController:booksVC animated:YES];
-    } else if ([cell.textLabel.text isEqualToString:@"Television"]) {
-        televisionVC = [[UserTelevisionViewController alloc] init];
-        televisionVC.televisionArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Television"];
-        [self.navigationController pushViewController:televisionVC animated:YES];
-    } else if ([cell.textLabel.text isEqualToString:@"Sports"]) {
-        sportsVC = [[UserSportsViewController alloc] init];
-        sportsVC.sportsArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Sports"];
-        [self.navigationController pushViewController:sportsVC animated:YES];
-    }else if ([cell.textLabel.text isEqualToString:@"followingOnSpotify"]) {
-        followingVC = [[UserFollowingOnSpotifyViewController alloc] init];
-        followingVC.followingArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"followingOnSpotify"];
-        [self.navigationController pushViewController:followingVC animated:YES];
+    if ([cell.textLabel.text isEqualToString:@"click here to see all..."]) {
+        if ([cell.detailTextLabel.text isEqualToString:@"Likes"]) {
+            likesVC = [[UserLikesViewController alloc] init];
+            likesVC.likesArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Likes"];
+            [self.navigationController pushViewController:likesVC animated:YES];
+        } else if ([cell.detailTextLabel.text isEqualToString:@"Movies"]) {
+            moviesVC = [[UserMoviesViewController alloc] init];
+            moviesVC.moviesArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Movies"];
+            [self.navigationController pushViewController:moviesVC animated:YES];
+        } else if ([cell.detailTextLabel.text isEqualToString:@"Music"]) {
+            musicVC = [[UserMusicViewController alloc] init];
+            musicVC.musicArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Music"];
+            [self.navigationController pushViewController:musicVC animated:YES];
+        } else if ([cell.detailTextLabel.text isEqualToString:@"Books"]) {
+            booksVC = [[UserBooksViewController alloc] init];
+            booksVC.booksArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Books"];
+            [self.navigationController pushViewController:booksVC animated:YES];
+        } else if ([cell.detailTextLabel.text isEqualToString:@"Television"]) {
+            televisionVC = [[UserTelevisionViewController alloc] init];
+            televisionVC.televisionArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Television"];
+            [self.navigationController pushViewController:televisionVC animated:YES];
+        } else if ([cell.detailTextLabel.text isEqualToString:@"Sports"]) {
+            sportsVC = [[UserSportsViewController alloc] init];
+            sportsVC.sportsArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"Sports"];
+            [self.navigationController pushViewController:sportsVC animated:YES];
+        }else if ([cell.detailTextLabel.text isEqualToString:@"followingOnSpotify"]) {
+            followingVC = [[UserFollowingOnSpotifyViewController alloc] init];
+            followingVC.followingArray = [[self.nearbyUser objectForKey:@"Similarity"] objectForKey:@"followingOnSpotify"];
+            [self.navigationController pushViewController:followingVC animated:YES];
+        }
     }
-
-  
 }
 
 #pragma mark - Message
