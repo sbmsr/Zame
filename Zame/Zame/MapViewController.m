@@ -56,6 +56,7 @@
     return _locationManager;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -88,6 +89,10 @@
     longPress.minimumPressDuration = 1.0;
     [_mapView addGestureRecognizer:longPress];
     
+    
+    
+    
+    
     // Do clustering
     _mapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
@@ -101,13 +106,9 @@
     // Assemble pins people array
     [self assembleAllPins];
     
-    // Create clusters (without animations on view load)
-    //
-    [self.clusterer clusterize:NO];
-    
     // Zoom to show all clusters/markers on the map
-    //
     [self.clusterer zoomToAnnotationsBounds:self.clusterer.markers];
+    
     
     
 }
@@ -316,6 +317,8 @@
                          marker.user = dictionary;
                          [self.clusterer addMarker:marker];
                      }];
+                     
+                     [self.clusterer clusterize:YES];
                      
                  }];
             });
