@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -235,7 +235,7 @@
         <!--Map View Controller - Discover Aggregate ZScore-->
         <scene sceneID="3Qn-TK-DcU">
             <objects>
-                <viewController useStoryboardIdentifierAsRestorationIdentifier="YES" id="UOJ-e1-vYn" customClass="MapViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MapViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="UOJ-e1-vYn" customClass="MapViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="NeP-Ea-RBI"/>
                         <viewControllerLayoutGuide type="bottom" id="koE-ze-F2r"/>
@@ -267,12 +267,45 @@
                     <connections>
                         <outlet property="aggregateScoreLabel" destination="3Jp-KN-w3X" id="vv5-sx-WH2"/>
                         <outlet property="mapView" destination="yXu-6c-zne" id="OHm-gx-JM6"/>
-                        <segue destination="3iD-jh-6pV" kind="push" identifier="mapToUserSegue" id="t2k-Gu-KAX"/>
+                        <segue destination="3iD-jh-6pV" kind="push" identifier="mapToSingleUserSegue" id="t2k-Gu-KAX"/>
+                        <segue destination="Y0v-0D-MWk" kind="push" identifier="mapToUsersSegue" id="g1H-YZ-EfJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xpd-sH-W9P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1367" y="42"/>
+        </scene>
+        <!--Cluster People View Controller-->
+        <scene sceneID="ZeC-Wr-ci5">
+            <objects>
+                <tableViewController storyboardIdentifier="sterPeopleViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y0v-0D-MWk" customClass="ClusterPeopleViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="XyK-pY-pnJ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ClusterPersonCell" id="Pgk-mL-0rh">
+                                <rect key="frame" x="0.0" y="119" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Pgk-mL-0rh" id="Jnb-wP-TZ8">
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="3iD-jh-6pV" kind="push" identifier="viewDetailsFromCluster" trigger="accessoryAction" id="ihS-nN-m2U"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Y0v-0D-MWk" id="3rE-oq-V1D"/>
+                            <outlet property="delegate" destination="Y0v-0D-MWk" id="8co-u6-c2O"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="a6F-Nf-xx1"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pl1-V6-HrO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-831" y="42"/>
         </scene>
         <!--People Nearby View Controller - Zame People Nearby-->
         <scene sceneID="mIw-2q-bXM">
@@ -283,11 +316,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="1" reuseIdentifier="PeopleCell" textLabel="N2u-C2-gfc" detailTextLabel="CwA-cW-FTv" style="IBUITableViewCellStyleValue1" id="yx9-2S-AX0">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="1" reuseIdentifier="PeopleCell" textLabel="N2u-C2-gfc" detailTextLabel="CwA-cW-FTv" style="IBUITableViewCellStyleValue1" id="yx9-2S-AX0">
                                 <rect key="frame" x="0.0" y="119" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yx9-2S-AX0" id="mfK-wQ-XcD">
-                                    <rect key="frame" x="0.0" y="0.0" width="253" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="N2u-C2-gfc">
@@ -298,7 +331,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="CwA-cW-FTv">
-                                            <rect key="frame" x="209" y="11" width="44" height="21"/>
+                                            <rect key="frame" x="241" y="11" width="44" height="21"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
@@ -356,14 +389,14 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <label key="tableHeaderView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ZScore: 0   " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="w57-f5-DoP">
-                                    <rect key="frame" x="0.0" y="64" width="320" height="23"/>
+                                    <rect key="frame" x="0.0" y="64" width="320" height="37"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="similarityCell" id="YU7-Lv-RLZ">
-                                        <rect key="frame" x="0.0" y="142" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="156" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YU7-Lv-RLZ" id="ndg-pN-2QA">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -380,7 +413,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="YDk-6F-A2g">
-                        <barButtonItem key="rightBarButtonItem" title="Message" id="FdM-G8-02w">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="FdM-G8-02w">
                             <connections>
                                 <action selector="userSendMessage:" destination="3iD-jh-6pV" id="LMb-T7-OdW"/>
                             </connections>
@@ -485,6 +518,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="t2k-Gu-KAX"/>
+        <segue reference="ihS-nN-m2U"/>
     </inferredMetricsTieBreakers>
 </document>

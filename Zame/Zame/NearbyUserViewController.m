@@ -40,6 +40,8 @@
     NSNumber *score = [_nearbyUser objectForKey:@"Score"];
     NSMutableString *scoreString = [[NSMutableString alloc] initWithString:@"ZScore: "];
     [scoreString appendString:[score stringValue]];
+    // Padding
+    [scoreString appendString:@" "];
     // Assign instance mail header
     zscoreMailHeader = [[NSMutableString alloc] initWithString:@"[Zame] We have a ZScore of "];
     [zscoreMailHeader appendString:[score stringValue]];

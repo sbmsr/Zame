@@ -29,6 +29,7 @@
 		D74C7C821903946A0028C121 /* PeopleNearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D74C7C811903946A0028C121 /* PeopleNearbyViewController.m */; };
 		D74C7C85190399ED0028C121 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D74C7C84190399ED0028C121 /* MapKit.framework */; };
 		D74C7C8719039BA40028C121 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = D74C7C8619039BA40028C121 /* TODO */; };
+		D76435F41917CB6400623C8A /* ClusterPeopleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D76435F31917CB6400623C8A /* ClusterPeopleViewController.m */; };
 		D77385BE190EE1A800A1EC00 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77385BD190EE1A800A1EC00 /* MessageUI.framework */; };
 		D77385C1190EE9C800A1EC00 /* EmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D77385C0190EE9C800A1EC00 /* EmailViewController.m */; };
 		D77389961900832200695718 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D773898A1900832200695718 /* CoreLocation.framework */; };
@@ -51,7 +52,11 @@
 		D77389B219008A6D00695718 /* login-button-small.png in Resources */ = {isa = PBXBuildFile; fileRef = D77389AE19008A6D00695718 /* login-button-small.png */; };
 		D77389B319008A6D00695718 /* login-button-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D77389AF19008A6D00695718 /* login-button-small@2x.png */; };
 		D7B5E2B0190DFD4100DC0216 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B5E2AF190DFD4100DC0216 /* MapViewController.m */; };
-		D7B5E2B6190E210F00DC0216 /* CustomAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D7B5E2B5190E210F00DC0216 /* CustomAnnotation.m */; };
+		D7DA460F1916DD4C00F7C699 /* Points.plist in Resources */ = {isa = PBXBuildFile; fileRef = D7DA460E1916DD4C00F7C699 /* Points.plist */; };
+		D7DA46251916DE8F00F7C699 /* RECluster.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DA461E1916DE8F00F7C699 /* RECluster.m */; };
+		D7DA46261916DE8F00F7C699 /* RELatLngBounds.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DA46201916DE8F00F7C699 /* RELatLngBounds.m */; };
+		D7DA46271916DE8F00F7C699 /* REMarker.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DA46221916DE8F00F7C699 /* REMarker.m */; };
+		D7DA46281916DE8F00F7C699 /* REMarkerClusterer.m in Sources */ = {isa = PBXBuildFile; fileRef = D7DA46241916DE8F00F7C699 /* REMarkerClusterer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +101,8 @@
 		D74C7C811903946A0028C121 /* PeopleNearbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeopleNearbyViewController.m; sourceTree = "<group>"; };
 		D74C7C84190399ED0028C121 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		D74C7C8619039BA40028C121 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
+		D76435F21917CB6400623C8A /* ClusterPeopleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClusterPeopleViewController.h; sourceTree = "<group>"; };
+		D76435F31917CB6400623C8A /* ClusterPeopleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClusterPeopleViewController.m; sourceTree = "<group>"; };
 		D77385BD190EE1A800A1EC00 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		D77385BF190EE9C800A1EC00 /* EmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailViewController.h; sourceTree = "<group>"; };
 		D77385C0190EE9C800A1EC00 /* EmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailViewController.m; sourceTree = "<group>"; };
@@ -122,8 +129,15 @@
 		D77389AF19008A6D00695718 /* login-button-small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "login-button-small@2x.png"; path = "../../../../Downloads/ParsePlatform-IntegratingFacebookTutorial-9c0212e/IntegratingFacebookTutorial-iOS/IntegratingFacebookTutorial/login-button-small@2x.png"; sourceTree = "<group>"; };
 		D7B5E2AE190DFD4100DC0216 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		D7B5E2AF190DFD4100DC0216 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
-		D7B5E2B4190E210F00DC0216 /* CustomAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnnotation.h; sourceTree = "<group>"; };
-		D7B5E2B5190E210F00DC0216 /* CustomAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnnotation.m; sourceTree = "<group>"; };
+		D7DA460E1916DD4C00F7C699 /* Points.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Points.plist; sourceTree = "<group>"; };
+		D7DA461D1916DE8F00F7C699 /* RECluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RECluster.h; sourceTree = "<group>"; };
+		D7DA461E1916DE8F00F7C699 /* RECluster.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RECluster.m; sourceTree = "<group>"; };
+		D7DA461F1916DE8F00F7C699 /* RELatLngBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RELatLngBounds.h; sourceTree = "<group>"; };
+		D7DA46201916DE8F00F7C699 /* RELatLngBounds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RELatLngBounds.m; sourceTree = "<group>"; };
+		D7DA46211916DE8F00F7C699 /* REMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REMarker.h; sourceTree = "<group>"; };
+		D7DA46221916DE8F00F7C699 /* REMarker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REMarker.m; sourceTree = "<group>"; };
+		D7DA46231916DE8F00F7C699 /* REMarkerClusterer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REMarkerClusterer.h; sourceTree = "<group>"; };
+		D7DA46241916DE8F00F7C699 /* REMarkerClusterer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REMarkerClusterer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +249,7 @@
 				D77389A31900838100695718 /* LoginViewController.m */,
 				D77385BF190EE9C800A1EC00 /* EmailViewController.h */,
 				D77385C0190EE9C800A1EC00 /* EmailViewController.m */,
+				D7DA46101916DE5B00F7C699 /* REMarkerClusterer */,
 				D77385BC190EDC0100A1EC00 /* Settings */,
 				D74C7C83190398CC0028C121 /* Discover */,
 				D74C7C7F190334E40028C121 /* People Nearby */,
@@ -242,6 +257,7 @@
 				65C444A519007CA400E8707A /* Images.xcassets */,
 				65C4449419007CA400E8707A /* Supporting Files */,
 				D74C7C8619039BA40028C121 /* TODO */,
+				D7DA460E1916DD4C00F7C699 /* Points.plist */,
 			);
 			path = Zame;
 			sourceTree = "<group>";
@@ -298,8 +314,8 @@
 			children = (
 				D7B5E2AE190DFD4100DC0216 /* MapViewController.h */,
 				D7B5E2AF190DFD4100DC0216 /* MapViewController.m */,
-				D7B5E2B4190E210F00DC0216 /* CustomAnnotation.h */,
-				D7B5E2B5190E210F00DC0216 /* CustomAnnotation.m */,
+				D76435F21917CB6400623C8A /* ClusterPeopleViewController.h */,
+				D76435F31917CB6400623C8A /* ClusterPeopleViewController.m */,
 			);
 			name = Discover;
 			sourceTree = "<group>";
@@ -311,6 +327,21 @@
 				D77389A61900839100695718 /* MainUserDetailsViewController.m */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		D7DA46101916DE5B00F7C699 /* REMarkerClusterer */ = {
+			isa = PBXGroup;
+			children = (
+				D7DA461D1916DE8F00F7C699 /* RECluster.h */,
+				D7DA461E1916DE8F00F7C699 /* RECluster.m */,
+				D7DA461F1916DE8F00F7C699 /* RELatLngBounds.h */,
+				D7DA46201916DE8F00F7C699 /* RELatLngBounds.m */,
+				D7DA46211916DE8F00F7C699 /* REMarker.h */,
+				D7DA46221916DE8F00F7C699 /* REMarker.m */,
+				D7DA46231916DE8F00F7C699 /* REMarkerClusterer.h */,
+				D7DA46241916DE8F00F7C699 /* REMarkerClusterer.m */,
+			);
+			name = REMarkerClusterer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -397,6 +428,7 @@
 				65C444A619007CA400E8707A /* Images.xcassets in Resources */,
 				65C4449819007CA400E8707A /* InfoPlist.strings in Resources */,
 				D77389B319008A6D00695718 /* login-button-small@2x.png in Resources */,
+				D7DA460F1916DD4C00F7C699 /* Points.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,17 +447,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7B5E2B6190E210F00DC0216 /* CustomAnnotation.m in Sources */,
 				D74C7C821903946A0028C121 /* PeopleNearbyViewController.m in Sources */,
 				650844401905DFA700DC78BB /* MBProgressHUD.m in Sources */,
 				D77389A41900838100695718 /* LoginViewController.m in Sources */,
 				D77385C1190EE9C800A1EC00 /* EmailViewController.m in Sources */,
+				D7DA46261916DE8F00F7C699 /* RELatLngBounds.m in Sources */,
+				D7DA46271916DE8F00F7C699 /* REMarker.m in Sources */,
 				65E67F7419063BB900676AB4 /* NearbyUserViewController.m in Sources */,
+				D7DA46281916DE8F00F7C699 /* REMarkerClusterer.m in Sources */,
 				65C4449E19007CA400E8707A /* AppDelegate.m in Sources */,
+				D7DA46251916DE8F00F7C699 /* RECluster.m in Sources */,
 				D77389A71900839100695718 /* MainUserDetailsViewController.m in Sources */,
 				65C4449A19007CA400E8707A /* main.m in Sources */,
 				65F81354191648410073E09C /* SimilaritiesTableViewController.m in Sources */,
 				D7B5E2B0190DFD4100DC0216 /* MapViewController.m in Sources */,
+				D76435F41917CB6400623C8A /* ClusterPeopleViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import "REMarkerClusterer.h"
+#import "REMarker.h"
 
-@interface MapViewController : UIViewController <MKMapViewDelegate>
+@interface MapViewController : UIViewController <MKMapViewDelegate, REMarkerClusterDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView * mapView;
+@property (strong, nonatomic) REMarkerClusterer *clusterer;
 @property (weak, nonatomic) IBOutlet UILabel * aggregateScoreLabel;
 
 @end
