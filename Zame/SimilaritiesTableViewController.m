@@ -7,8 +7,10 @@
 //
 
 #import "SimilaritiesTableViewController.h"
+#import "SDWebImage/UIImageView+WebCache.h"
 
 @interface SimilaritiesTableViewController ()
+
 
 @end
 
@@ -68,34 +70,35 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
+    UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                   reuseIdentifier:@"similarityCell"];
     
+    UIImageView *cellImage = (UIImageView *)[cell viewWithTag:1];
+    
+    NSDictionary *item = (NSDictionary *)[_data objectAtIndex:indexPath.row];
+    NSString *text = [item objectForKey:@"name"];
+    NSString *fbID = [item objectForKey:@"id"];
+    NSString *url = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=square", fbID];
+    
+    [cellImage setImageWithURL:[NSURL URLWithString:url]];
+    /*
     if ([_criteria isEqualToString:@"likes"]) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"likesCell"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.text = [_data objectAtIndex:indexPath.row];
     }else if ([_criteria isEqualToString:@"movies"]) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"moviesCell"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.text = [_data objectAtIndex:indexPath.row];
     }else if ([_criteria isEqualToString:@"music"]) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"musicCell"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.text = [_data objectAtIndex:indexPath.row];
     }else if ([_criteria isEqualToString:@"sports"]) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"sportsCell"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.text = [_data objectAtIndex:indexPath.row];
     }else if ([_criteria isEqualToString:@"television"]) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"televisionCell"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.text = [_data objectAtIndex:indexPath.row];
     }else {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"booksCell"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.textLabel.text = [_data objectAtIndex:indexPath.row];
     }
-    
+     */
+    //cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    //cell.textLabel.text = text;
+
     
     return cell;
     

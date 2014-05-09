@@ -117,7 +117,9 @@
     
     else {
         if ([item count] > 0){
-            cell.textLabel.text = item[indexPath.row];
+            NSDictionary *storedItem = (NSDictionary *)item[indexPath.row];
+            cell.textLabel.text = [storedItem objectForKey:@"name"];
+            
         }
         else {
             cell.textLabel.text = @"No Similarities Found";
@@ -128,10 +130,7 @@
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if (similarityAttributes[section][0]){
     return similarityAttributes[section][0];
-    }
-    return @"";
 }
 
 

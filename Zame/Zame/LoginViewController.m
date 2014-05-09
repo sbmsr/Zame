@@ -1,4 +1,3 @@
-
 //
 //  Copyright (c) 2013 Parse. All rights reserved.
 
@@ -32,13 +31,13 @@
     // Check if user is cached and linked to Facebook, if so, bypass login
     self.appDelegate.globalUser = [PFUser currentUser];
     if (self.appDelegate.globalUser && [PFFacebookUtils isLinkedWithUser:(PFUser*)self.appDelegate.globalUser]) {
-//        PFObject *user = [PFUser currentUser];
+        //        PFObject *user = [PFUser currentUser];
         if ([self.appDelegate.globalUser objectForKey:@"MinimumScore"] == NULL) {
             [self.appDelegate.globalUser setObject:[NSNumber numberWithInteger:0] forKey:@"MinimumScore"];
         }
         if ([self.appDelegate.globalUser objectForKey:@"Email"] != NULL) {
-        UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
-        [self presentViewController:vc animated:YES completion:nil];
+            UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
+            [self presentViewController:vc animated:YES completion:nil];
         } else {
             UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"EmailViewController"];
             [self presentViewController:vc animated:YES completion:nil];
@@ -55,7 +54,7 @@
     // Set permissions required from the facebook user account
     NSArray *permissionsArray = @[ @"user_about_me", @"user_birthday", @"user_location", @"user_hometown",
                                    @"user_interests",@"user_likes", @"user_photos",
-                                   @"user_checkins",@"user_religion_politics"];
+                                   @"user_checkins",@"user_religion_politics",@"user_activities"];
     
     // Login PFUser using facebook
     [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
@@ -73,19 +72,14 @@
             }
         } else if (user.isNew) {
             NSLog(@"User with facebook signed up and logged in!");
-            UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
+            self.appDelegate.globalUser = [PFUser currentUser];
+            UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"EmailViewController"];
             [self presentViewController:vc animated:YES completion:nil];
         } else {
             NSLog(@"User with facebook logged in!");
-           self.appDelegate.globalUser = [PFUser currentUser];
+            self.appDelegate.globalUser = [PFUser currentUser];
             if ([self.appDelegate.globalUser objectForKey:@"Email"] != NULL) {
                 UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
-                
-                
-                
-                
-                
-
                 [self presentViewController:vc animated:YES completion:nil];
             }
             else {
