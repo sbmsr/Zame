@@ -7,6 +7,7 @@
 
 @interface MainUserDetailsViewController () <UIAlertViewDelegate> {
     NSInteger minimumScore;
+    
 }
 @property (strong, nonatomic) AppDelegate *appDelegate;
 @end
@@ -41,7 +42,13 @@
         [self updateProfile];
     }
     
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"skulls"]];
+    _nameLabel.numberOfLines = 1;
+    _nameLabel.adjustsFontSizeToFitWidth = YES;
+    _emailLabel.numberOfLines = 1;
+    _emailLabel.adjustsFontSizeToFitWidth = YES;
+
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
 
 }
 
@@ -102,11 +109,10 @@
 
 // Local method for setting data
 - (void)updateProfile {
+
     
-    [self.profileInfoArray replaceObjectAtIndex:0 withObject:[self.appDelegate.globalUser objectForKey:@"Name"]];
-    [self.profileInfoArray replaceObjectAtIndex:1 withObject:[self.appDelegate.globalUser objectForKey:@"Email"]];
-    [self.tableView reloadData];
-    
+    [_nameLabel setText:[self.appDelegate.globalUser objectForKey:@"Name"]];
+    [_emailLabel setText:[self.appDelegate.globalUser objectForKey:@"Email"]];
     
     // Download the user's facebook profile picture
     self.imageData = [[NSMutableData alloc] init]; // the data will be loaded in here

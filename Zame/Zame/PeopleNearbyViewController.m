@@ -94,6 +94,8 @@
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     }
     self.appDelegate.sliderValueDidChange = NO;
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
 }
 
 - (void) namesWithRequestURL: (NSString *) url

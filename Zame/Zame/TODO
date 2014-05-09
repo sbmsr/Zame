@@ -7,7 +7,6 @@ Map
 - clustering of pin (k-nearest neighbors) (recalc on zoom level)
 
 Aesthetic
-- Add background images where applicable
 - remove (i) button in exchange for arrow
 - Dynamic coloring for Z-score (red if <25, light yellow if 25 - 50, light green if 50 - 75 , bright green if 75 - 100)
 - Webview to facebook page

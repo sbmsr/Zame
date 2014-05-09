@@ -10,6 +10,7 @@
 #import <Parse/Parse.h>
 #import "NearbyUserViewController.h"
 #import "ClusterPeopleViewController.h"
+#import <QuartzCore/QuartzCore.h>
 #import "AppDelegate.h"
 
 @interface MapViewController () <CLLocationManagerDelegate> {
@@ -231,9 +232,11 @@
                      }
                      NSString *scoreString = [NSString stringWithFormat:@"%.2f", regionScore/regionCount];
                      NSString *scoreText = [@"Average ZScore: " stringByAppendingString:scoreString];
+
                      _aggregateScoreLabel.text = scoreText;
                      _aggregateScoreLabel.adjustsFontSizeToFitWidth = YES;
                      _aggregateScoreLabel.numberOfLines = 1;
+                     
                      
                      
                  }];

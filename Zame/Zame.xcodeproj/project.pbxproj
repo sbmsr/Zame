@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		650844401905DFA700DC78BB /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6508443F1905DFA700DC78BB /* MBProgressHUD.m */; };
 		65609421191CEA9E0027DECF /* skulls.png in Resources */ = {isa = PBXBuildFile; fileRef = 65609420191CEA9E0027DECF /* skulls.png */; };
+		65609423191CF0070027DECF /* congruent_pentagon.png in Resources */ = {isa = PBXBuildFile; fileRef = 65609422191CF0070027DECF /* congruent_pentagon.png */; };
+		65609425191CF6E20027DECF /* congruent_outline.png in Resources */ = {isa = PBXBuildFile; fileRef = 65609424191CF6E20027DECF /* congruent_outline.png */; };
+		65609427191CF70E0027DECF /* food.png in Resources */ = {isa = PBXBuildFile; fileRef = 65609426191CF70E0027DECF /* food.png */; };
 		65794891190F3A9E007C0D16 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65794890190F3A9E007C0D16 /* AVFoundation.framework */; };
 		65BBC922190F972A00E09F08 /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65BBC921190F972A00E09F08 /* Spotify.framework */; };
 		65BBC923190F9B9C00E09F08 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65C4449F19007CA400E8707A /* Main.storyboard */; };
@@ -74,6 +77,9 @@
 		6508443E1905DFA700DC78BB /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		6508443F1905DFA700DC78BB /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		65609420191CEA9E0027DECF /* skulls.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skulls.png; sourceTree = "<group>"; };
+		65609422191CF0070027DECF /* congruent_pentagon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = congruent_pentagon.png; sourceTree = "<group>"; };
+		65609424191CF6E20027DECF /* congruent_outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = congruent_outline.png; sourceTree = "<group>"; };
+		65609426191CF70E0027DECF /* food.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = food.png; sourceTree = "<group>"; };
 		65794890190F3A9E007C0D16 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		65BBC920190F96A400E09F08 /* Basic Auth-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Basic Auth-Prefix.pch"; sourceTree = "<group>"; };
 		65BBC921190F972A00E09F08 /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Spotify.framework; sourceTree = "<group>"; };
@@ -301,6 +307,9 @@
 		D74C7C7F190334E40028C121 /* People Nearby */ = {
 			isa = PBXGroup;
 			children = (
+				65609426191CF70E0027DECF /* food.png */,
+				65609422191CF0070027DECF /* congruent_pentagon.png */,
+				65609424191CF6E20027DECF /* congruent_outline.png */,
 				D74C7C801903946A0028C121 /* PeopleNearbyViewController.h */,
 				D74C7C811903946A0028C121 /* PeopleNearbyViewController.m */,
 				65E67F7219063BB900676AB4 /* NearbyUserViewController.h */,
@@ -423,6 +432,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65609425191CF6E20027DECF /* congruent_outline.png in Resources */,
 				65BBC923190F9B9C00E09F08 /* Main.storyboard in Resources */,
 				D77389B119008A6D00695718 /* login-button-small-pressed@2x.png in Resources */,
 				D77389B219008A6D00695718 /* login-button-small.png in Resources */,
@@ -432,6 +442,8 @@
 				65C444A619007CA400E8707A /* Images.xcassets in Resources */,
 				65C4449819007CA400E8707A /* InfoPlist.strings in Resources */,
 				D77389B319008A6D00695718 /* login-button-small@2x.png in Resources */,
+				65609423191CF0070027DECF /* congruent_pentagon.png in Resources */,
+				65609427191CF70E0027DECF /* food.png in Resources */,
 				D7DA460F1916DD4C00F7C699 /* Points.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

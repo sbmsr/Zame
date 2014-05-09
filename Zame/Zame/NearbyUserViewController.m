@@ -128,7 +128,10 @@
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (similarityAttributes[section][0]){
     return similarityAttributes[section][0];
+    }
+    return @"";
 }
 
 

@@ -80,6 +80,12 @@
            self.appDelegate.globalUser = [PFUser currentUser];
             if ([self.appDelegate.globalUser objectForKey:@"Email"] != NULL) {
                 UIViewController * vc = [[UIStoryboard storyboardWithName:@"Main" bundle: nil] instantiateViewControllerWithIdentifier:@"TabBar"];
+                
+                
+                
+                
+                
+
                 [self presentViewController:vc animated:YES completion:nil];
             }
             else {
