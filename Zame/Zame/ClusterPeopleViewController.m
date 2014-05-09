@@ -30,6 +30,7 @@
     NSMutableString *title = [[@([_people count]) stringValue] mutableCopy];
     [title appendString:@" people selected"];
     self.title = title;
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
     
 }
 

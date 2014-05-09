@@ -41,7 +41,6 @@
     }else {
         self.title = @"Zame Books";
     }
-    
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -70,17 +69,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                   reuseIdentifier:@"similarityCell"];
+
     
-    UIImageView *cellImage = (UIImageView *)[cell viewWithTag:1];
+   // UIImageView *cellImage = (UIImageView *)[cell viewWithTag:1];
     
     NSDictionary *item = (NSDictionary *)[_data objectAtIndex:indexPath.row];
     NSString *text = [item objectForKey:@"name"];
     NSString *fbID = [item objectForKey:@"id"];
     NSString *url = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=square", fbID];
     
-    [cellImage setImageWithURL:[NSURL URLWithString:url]];
+ //   [cellImage setImageWithURL:[NSURL URLWithString:url]];
+   // [[cell textLabel]setText: text];
     /*
     if ([_criteria isEqualToString:@"likes"]) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"likesCell"];
@@ -99,8 +98,53 @@
     //cell.selectionStyle = UITableViewCellSelectionStyleNone;
     //cell.textLabel.text = text;
 
+
     
+    
+    
+    
+    
+    
+    
+    
+    
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    // Configure the cell...
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    
+    // Display recipe in the table cell
+    /*
+    Recipe *recipe = [recipes objectAtIndex:indexPath.row];
+    UIImageView *recipeImageView = (UIImageView *)[cell viewWithTag:100];
+    recipeImageView.image = [UIImage imageNamed:recipe.imageFile];
+    */
+    UILabel *NameLabel = (UILabel *)[cell.contentView viewWithTag:101];
+    NameLabel.text = text;
+    /*
+    UILabel *recipeDetailLabel = (UILabel *)[cell viewWithTag:102];
+    recipeDetailLabel.text = recipe.detail;
+    
+    // Assign our own background image for the cell
+    UIImage *background = [self cellBackgroundForRowAtIndexPath:indexPath];
+    
+    UIImageView *cellBackgroundView = [[UIImageView alloc] initWithImage:background];
+    cellBackgroundView.image = background;
+    cell.backgroundView = cellBackgroundView;
+    
+    */
     return cell;
+
+    
+    
+    
+    
+    
+    
+    
     
     
 }

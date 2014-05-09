@@ -98,7 +98,7 @@
 {
     
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"similarityCell"];
-    [cell setAccessoryType:UITableViewCellAccessoryDetailButton];
+    [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     // This is for custom selection style color
     UIView *bgColorView = [[UIView alloc] init];
     bgColorView.backgroundColor = [UIColor colorWithRed:(76.0/255.0) green:(161.0/255.0) blue:(255.0/255.0) alpha:1.0];
@@ -123,6 +123,7 @@
         }
         else {
             cell.textLabel.text = @"No Similarities Found";
+            cell.backgroundColor = [UIColor grayColor];
         }
     }
     
