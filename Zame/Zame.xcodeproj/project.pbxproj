@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		650844401905DFA700DC78BB /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6508443F1905DFA700DC78BB /* MBProgressHUD.m */; };
+		65609421191CEA9E0027DECF /* skulls.png in Resources */ = {isa = PBXBuildFile; fileRef = 65609420191CEA9E0027DECF /* skulls.png */; };
 		65794891190F3A9E007C0D16 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65794890190F3A9E007C0D16 /* AVFoundation.framework */; };
 		65BBC922190F972A00E09F08 /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65BBC921190F972A00E09F08 /* Spotify.framework */; };
 		65BBC923190F9B9C00E09F08 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65C4449F19007CA400E8707A /* Main.storyboard */; };
@@ -72,6 +73,7 @@
 /* Begin PBXFileReference section */
 		6508443E1905DFA700DC78BB /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		6508443F1905DFA700DC78BB /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		65609420191CEA9E0027DECF /* skulls.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skulls.png; sourceTree = "<group>"; };
 		65794890190F3A9E007C0D16 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		65BBC920190F96A400E09F08 /* Basic Auth-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Basic Auth-Prefix.pch"; sourceTree = "<group>"; };
 		65BBC921190F972A00E09F08 /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Spotify.framework; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 		D77385BC190EDC0100A1EC00 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				65609420191CEA9E0027DECF /* skulls.png */,
 				D77389A51900839100695718 /* MainUserDetailsViewController.h */,
 				D77389A61900839100695718 /* MainUserDetailsViewController.m */,
 			);
@@ -425,6 +428,7 @@
 				D77389B219008A6D00695718 /* login-button-small.png in Resources */,
 				D74C7C8719039BA40028C121 /* TODO in Resources */,
 				D77389B019008A6D00695718 /* login-button-small-pressed.png in Resources */,
+				65609421191CEA9E0027DECF /* skulls.png in Resources */,
 				65C444A619007CA400E8707A /* Images.xcassets in Resources */,
 				65C4449819007CA400E8707A /* InfoPlist.strings in Resources */,
 				D77389B319008A6D00695718 /* login-button-small@2x.png in Resources */,

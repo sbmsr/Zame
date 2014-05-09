@@ -1,12 +1,13 @@
 People
 - empty sections -> no users in range tab
 - custom cells (web image)
-X sections (movie, likes, etc) (Top 3, and see all)
-X message to navigation (bar button)
-X one view that handles all table views (variable toggle)
+    - add extra data (Age, School, etc)
 
 Map
-- reintroduce pins
 - clustering of pin (k-nearest neighbors) (recalc on zoom level)
-- single user takes you to their profile page, otherwise you see a table view of users at pin (two custom annotations)
 
+Aesthetic
+- Add background images where applicable
+- remove (i) button in exchange for arrow
+- Dynamic coloring for Z-score (red if <25, light yellow if 25 - 50, light green if 50 - 75 , bright green if 75 - 100)
+- Webview to facebook page

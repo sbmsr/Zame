@@ -52,7 +52,6 @@
     peopleWithinTwentyKm = [[NSMutableArray alloc] init];
     peopleOnThisEarth = [[NSMutableArray alloc] init];
     [self getPeopleByIncreasingDistance];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     // Pull to Refresh
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -85,6 +84,7 @@
     
     offset = 0;
     
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -107,7 +107,10 @@
         
         // Keep building instance array
         for(id key in dataArray) {
-            [[self getHolderArrayOfType:type] addObject:[key objectForKey:@"name"]];
+            NSMutableDictionary *facebookData = [[NSMutableDictionary alloc] init];
+            [facebookData setObject:key[@"id"] forKey:@"id"];
+            [facebookData setObject:key[@"name"] forKey:@"name"];
+            [[self getHolderArrayOfType:type] addObject:facebookData];
         }
         // Check if more data awaits - JUST IN CASE THOUGH NO ONE WILL HAVE 99999 LIKES
         NSDictionary *paging = (NSDictionary *)[userData objectForKey:@"paging"];

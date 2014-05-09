@@ -40,6 +40,8 @@
     if (self.appDelegate.globalUser) {
         [self updateProfile];
     }
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"skulls"]];
 
 }
 
